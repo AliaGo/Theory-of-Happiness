@@ -1,0 +1,1209 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEADEDE72DCC72FA00DFAADB /* Card2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE62DCC72FA00DFAADB /* Card2View.swift */; };
+		CEADEDE92DCC730600DFAADB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE82DCC730600DFAADB /* CardView.swift */; };
+		CEB039682DCA02EE007A8410 /* TWRamenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039672DCA02EE007A8410 /* TWRamenManager.swift */; };
+		CEB0396F2DCA0900007A8410 /* TWRamenSingleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0396E2DCA0900007A8410 /* TWRamenSingleView.swift */; };
+		CEB039712DCA3525007A8410 /* TWRamenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039702DCA3525007A8410 /* TWRamenListView.swift */; };
+		CEB039732DCA356A007A8410 /* TWRamenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039722DCA356A007A8410 /* TWRamenViewModel.swift */; };
+		CEB039752DCA3DD4007A8410 /* TWRamenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039742DCA3DD4007A8410 /* TWRamenInfoView.swift */; };
+		CEB039772DCA4E5A007A8410 /* ListOnHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039762DCA4E5A007A8410 /* ListOnHome.swift */; };
+		CEB039792DCB3B90007A8410 /* TWCategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039782DCB3B90007A8410 /* TWCategoryItem.swift */; };
+		CEB0397B2DCB3D6B007A8410 /* TWCategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0397A2DCB3D6B007A8410 /* TWCategoryRow.swift */; };
+		CEB0397D2DCB47A7007A8410 /* TWRamenCellViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0397C2DCB47A7007A8410 /* TWRamenCellViewBuilder.swift */; };
+		CEB039802DCBA675007A8410 /* CastleAnnotaionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB0397F2DCBA675007A8410 /* CastleAnnotaionView.swift */; };
+		CEB039822DCBB54F007A8410 /* RamenAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039812DCBB54F007A8410 /* RamenAnnotationView.swift */; };
+		CEB906852D37794C0057ECDB /* TOHApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906842D37794C0057ECDB /* TOHApp.swift */; };
+		CEB906872D37794C0057ECDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906862D37794C0057ECDB /* ContentView.swift */; };
+		CEB906892D37794E0057ECDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906882D37794E0057ECDB /* Assets.xcassets */; };
+		CEB9068C2D37794E0057ECDB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */; };
+		CEB906932D377A1A0057ECDB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */; };
+		CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906952D377B4A0057ECDB /* FirebaseAnalytics */; };
+		CEB906982D377B4A0057ECDB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906972D377B4A0057ECDB /* FirebaseAuth */; };
+		CEB906AC2D377F570057ECDB /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A22D377F570057ECDB /* AuthenticationManager.swift */; };
+		CEB906AD2D377F570057ECDB /* SignInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A52D377F570057ECDB /* SignInEmailViewModel.swift */; };
+		CEB906AE2D377F570057ECDB /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A72D377F570057ECDB /* AuthenticationView.swift */; };
+		CEB906AF2D377F570057ECDB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A82D377F570057ECDB /* RootView.swift */; };
+		CEB906B02D377F570057ECDB /* SignInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A92D377F570057ECDB /* SignInEmailView.swift */; };
+		CEB906B92D37800A0057ECDB /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906B42D37800A0057ECDB /* SettingsViewModel.swift */; };
+		CEB906BA2D37800A0057ECDB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906B62D37800A0057ECDB /* SettingsView.swift */; };
+		CEB906BD2D3781C60057ECDB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906BC2D3781C60057ECDB /* GoogleSignIn */; };
+		CEB906BF2D3781C60057ECDB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906BE2D3781C60057ECDB /* GoogleSignInSwift */; };
+		CEB906C22D3784440057ECDB /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906C12D3784440057ECDB /* AuthenticationViewModel.swift */; };
+		CEB906C52D3786A80057ECDB /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906C42D3786A80057ECDB /* Utilities.swift */; };
+		CEB906C72D37972F0057ECDB /* SignInGoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906C62D37972F0057ECDB /* SignInGoogleHelper.swift */; };
+		CEB906CA2D46102E0057ECDB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906C92D46102E0057ECDB /* FirebaseFirestore */; };
+		CEB906D22D4611E20057ECDB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906D12D4611E20057ECDB /* ProfileView.swift */; };
+		CEB906D52D4A0DF30057ECDB /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906D42D4A0DF30057ECDB /* UserManager.swift */; };
+		CEB906DB2D5465910057ECDB /* ramenData.json in Resources */ = {isa = PBXBuildFile; fileRef = CEB906DA2D5465910057ECDB /* ramenData.json */; };
+		CEB906DD2D5465AC0057ECDB /* castleData.json in Resources */ = {isa = PBXBuildFile; fileRef = CEB906DC2D5465AC0057ECDB /* castleData.json */; };
+		CEB906E32D5469470057ECDB /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906E02D5469470057ECDB /* AppIcon.xcassets */; };
+		CEB906E42D5469470057ECDB /* Stamps.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906E12D5469470057ECDB /* Stamps.xcassets */; };
+		CEB906E92D546ADA0057ECDB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906E82D546ADA0057ECDB /* Colors.xcassets */; };
+		CEB906EB2D546B660057ECDB /* Logos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906EA2D546B660057ECDB /* Logos.xcassets */; };
+		CEB906F22D546EF30057ECDB /* Jost-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEB906ED2D546EF30057ECDB /* Jost-VariableFont_wght.ttf */; };
+		CEB906F32D546EF30057ECDB /* Ubuntu-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEB906EE2D546EF30057ECDB /* Ubuntu-Regular.ttf */; };
+		CEB906F52D546EF30057ECDB /* Ubuntu-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEB906F02D546EF30057ECDB /* Ubuntu-Medium.ttf */; };
+		CEB906F62D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEB906F12D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf */; };
+		CEB906F92D546FDD0057ECDB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEB906F82D546FDD0057ECDB /* Launch Screen.storyboard */; };
+		CEB906FE2D5481AA0057ECDB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906FD2D5481AA0057ECDB /* FirebaseStorage */; };
+		CEB907002D5483260057ECDB /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906FF2D5483260057ECDB /* ProfileViewModel.swift */; };
+		CEB907022D5486090057ECDB /* RamenSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907012D5486090057ECDB /* RamenSheetView.swift */; };
+		CEB907042D54864B0057ECDB /* CastleSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907032D54864B0057ECDB /* CastleSheetView.swift */; };
+		CEB907062D548E9D0057ECDB /* CastleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907052D548E9D0057ECDB /* CastleManager.swift */; };
+		CEB9070A2D54994E0057ECDB /* HomepageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907092D54994E0057ECDB /* HomepageView.swift */; };
+		CEB9070C2D5499C70057ECDB /* HomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9070B2D5499C70057ECDB /* HomepageViewModel.swift */; };
+		CEB907102D54A06E0057ECDB /* CastleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9070F2D54A06E0057ECDB /* CastleView.swift */; };
+		CEB907122D54A0830057ECDB /* CastleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907112D54A0830057ECDB /* CastleViewModel.swift */; };
+		CEB907152D54B0D40057ECDB /* RamenSingleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907142D54B0D40057ECDB /* RamenSingleView.swift */; };
+		CEB907182D54B12F0057ECDB /* RamenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907172D54B12F0057ECDB /* RamenManager.swift */; };
+		CEB9071A2D54B2180057ECDB /* RamenListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907192D54B2180057ECDB /* RamenListView.swift */; };
+		CEB9071D2D54B2490057ECDB /* RamenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9071C2D54B2490057ECDB /* RamenViewModel.swift */; };
+		CEB9071F2D6308BF0057ECDB /* CastleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9071E2D6308BF0057ECDB /* CastleInfoView.swift */; };
+		CEB907212D63099B0057ECDB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907202D63099B0057ECDB /* MapView.swift */; };
+		CEB907242D6309FC0057ECDB /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907232D6309FC0057ECDB /* FavoriteButton.swift */; };
+		CEB907262D6592680057ECDB /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907252D6592680057ECDB /* PageView.swift */; };
+		CEB907292D6593C10057ECDB /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907282D6593C10057ECDB /* PageViewController.swift */; };
+		CEB9072B2D6593CD0057ECDB /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9072A2D6593CD0057ECDB /* PageControl.swift */; };
+		CEB907302D6595590057ECDB /* CategoryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9072F2D6595590057ECDB /* CategoryRow.swift */; };
+		CEB907322D65957E0057ECDB /* RamenInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907312D65957E0057ECDB /* RamenInfoView.swift */; };
+		CEB907342D6595A90057ECDB /* CategoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907332D6595A90057ECDB /* CategoryItem.swift */; };
+		CEB9073A2D65AAA40057ECDB /* FeatureCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907392D65AAA40057ECDB /* FeatureCard.swift */; };
+		CEB9073E2D65C2310057ECDB /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB9073D2D65C2310057ECDB /* Icons.xcassets */; };
+		CEB907402D65C2FB0057ECDB /* Picture.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB9073F2D65C2FB0057ECDB /* Picture.xcassets */; };
+		CEB907452D65C3770057ECDB /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907442D65C3770057ECDB /* CardViewModel.swift */; };
+		CEB907472D65C3BB0057ECDB /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907462D65C3BB0057ECDB /* BlockView.swift */; };
+		CEB9074A2D662F2E0057ECDB /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907492D662F2E0057ECDB /* FavoritesView.swift */; };
+		CEB9074C2D6654330057ECDB /* CastleCellViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9074B2D6654330057ECDB /* CastleCellViewBuilder.swift */; };
+		CEB9074E2D682B060057ECDB /* RamenCellViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9074D2D682B060057ECDB /* RamenCellViewBuilder.swift */; };
+		CEB907502D6D7FB90057ECDB /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9074F2D6D7FB90057ECDB /* SegmentedView.swift */; };
+		CEB907532D6F003E0057ECDB /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907522D6F003E0057ECDB /* ExploreView.swift */; };
+		CEB907562D6F01420057ECDB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907552D6F01420057ECDB /* LocationManager.swift */; };
+		CEB907582D718F0F0057ECDB /* CastleStampsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907572D718F0F0057ECDB /* CastleStampsView.swift */; };
+		CEB9075B2D719A960057ECDB /* StampBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9075A2D719A960057ECDB /* StampBookView.swift */; };
+		CEB9075E2D7203800057ECDB /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9075D2D7203800057ECDB /* StorageManager.swift */; };
+		CEB907632D742A4E0057ECDB /* castleQAData.json in Resources */ = {isa = PBXBuildFile; fileRef = CEB907622D742A4E0057ECDB /* castleQAData.json */; };
+		CEB907662D742AB10057ECDB /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907652D742AB10057ECDB /* ModelData.swift */; };
+		CEB907682D742B620057ECDB /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907672D742B620057ECDB /* CardModel.swift */; };
+		CEB9076E2D84389E0057ECDB /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9076D2D84389E0057ECDB /* StoryView.swift */; };
+		CEB907702D843BB90057ECDB /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB9076F2D843BB90057ECDB /* PostManager.swift */; };
+		CEB907722D8446160057ECDB /* StoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB907712D8446160057ECDB /* StoryViewModel.swift */; };
+		CED1180F2D89225200415A40 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED1180E2D89225200415A40 /* CreatePostView.swift */; };
+		CED118112DA50DB700415A40 /* PostCellViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118102DA50DB700415A40 /* PostCellViewBuilder.swift */; };
+		CED118132DA50F2600415A40 /* PostInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118122DA50F2600415A40 /* PostInfoView.swift */; };
+		CED118152DA7A2C500415A40 /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118142DA7A2C500415A40 /* TagViewModel.swift */; };
+		CED118172DA7BC3B00415A40 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118162DA7BC3B00415A40 /* TagView.swift */; };
+		CED118192DC6587700415A40 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118182DC6587700415A40 /* ImagePickerView.swift */; };
+		CED1181B2DC659E800415A40 /* TypeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED1181A2DC659E800415A40 /* TypeSelectionView.swift */; };
+		CED1181F2DC7553C00415A40 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED1181E2DC7553C00415A40 /* GuideView.swift */; };
+		CED118242DC76A6200415A40 /* PointShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118232DC76A6200415A40 /* PointShopView.swift */; };
+		CED118262DC76AE100415A40 /* PointShopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118252DC76AE100415A40 /* PointShopViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CEADEDE62DCC72FA00DFAADB /* Card2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card2View.swift; sourceTree = "<group>"; };
+		CEADEDE82DCC730600DFAADB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		CEB039672DCA02EE007A8410 /* TWRamenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenManager.swift; sourceTree = "<group>"; };
+		CEB0396E2DCA0900007A8410 /* TWRamenSingleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenSingleView.swift; sourceTree = "<group>"; };
+		CEB039702DCA3525007A8410 /* TWRamenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenListView.swift; sourceTree = "<group>"; };
+		CEB039722DCA356A007A8410 /* TWRamenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenViewModel.swift; sourceTree = "<group>"; };
+		CEB039742DCA3DD4007A8410 /* TWRamenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenInfoView.swift; sourceTree = "<group>"; };
+		CEB039762DCA4E5A007A8410 /* ListOnHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOnHome.swift; sourceTree = "<group>"; };
+		CEB039782DCB3B90007A8410 /* TWCategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWCategoryItem.swift; sourceTree = "<group>"; };
+		CEB0397A2DCB3D6B007A8410 /* TWCategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWCategoryRow.swift; sourceTree = "<group>"; };
+		CEB0397C2DCB47A7007A8410 /* TWRamenCellViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenCellViewBuilder.swift; sourceTree = "<group>"; };
+		CEB0397F2DCBA675007A8410 /* CastleAnnotaionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleAnnotaionView.swift; sourceTree = "<group>"; };
+		CEB039812DCBB54F007A8410 /* RamenAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenAnnotationView.swift; sourceTree = "<group>"; };
+		CEB906812D37794C0057ECDB /* TOH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOH.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEB906842D37794C0057ECDB /* TOHApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOHApp.swift; sourceTree = "<group>"; };
+		CEB906862D37794C0057ECDB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CEB906882D37794E0057ECDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CEB906A22D377F570057ECDB /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		CEB906A52D377F570057ECDB /* SignInEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInEmailViewModel.swift; sourceTree = "<group>"; };
+		CEB906A72D377F570057ECDB /* AuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		CEB906A82D377F570057ECDB /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		CEB906A92D377F570057ECDB /* SignInEmailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInEmailView.swift; sourceTree = "<group>"; };
+		CEB906B42D37800A0057ECDB /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		CEB906B62D37800A0057ECDB /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CEB906C02D3781E80057ECDB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CEB906C12D3784440057ECDB /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		CEB906C42D3786A80057ECDB /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		CEB906C62D37972F0057ECDB /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
+		CEB906D12D4611E20057ECDB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		CEB906D42D4A0DF30057ECDB /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		CEB906DA2D5465910057ECDB /* ramenData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ramenData.json; sourceTree = "<group>"; };
+		CEB906DC2D5465AC0057ECDB /* castleData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = castleData.json; sourceTree = "<group>"; };
+		CEB906E02D5469470057ECDB /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		CEB906E12D5469470057ECDB /* Stamps.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Stamps.xcassets; sourceTree = "<group>"; };
+		CEB906E82D546ADA0057ECDB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		CEB906EA2D546B660057ECDB /* Logos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Logos.xcassets; sourceTree = "<group>"; };
+		CEB906ED2D546EF30057ECDB /* Jost-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jost-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		CEB906EE2D546EF30057ECDB /* Ubuntu-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Regular.ttf"; sourceTree = "<group>"; };
+		CEB906F02D546EF30057ECDB /* Ubuntu-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ubuntu-Medium.ttf"; sourceTree = "<group>"; };
+		CEB906F12D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansJP-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		CEB906F82D546FDD0057ECDB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		CEB906FF2D5483260057ECDB /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CEB907012D5486090057ECDB /* RamenSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenSheetView.swift; sourceTree = "<group>"; };
+		CEB907032D54864B0057ECDB /* CastleSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleSheetView.swift; sourceTree = "<group>"; };
+		CEB907052D548E9D0057ECDB /* CastleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleManager.swift; sourceTree = "<group>"; };
+		CEB907092D54994E0057ECDB /* HomepageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageView.swift; sourceTree = "<group>"; };
+		CEB9070B2D5499C70057ECDB /* HomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewModel.swift; sourceTree = "<group>"; };
+		CEB9070F2D54A06E0057ECDB /* CastleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleView.swift; sourceTree = "<group>"; };
+		CEB907112D54A0830057ECDB /* CastleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleViewModel.swift; sourceTree = "<group>"; };
+		CEB907142D54B0D40057ECDB /* RamenSingleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenSingleView.swift; sourceTree = "<group>"; };
+		CEB907172D54B12F0057ECDB /* RamenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenManager.swift; sourceTree = "<group>"; };
+		CEB907192D54B2180057ECDB /* RamenListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenListView.swift; sourceTree = "<group>"; };
+		CEB9071C2D54B2490057ECDB /* RamenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenViewModel.swift; sourceTree = "<group>"; };
+		CEB9071E2D6308BF0057ECDB /* CastleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleInfoView.swift; sourceTree = "<group>"; };
+		CEB907202D63099B0057ECDB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		CEB907232D6309FC0057ECDB /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		CEB907252D6592680057ECDB /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		CEB907282D6593C10057ECDB /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		CEB9072A2D6593CD0057ECDB /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
+		CEB9072F2D6595590057ECDB /* CategoryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRow.swift; sourceTree = "<group>"; };
+		CEB907312D65957E0057ECDB /* RamenInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenInfoView.swift; sourceTree = "<group>"; };
+		CEB907332D6595A90057ECDB /* CategoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryItem.swift; sourceTree = "<group>"; };
+		CEB907392D65AAA40057ECDB /* FeatureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCard.swift; sourceTree = "<group>"; };
+		CEB9073D2D65C2310057ECDB /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		CEB9073F2D65C2FB0057ECDB /* Picture.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Picture.xcassets; sourceTree = "<group>"; };
+		CEB907442D65C3770057ECDB /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
+		CEB907462D65C3BB0057ECDB /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		CEB907492D662F2E0057ECDB /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		CEB9074B2D6654330057ECDB /* CastleCellViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleCellViewBuilder.swift; sourceTree = "<group>"; };
+		CEB9074D2D682B060057ECDB /* RamenCellViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RamenCellViewBuilder.swift; sourceTree = "<group>"; };
+		CEB9074F2D6D7FB90057ECDB /* SegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
+		CEB907522D6F003E0057ECDB /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		CEB907552D6F01420057ECDB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		CEB907572D718F0F0057ECDB /* CastleStampsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleStampsView.swift; sourceTree = "<group>"; };
+		CEB9075A2D719A960057ECDB /* StampBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampBookView.swift; sourceTree = "<group>"; };
+		CEB9075D2D7203800057ECDB /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		CEB907622D742A4E0057ECDB /* castleQAData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = castleQAData.json; sourceTree = "<group>"; };
+		CEB907652D742AB10057ECDB /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		CEB907672D742B620057ECDB /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		CEB9076D2D84389E0057ECDB /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
+		CEB9076F2D843BB90057ECDB /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
+		CEB907712D8446160057ECDB /* StoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewModel.swift; sourceTree = "<group>"; };
+		CED1180E2D89225200415A40 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		CED118102DA50DB700415A40 /* PostCellViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellViewBuilder.swift; sourceTree = "<group>"; };
+		CED118122DA50F2600415A40 /* PostInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoView.swift; sourceTree = "<group>"; };
+		CED118142DA7A2C500415A40 /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
+		CED118162DA7BC3B00415A40 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		CED118182DC6587700415A40 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		CED1181A2DC659E800415A40 /* TypeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeSelectionView.swift; sourceTree = "<group>"; };
+		CED1181E2DC7553C00415A40 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
+		CED118232DC76A6200415A40 /* PointShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointShopView.swift; sourceTree = "<group>"; };
+		CED118252DC76AE100415A40 /* PointShopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointShopViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEB9067E2D37794C0057ECDB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */,
+				CEB906982D377B4A0057ECDB /* FirebaseAuth in Frameworks */,
+				CEB906BD2D3781C60057ECDB /* GoogleSignIn in Frameworks */,
+				CEB906CA2D46102E0057ECDB /* FirebaseFirestore in Frameworks */,
+				CEB906BF2D3781C60057ECDB /* GoogleSignInSwift in Frameworks */,
+				CEB906FE2D5481AA0057ECDB /* FirebaseStorage in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEB039692DCA0854007A8410 /* TaiwanRamen */ = {
+			isa = PBXGroup;
+			children = (
+				CEB0396E2DCA0900007A8410 /* TWRamenSingleView.swift */,
+				CEB039702DCA3525007A8410 /* TWRamenListView.swift */,
+				CEB039742DCA3DD4007A8410 /* TWRamenInfoView.swift */,
+				CEB0397C2DCB47A7007A8410 /* TWRamenCellViewBuilder.swift */,
+			);
+			path = TaiwanRamen;
+			sourceTree = "<group>";
+		};
+		CEB0396B2DCA086E007A8410 /* JapanRamen */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907142D54B0D40057ECDB /* RamenSingleView.swift */,
+				CEB907192D54B2180057ECDB /* RamenListView.swift */,
+				CEB907312D65957E0057ECDB /* RamenInfoView.swift */,
+				CEB9074D2D682B060057ECDB /* RamenCellViewBuilder.swift */,
+			);
+			path = JapanRamen;
+			sourceTree = "<group>";
+		};
+		CEB0397E2DCBA63C007A8410 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907522D6F003E0057ECDB /* ExploreView.swift */,
+				CEB0397F2DCBA675007A8410 /* CastleAnnotaionView.swift */,
+				CEB039812DCBB54F007A8410 /* RamenAnnotationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB906782D37794C0057ECDB = {
+			isa = PBXGroup;
+			children = (
+				CEB906832D37794C0057ECDB /* TOH */,
+				CEB906822D37794C0057ECDB /* Products */,
+				CEB906C82D46102E0057ECDB /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CEB906822D37794C0057ECDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906812D37794C0057ECDB /* TOH.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEB906832D37794C0057ECDB /* TOH */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906D62D5464D40057ECDB /* Resourses */,
+				CEB906C02D3781E80057ECDB /* Info.plist */,
+				CEB906992D377DC90057ECDB /* Code */,
+				CEB906842D37794C0057ECDB /* TOHApp.swift */,
+				CEB906862D37794C0057ECDB /* ContentView.swift */,
+				CEB906882D37794E0057ECDB /* Assets.xcassets */,
+				CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */,
+				CEB9068A2D37794E0057ECDB /* Preview Content */,
+			);
+			path = TOH;
+			sourceTree = "<group>";
+		};
+		CEB9068A2D37794E0057ECDB /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CEB906992D377DC90057ECDB /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906C32D3786910057ECDB /* Utilities */,
+				CEB9069E2D377E880057ECDB /* Features */,
+			);
+			path = Code;
+			sourceTree = "<group>";
+		};
+		CEB9069E2D377E880057ECDB /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				CED118202DC76A3600415A40 /* PointShop */,
+				CEB9076A2D8438660057ECDB /* Story */,
+				CEB9075C2D7203710057ECDB /* Storage */,
+				CEB907512D6F00110057ECDB /* Explore */,
+				CEB906AB2D377F570057ECDB /* Authentication */,
+				CEB906FA2D54779D0057ECDB /* Homepage */,
+				CEB907482D662F190057ECDB /* Favorites */,
+				CEB907132D54B0B00057ECDB /* Ramens */,
+				CEB9070E2D54A0200057ECDB /* Castles */,
+				CEB906D32D4A0DDE0057ECDB /* Firestore */,
+				CEB906CB2D4610FA0057ECDB /* Profile */,
+				CEB906B82D37800A0057ECDB /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		CEB906A12D377F570057ECDB /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		CEB906A32D377F570057ECDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906A22D377F570057ECDB /* AuthenticationManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB906A42D377F570057ECDB /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		CEB906A62D377F570057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906A52D377F570057ECDB /* SignInEmailViewModel.swift */,
+				CEB906C12D3784440057ECDB /* AuthenticationViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB906AA2D377F570057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906A72D377F570057ECDB /* AuthenticationView.swift */,
+				CEB906A82D377F570057ECDB /* RootView.swift */,
+				CEB906A92D377F570057ECDB /* SignInEmailView.swift */,
+				CEB906F82D546FDD0057ECDB /* Launch Screen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB906AB2D377F570057ECDB /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906A12D377F570057ECDB /* Actions */,
+				CEB906A32D377F570057ECDB /* Models */,
+				CEB906A42D377F570057ECDB /* Screens */,
+				CEB906A62D377F570057ECDB /* ViewModels */,
+				CEB906AA2D377F570057ECDB /* Views */,
+				CEB906C62D37972F0057ECDB /* SignInGoogleHelper.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		CEB906B12D37800A0057ECDB /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		CEB906B22D37800A0057ECDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB906B32D37800A0057ECDB /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		CEB906B52D37800A0057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906B42D37800A0057ECDB /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB906B72D37800A0057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906B62D37800A0057ECDB /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB906B82D37800A0057ECDB /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906B12D37800A0057ECDB /* Actions */,
+				CEB906B22D37800A0057ECDB /* Models */,
+				CEB906B32D37800A0057ECDB /* Screens */,
+				CEB906B52D37800A0057ECDB /* ViewModels */,
+				CEB906B72D37800A0057ECDB /* Views */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		CEB906C32D3786910057ECDB /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907642D742AA00057ECDB /* Common */,
+				CEB906C42D3786A80057ECDB /* Utilities.swift */,
+				CEB907202D63099B0057ECDB /* MapView.swift */,
+				CEB907232D6309FC0057ECDB /* FavoriteButton.swift */,
+				CEB9074F2D6D7FB90057ECDB /* SegmentedView.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		CEB906C82D46102E0057ECDB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEB906CB2D4610FA0057ECDB /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906D02D4611C20057ECDB /* Actions */,
+				CEB906CF2D4611BA0057ECDB /* Models */,
+				CEB906CE2D4611B00057ECDB /* Screens */,
+				CEB906CD2D4611A60057ECDB /* ViewModels */,
+				CEB906CC2D46119B0057ECDB /* Views */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CEB906CC2D46119B0057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906D12D4611E20057ECDB /* ProfileView.swift */,
+				CEB907012D5486090057ECDB /* RamenSheetView.swift */,
+				CEB907032D54864B0057ECDB /* CastleSheetView.swift */,
+				CED1181E2DC7553C00415A40 /* GuideView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB906CD2D4611A60057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906FF2D5483260057ECDB /* ProfileViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB906CE2D4611B00057ECDB /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		CEB906CF2D4611BA0057ECDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB906D02D4611C20057ECDB /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		CEB906D32D4A0DDE0057ECDB /* Firestore */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906D42D4A0DF30057ECDB /* UserManager.swift */,
+				CEB907052D548E9D0057ECDB /* CastleManager.swift */,
+				CEB907172D54B12F0057ECDB /* RamenManager.swift */,
+				CEB039672DCA02EE007A8410 /* TWRamenManager.swift */,
+				CEB9076F2D843BB90057ECDB /* PostManager.swift */,
+			);
+			path = Firestore;
+			sourceTree = "<group>";
+		};
+		CEB906D62D5464D40057ECDB /* Resourses */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906E52D546A460057ECDB /* Fonts */,
+				CEB906E22D5469470057ECDB /* Images */,
+				CEB906DE2D5468DB0057ECDB /* Data */,
+			);
+			path = Resourses;
+			sourceTree = "<group>";
+		};
+		CEB906DE2D5468DB0057ECDB /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907622D742A4E0057ECDB /* castleQAData.json */,
+				CEB906DA2D5465910057ECDB /* ramenData.json */,
+				CEB906DC2D5465AC0057ECDB /* castleData.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		CEB906E22D5469470057ECDB /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906E02D5469470057ECDB /* AppIcon.xcassets */,
+				CEB906E12D5469470057ECDB /* Stamps.xcassets */,
+				CEB906E82D546ADA0057ECDB /* Colors.xcassets */,
+				CEB906EA2D546B660057ECDB /* Logos.xcassets */,
+				CEB9073D2D65C2310057ECDB /* Icons.xcassets */,
+				CEB9073F2D65C2FB0057ECDB /* Picture.xcassets */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		CEB906E52D546A460057ECDB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CEB906ED2D546EF30057ECDB /* Jost-VariableFont_wght.ttf */,
+				CEB906F12D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf */,
+				CEB906F02D546EF30057ECDB /* Ubuntu-Medium.ttf */,
+				CEB906EE2D546EF30057ECDB /* Ubuntu-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		CEB906FA2D54779D0057ECDB /* Homepage */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9070D2D549E2C0057ECDB /* Models */,
+				CEB907082D54992A0057ECDB /* ViewModels */,
+				CEB907072D5499240057ECDB /* Views */,
+			);
+			path = Homepage;
+			sourceTree = "<group>";
+		};
+		CEB907072D5499240057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907592D719A7E0057ECDB /* Stamps */,
+				CEB907412D65C33C0057ECDB /* Knowledges */,
+				CEB907092D54994E0057ECDB /* HomepageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB907082D54992A0057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9070B2D5499C70057ECDB /* HomepageViewModel.swift */,
+				CEB907442D65C3770057ECDB /* CardViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB9070D2D549E2C0057ECDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907672D742B620057ECDB /* CardModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB9070E2D54A0200057ECDB /* Castles */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9070F2D54A06E0057ECDB /* CastleView.swift */,
+				CEB9071E2D6308BF0057ECDB /* CastleInfoView.swift */,
+				CEB907112D54A0830057ECDB /* CastleViewModel.swift */,
+				CEB9074B2D6654330057ECDB /* CastleCellViewBuilder.swift */,
+				CEB907572D718F0F0057ECDB /* CastleStampsView.swift */,
+			);
+			path = Castles;
+			sourceTree = "<group>";
+		};
+		CEB907132D54B0B00057ECDB /* Ramens */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9071B2D54B2300057ECDB /* ViewModels */,
+				CEB907162D54B0ED0057ECDB /* Views */,
+			);
+			path = Ramens;
+			sourceTree = "<group>";
+		};
+		CEB907162D54B0ED0057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB039692DCA0854007A8410 /* TaiwanRamen */,
+				CEB9072E2D65951C0057ECDB /* Category */,
+				CEB907272D65939D0057ECDB /* PageControl */,
+				CEB0396B2DCA086E007A8410 /* JapanRamen */,
+				CEB039762DCA4E5A007A8410 /* ListOnHome.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB9071B2D54B2300057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9071C2D54B2490057ECDB /* RamenViewModel.swift */,
+				CEB039722DCA356A007A8410 /* TWRamenViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CEB907272D65939D0057ECDB /* PageControl */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907252D6592680057ECDB /* PageView.swift */,
+				CEB907282D6593C10057ECDB /* PageViewController.swift */,
+				CEB9072A2D6593CD0057ECDB /* PageControl.swift */,
+				CEB907392D65AAA40057ECDB /* FeatureCard.swift */,
+			);
+			path = PageControl;
+			sourceTree = "<group>";
+		};
+		CEB9072E2D65951C0057ECDB /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9072F2D6595590057ECDB /* CategoryRow.swift */,
+				CEB907332D6595A90057ECDB /* CategoryItem.swift */,
+				CEB039782DCB3B90007A8410 /* TWCategoryItem.swift */,
+				CEB0397A2DCB3D6B007A8410 /* TWCategoryRow.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		CEB907412D65C33C0057ECDB /* Knowledges */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907462D65C3BB0057ECDB /* BlockView.swift */,
+				CEADEDE62DCC72FA00DFAADB /* Card2View.swift */,
+				CEADEDE82DCC730600DFAADB /* CardView.swift */,
+			);
+			path = Knowledges;
+			sourceTree = "<group>";
+		};
+		CEB907482D662F190057ECDB /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907492D662F2E0057ECDB /* FavoritesView.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		CEB907512D6F00110057ECDB /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				CEB0397E2DCBA63C007A8410 /* Views */,
+				CEB907542D6F01230057ECDB /* Models */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		CEB907542D6F01230057ECDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907552D6F01420057ECDB /* LocationManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CEB907592D719A7E0057ECDB /* Stamps */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9075A2D719A960057ECDB /* StampBookView.swift */,
+			);
+			path = Stamps;
+			sourceTree = "<group>";
+		};
+		CEB9075C2D7203710057ECDB /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9075D2D7203800057ECDB /* StorageManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		CEB907642D742AA00057ECDB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907652D742AB10057ECDB /* ModelData.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CEB9076A2D8438660057ECDB /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9076C2D8438850057ECDB /* ViewModels */,
+				CEB9076B2D84387E0057ECDB /* Views */,
+			);
+			path = Story;
+			sourceTree = "<group>";
+		};
+		CEB9076B2D84387E0057ECDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEB9076D2D84389E0057ECDB /* StoryView.swift */,
+				CED1180E2D89225200415A40 /* CreatePostView.swift */,
+				CED118102DA50DB700415A40 /* PostCellViewBuilder.swift */,
+				CED118122DA50F2600415A40 /* PostInfoView.swift */,
+				CED118162DA7BC3B00415A40 /* TagView.swift */,
+				CED118182DC6587700415A40 /* ImagePickerView.swift */,
+				CED1181A2DC659E800415A40 /* TypeSelectionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CEB9076C2D8438850057ECDB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CEB907712D8446160057ECDB /* StoryViewModel.swift */,
+				CED118142DA7A2C500415A40 /* TagViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CED118202DC76A3600415A40 /* PointShop */ = {
+			isa = PBXGroup;
+			children = (
+				CED118222DC76A4D00415A40 /* ViewModel */,
+				CED118212DC76A4400415A40 /* View */,
+			);
+			path = PointShop;
+			sourceTree = "<group>";
+		};
+		CED118212DC76A4400415A40 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CED118232DC76A6200415A40 /* PointShopView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CED118222DC76A4D00415A40 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CED118252DC76AE100415A40 /* PointShopViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEB906802D37794C0057ECDB /* TOH */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEB9068F2D37794E0057ECDB /* Build configuration list for PBXNativeTarget "TOH" */;
+			buildPhases = (
+				CEB9067D2D37794C0057ECDB /* Sources */,
+				CEB9067E2D37794C0057ECDB /* Frameworks */,
+				CEB9067F2D37794C0057ECDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TOH;
+			packageProductDependencies = (
+				CEB906952D377B4A0057ECDB /* FirebaseAnalytics */,
+				CEB906972D377B4A0057ECDB /* FirebaseAuth */,
+				CEB906BC2D3781C60057ECDB /* GoogleSignIn */,
+				CEB906BE2D3781C60057ECDB /* GoogleSignInSwift */,
+				CEB906C92D46102E0057ECDB /* FirebaseFirestore */,
+				CEB906FD2D5481AA0057ECDB /* FirebaseStorage */,
+			);
+			productName = TOH;
+			productReference = CEB906812D37794C0057ECDB /* TOH.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEB906792D37794C0057ECDB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					CEB906802D37794C0057ECDB = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = CEB9067C2D37794C0057ECDB /* Build configuration list for PBXProject "TOH" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CEB906782D37794C0057ECDB;
+			packageReferences = (
+				CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CEB906BB2D3781C60057ECDB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			productRefGroup = CEB906822D37794C0057ECDB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEB906802D37794C0057ECDB /* TOH */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEB9067F2D37794C0057ECDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB907402D65C2FB0057ECDB /* Picture.xcassets in Resources */,
+				CEB906DB2D5465910057ECDB /* ramenData.json in Resources */,
+				CEB906932D377A1A0057ECDB /* GoogleService-Info.plist in Resources */,
+				CEB907632D742A4E0057ECDB /* castleQAData.json in Resources */,
+				CEB906E42D5469470057ECDB /* Stamps.xcassets in Resources */,
+				CEB906F92D546FDD0057ECDB /* Launch Screen.storyboard in Resources */,
+				CEB906E32D5469470057ECDB /* AppIcon.xcassets in Resources */,
+				CEB9068C2D37794E0057ECDB /* Preview Assets.xcassets in Resources */,
+				CEB9073E2D65C2310057ECDB /* Icons.xcassets in Resources */,
+				CEB906E92D546ADA0057ECDB /* Colors.xcassets in Resources */,
+				CEB906F32D546EF30057ECDB /* Ubuntu-Regular.ttf in Resources */,
+				CEB906892D37794E0057ECDB /* Assets.xcassets in Resources */,
+				CEB906EB2D546B660057ECDB /* Logos.xcassets in Resources */,
+				CEB906F62D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf in Resources */,
+				CEB906DD2D5465AC0057ECDB /* castleData.json in Resources */,
+				CEB906F52D546EF30057ECDB /* Ubuntu-Medium.ttf in Resources */,
+				CEB906F22D546EF30057ECDB /* Jost-VariableFont_wght.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEB9067D2D37794C0057ECDB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB9070C2D5499C70057ECDB /* HomepageViewModel.swift in Sources */,
+				CEB906AC2D377F570057ECDB /* AuthenticationManager.swift in Sources */,
+				CEB9074E2D682B060057ECDB /* RamenCellViewBuilder.swift in Sources */,
+				CEB9076E2D84389E0057ECDB /* StoryView.swift in Sources */,
+				CEB906D22D4611E20057ECDB /* ProfileView.swift in Sources */,
+				CEADEDE72DCC72FA00DFAADB /* Card2View.swift in Sources */,
+				CEB907182D54B12F0057ECDB /* RamenManager.swift in Sources */,
+				CEB9071D2D54B2490057ECDB /* RamenViewModel.swift in Sources */,
+				CEB039732DCA356A007A8410 /* TWRamenViewModel.swift in Sources */,
+				CEB907582D718F0F0057ECDB /* CastleStampsView.swift in Sources */,
+				CEB907322D65957E0057ECDB /* RamenInfoView.swift in Sources */,
+				CEB907042D54864B0057ECDB /* CastleSheetView.swift in Sources */,
+				CEB039802DCBA675007A8410 /* CastleAnnotaionView.swift in Sources */,
+				CEB9073A2D65AAA40057ECDB /* FeatureCard.swift in Sources */,
+				CEB906D52D4A0DF30057ECDB /* UserManager.swift in Sources */,
+				CED118262DC76AE100415A40 /* PointShopViewModel.swift in Sources */,
+				CED118192DC6587700415A40 /* ImagePickerView.swift in Sources */,
+				CED118172DA7BC3B00415A40 /* TagView.swift in Sources */,
+				CEB906AD2D377F570057ECDB /* SignInEmailViewModel.swift in Sources */,
+				CED1180F2D89225200415A40 /* CreatePostView.swift in Sources */,
+				CEB907302D6595590057ECDB /* CategoryRow.swift in Sources */,
+				CEB906C52D3786A80057ECDB /* Utilities.swift in Sources */,
+				CEB9075E2D7203800057ECDB /* StorageManager.swift in Sources */,
+				CEB9070A2D54994E0057ECDB /* HomepageView.swift in Sources */,
+				CEB039682DCA02EE007A8410 /* TWRamenManager.swift in Sources */,
+				CEB9072B2D6593CD0057ECDB /* PageControl.swift in Sources */,
+				CEADEDE92DCC730600DFAADB /* CardView.swift in Sources */,
+				CEB906AF2D377F570057ECDB /* RootView.swift in Sources */,
+				CEB907562D6F01420057ECDB /* LocationManager.swift in Sources */,
+				CEB907472D65C3BB0057ECDB /* BlockView.swift in Sources */,
+				CEB907022D5486090057ECDB /* RamenSheetView.swift in Sources */,
+				CEB039822DCBB54F007A8410 /* RamenAnnotationView.swift in Sources */,
+				CEB039772DCA4E5A007A8410 /* ListOnHome.swift in Sources */,
+				CEB906C72D37972F0057ECDB /* SignInGoogleHelper.swift in Sources */,
+				CEB9071F2D6308BF0057ECDB /* CastleInfoView.swift in Sources */,
+				CED118132DA50F2600415A40 /* PostInfoView.swift in Sources */,
+				CEB039712DCA3525007A8410 /* TWRamenListView.swift in Sources */,
+				CED1181B2DC659E800415A40 /* TypeSelectionView.swift in Sources */,
+				CEB9074A2D662F2E0057ECDB /* FavoritesView.swift in Sources */,
+				CEB039752DCA3DD4007A8410 /* TWRamenInfoView.swift in Sources */,
+				CEB907532D6F003E0057ECDB /* ExploreView.swift in Sources */,
+				CEB907292D6593C10057ECDB /* PageViewController.swift in Sources */,
+				CEB907662D742AB10057ECDB /* ModelData.swift in Sources */,
+				CEB906BA2D37800A0057ECDB /* SettingsView.swift in Sources */,
+				CEB907452D65C3770057ECDB /* CardViewModel.swift in Sources */,
+				CEB9071A2D54B2180057ECDB /* RamenListView.swift in Sources */,
+				CEB907242D6309FC0057ECDB /* FavoriteButton.swift in Sources */,
+				CEB907702D843BB90057ECDB /* PostManager.swift in Sources */,
+				CEB039792DCB3B90007A8410 /* TWCategoryItem.swift in Sources */,
+				CEB907342D6595A90057ECDB /* CategoryItem.swift in Sources */,
+				CEB906872D37794C0057ECDB /* ContentView.swift in Sources */,
+				CEB907502D6D7FB90057ECDB /* SegmentedView.swift in Sources */,
+				CEB907002D5483260057ECDB /* ProfileViewModel.swift in Sources */,
+				CEB907122D54A0830057ECDB /* CastleViewModel.swift in Sources */,
+				CEB906852D37794C0057ECDB /* TOHApp.swift in Sources */,
+				CEB907102D54A06E0057ECDB /* CastleView.swift in Sources */,
+				CEB907722D8446160057ECDB /* StoryViewModel.swift in Sources */,
+				CEB907212D63099B0057ECDB /* MapView.swift in Sources */,
+				CEB906C22D3784440057ECDB /* AuthenticationViewModel.swift in Sources */,
+				CED118242DC76A6200415A40 /* PointShopView.swift in Sources */,
+				CEB906AE2D377F570057ECDB /* AuthenticationView.swift in Sources */,
+				CEB9075B2D719A960057ECDB /* StampBookView.swift in Sources */,
+				CEB907262D6592680057ECDB /* PageView.swift in Sources */,
+				CEB906B02D377F570057ECDB /* SignInEmailView.swift in Sources */,
+				CEB0396F2DCA0900007A8410 /* TWRamenSingleView.swift in Sources */,
+				CEB907682D742B620057ECDB /* CardModel.swift in Sources */,
+				CEB0397B2DCB3D6B007A8410 /* TWCategoryRow.swift in Sources */,
+				CEB906B92D37800A0057ECDB /* SettingsViewModel.swift in Sources */,
+				CEB9074C2D6654330057ECDB /* CastleCellViewBuilder.swift in Sources */,
+				CEB0397D2DCB47A7007A8410 /* TWRamenCellViewBuilder.swift in Sources */,
+				CEB907062D548E9D0057ECDB /* CastleManager.swift in Sources */,
+				CED1181F2DC7553C00415A40 /* GuideView.swift in Sources */,
+				CED118112DA50DB700415A40 /* PostCellViewBuilder.swift in Sources */,
+				CEB907152D54B0D40057ECDB /* RamenSingleView.swift in Sources */,
+				CED118152DA7A2C500415A40 /* TagViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CEB9068D2D37794E0057ECDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEB9068E2D37794E0057ECDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEB906902D37794E0057ECDB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TOH/Preview Content\"";
+				DEVELOPMENT_TEAM = NYQXQ2PYQJ;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TOH/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CEB906912D37794E0057ECDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"TOH/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TOH/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEB9067C2D37794C0057ECDB /* Build configuration list for PBXProject "TOH" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEB9068D2D37794E0057ECDB /* Debug */,
+				CEB9068E2D37794E0057ECDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEB9068F2D37794E0057ECDB /* Build configuration list for PBXNativeTarget "TOH" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEB906902D37794E0057ECDB /* Debug */,
+				CEB906912D37794E0057ECDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+		CEB906BB2D3781C60057ECDB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CEB906952D377B4A0057ECDB /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		CEB906972D377B4A0057ECDB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CEB906BC2D3781C60057ECDB /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906BB2D3781C60057ECDB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		CEB906BE2D3781C60057ECDB /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906BB2D3781C60057ECDB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+		CEB906C92D46102E0057ECDB /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		CEB906FD2D5481AA0057ECDB /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CEB906792D37794C0057ECDB /* Project object */;
+}
