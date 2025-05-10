@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAnalytics
 
 // 因為不知名原因這個無法執行，改寫在homepageview下方
 
@@ -67,7 +68,13 @@ struct RamenListView2: View {
         }
         .padding(.top, -40)
         .searchable(text: $searchText, prompt: "Search for a ramen")
-        
+        .onAppear {
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "RamenListView",
+                    AnalyticsParameterScreenClass: "RamenListView"
+                  ])
+        }
         /*
          .task{
          try? await viewModel.getAllRamens()

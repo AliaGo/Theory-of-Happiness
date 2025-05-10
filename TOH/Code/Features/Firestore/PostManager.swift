@@ -244,7 +244,7 @@ final class PostManager {
         return 2
     }
     
-    func createNewPost(post: Post) async throws -> String {
+    func createNewPost(post: Post) async throws {
         let document = postCollection.document() //先在資料庫建有autoID的document
         let documentId = document.documentID  // 得到autoID資訊
         
@@ -267,7 +267,6 @@ final class PostManager {
         
         try await document.setData(postData, merge: false)
         // 方便建立貼文之後跳轉到貼文頁面檢視或是其他用途
-        return documentId
     }
     
     func savePostImagePath(postId: String, path: String?, url: String?) async throws {

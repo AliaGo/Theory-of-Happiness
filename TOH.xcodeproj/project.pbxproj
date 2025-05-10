@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE588BB22DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */; };
 		CEADEDE72DCC72FA00DFAADB /* Card2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE62DCC72FA00DFAADB /* Card2View.swift */; };
 		CEADEDE92DCC730600DFAADB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE82DCC730600DFAADB /* CardView.swift */; };
 		CEB039682DCA02EE007A8410 /* TWRamenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039672DCA02EE007A8410 /* TWRamenManager.swift */; };
@@ -108,6 +109,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JacquesFrancoisShadow-Regular.ttf"; sourceTree = "<group>"; };
 		CEADEDE62DCC72FA00DFAADB /* Card2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card2View.swift; sourceTree = "<group>"; };
 		CEADEDE82DCC730600DFAADB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		CEB039672DCA02EE007A8410 /* TWRamenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenManager.swift; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 		CEB906E52D546A460057ECDB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */,
 				CEB906ED2D546EF30057ECDB /* Jost-VariableFont_wght.ttf */,
 				CEB906F12D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf */,
 				CEB906F02D546EF30057ECDB /* Ubuntu-Medium.ttf */,
@@ -850,6 +853,7 @@
 				CEB9073E2D65C2310057ECDB /* Icons.xcassets in Resources */,
 				CEB906E92D546ADA0057ECDB /* Colors.xcassets in Resources */,
 				CEB906F32D546EF30057ECDB /* Ubuntu-Regular.ttf in Resources */,
+				CE588BB22DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf in Resources */,
 				CEB906892D37794E0057ECDB /* Assets.xcassets in Resources */,
 				CEB906EB2D546B660057ECDB /* Logos.xcassets in Resources */,
 				CEB906F62D546EF30057ECDB /* NotoSansJP-VariableFont_wght.ttf in Resources */,

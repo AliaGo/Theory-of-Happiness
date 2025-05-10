@@ -7,10 +7,14 @@
 
 import SwiftUI
 import UIKit
+import FirebaseAnalytics
 
 struct PostInfoView: View {
     
     @StateObject private var viewModel = StoryViewModel()
+    
+    //避免重複觸發.onAppear 的追蹤碼
+    @State private var hasTracked = false
     
     let post: Post
     
@@ -71,6 +75,16 @@ struct PostInfoView: View {
             }
         }
         .navigationTitle(post.title)
+        .onAppear {
+          if !hasTracked {
+            Analytics.logEvent("view_story_detail", parameters: [
+                "post_id": post.id,
+                "author_id": post.userId
+            ])
+            hasTracked = true
+          }
+        }
+        
     }
 }
 

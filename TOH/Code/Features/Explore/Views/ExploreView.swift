@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import FirebaseAnalytics
 
 extension CLLocationCoordinate2D {
     static let osaka = CLLocationCoordinate2D(latitude: 34.685216, longitude: 135.5231272757)
@@ -90,6 +91,11 @@ struct ExploreView: View {
                         }
                     }
                 }
+                
+                // GA 事件追蹤
+                Analytics.logEvent("map_show_annotations", parameters: [
+                    "category": "castle",
+                ])
             }
             
             if isShowingRamen {
@@ -101,6 +107,10 @@ struct ExploreView: View {
                         }
                     }
                 }
+                // GA 事件追蹤
+                Analytics.logEvent("map_show_annotations", parameters: [
+                    "category": "ramen",
+                ])
             }
             
             if let route {
@@ -171,6 +181,13 @@ struct ExploreView: View {
             if let twRamen = selectedRamen {
                 TWRamenInfoView(ramen: twRamen)
             }
+        }
+        .onAppear {
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "ExploreView",
+                    AnalyticsParameterScreenClass: "ExploreView"
+                  ])
         }
         .task{
             LocationManager().checkIfLocationServicesIsEnabled()

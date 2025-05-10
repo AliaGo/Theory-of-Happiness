@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct StoryView: View {
     @StateObject private var viewModel = StoryViewModel()
@@ -115,6 +116,11 @@ struct StoryView: View {
 
         .onAppear{
             viewModel.fetchPosts()
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "StoryView",
+                    AnalyticsParameterScreenClass: "StoryView"
+                  ])
         }
         .fullScreenCover(isPresented: $viewModel.createPost, content: {
             //post view
@@ -133,9 +139,10 @@ struct StoryView: View {
                 )
                 .environmentObject(viewModel)
         })
+        /*
         .alert(viewModel.alertMsg, isPresented: $viewModel.showAlert) {
-            
-        }
+            Button("OK", role: .cancel) { }
+        }*/
     }
     
     @ViewBuilder

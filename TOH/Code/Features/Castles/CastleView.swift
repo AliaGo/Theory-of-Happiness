@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct CastleView: View {
     
@@ -27,6 +28,13 @@ struct CastleView: View {
             GroupingCastle(area:"九州・沖縄", filteredCastles: viewModel.castles)
         }
         .navigationTitle("Castles")
+        .onAppear {
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "CastleView",
+                    AnalyticsParameterScreenClass: "CastleView"
+                  ])
+        }
         .task{
             try? await viewModel.getAllCastles()
         }

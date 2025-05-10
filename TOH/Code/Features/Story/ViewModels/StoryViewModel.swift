@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import PhotosUI
 import FirebaseFirestore
+import FirebaseAnalytics
 
 
 @MainActor
@@ -166,7 +167,12 @@ final class StoryViewModel: ObservableObject {
             // 更新印章邏輯
             showResultDialog = true
             
-            return
+            // 追蹤發出去幾個印章
+            Analytics.logEvent("stamp_earned", parameters: [
+                "stamp_name": castleName,
+                "user_id": user.userId
+            ])
+            
         }
         
     }
@@ -224,6 +230,14 @@ final class StoryViewModel: ObservableObject {
             res = result
             
             try await PostManager.shared.createNewPost(post: post)
+            
+            // 追蹤使用者上傳貼文的種類
+            Analytics.logEvent("post_uploaded", parameters: [
+                "post_type": type,
+                "location": location,
+                "tag_count": tags.count,
+                "earned_stamp": earnedStamp ?? "none"
+            ])
         } catch {
             print("Failed to create post: \(error)")
         }

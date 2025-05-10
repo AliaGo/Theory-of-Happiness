@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAnalytics
 
 struct CardView: View {
     //@Environment(ModelData.self) var modelData
@@ -52,6 +53,13 @@ struct CardView: View {
                 .offset(y: isShowingAnswerSheet ? 0 : UIScreen.main.bounds.height)
                 .animation(.easeIn, value: isShowingAnswerSheet)
             
+        }
+        .onAppear {
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "CardView",
+                    AnalyticsParameterScreenClass: "CardView"
+                  ])
         }
         .task {
             try? await viewModel.loadCards(for: type)

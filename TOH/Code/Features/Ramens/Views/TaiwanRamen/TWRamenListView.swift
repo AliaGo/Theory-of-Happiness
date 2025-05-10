@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 enum GroupingType: String, CaseIterable, Identifiable {
     case mrtLine = "捷運線"
@@ -74,6 +75,13 @@ struct TWRamenListView: View {
         }
         .navigationTitle("Taipei Ramen")
         .searchable(text: $searchText, prompt: "請輸入拉麵種類、車站等")
+        .onAppear {
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "TWRamenListView",
+                    AnalyticsParameterScreenClass: "TWRamenListView"
+                  ])
+        }
     }
 }
 

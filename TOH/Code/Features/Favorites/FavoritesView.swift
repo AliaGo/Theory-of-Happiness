@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 @MainActor
 final class FavoritesViewModel: ObservableObject {
@@ -134,6 +135,11 @@ struct FavoritesView: View {
         }
         .onAppear{
             viewModel.getFavorites()
+            // 追蹤畫面瀏覽
+            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
+                    AnalyticsParameterScreenName: "FavoritesView",
+                    AnalyticsParameterScreenClass: "FavoritesView"
+                  ])
         }
             
     }

@@ -8,6 +8,7 @@
 import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
+import FirebaseAnalytics
 
 struct AuthenticationView: View {
     @StateObject private var viewModel = AuthenticationViewModel()
@@ -45,6 +46,11 @@ struct AuthenticationView: View {
                     do {
                         try await viewModel.signInGoogle()
                         showSignInView = false
+                        
+                        // 追蹤google登入
+                        Analytics.logEvent("sign_up", parameters: [
+                                        "method": "google"
+                                    ])
                     } catch {
                         print(error)
                     }
