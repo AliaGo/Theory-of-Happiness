@@ -28,7 +28,10 @@ struct ExploreView: View {
     @State var visibleRegion: MKCoordinateRegion?
     @State var selectedResult: MKMapItem?
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
-    @State var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 34.687234, longitude: 135.525842), span: MKCoordinateSpan(latitudeDelta: 20, longitudeDelta: 20))
+    @State private var mapPosition: MapCameraPosition = .region(MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 34.687234, longitude: 135.525842),
+        span: MKCoordinateSpan(latitudeDelta: 20, longitudeDelta: 20)
+    ))
     @StateObject private var locationManager = LocationManager()
     @State var route: MKRoute?
     
@@ -79,7 +82,7 @@ struct ExploreView: View {
     
     var body: some View {
         //position: .constant(.region(mapRegion))
-        Map(position: .constant(.region(mapRegion)), selection: $selectedResult, scope: mapScope){
+        Map(position: $mapPosition, selection: $selectedResult, scope: mapScope){
             UserAnnotation()
             
             if isShowingCastle {
@@ -91,11 +94,6 @@ struct ExploreView: View {
                         }
                     }
                 }
-                
-                // GA 事件追蹤
-                Analytics.logEvent("map_show_annotations", parameters: [
-                    "category": "castle",
-                ])
             }
             
             if isShowingRamen {
@@ -107,10 +105,6 @@ struct ExploreView: View {
                         }
                     }
                 }
-                // GA 事件追蹤
-                Analytics.logEvent("map_show_annotations", parameters: [
-                    "category": "ramen",
-                ])
             }
             
             if let route {

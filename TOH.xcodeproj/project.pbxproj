@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CE588BB22DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */; };
+		CE588BB42DCF903300F9674E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = CE588BB32DCF903300F9674E /* FirebaseCrashlytics */; };
+		CE588BB92DCFA93200F9674E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE588BB82DCFA93200F9674E /* GoogleService-Info.plist */; };
 		CEADEDE72DCC72FA00DFAADB /* Card2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE62DCC72FA00DFAADB /* Card2View.swift */; };
 		CEADEDE92DCC730600DFAADB /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADEDE82DCC730600DFAADB /* CardView.swift */; };
 		CEB039682DCA02EE007A8410 /* TWRamenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB039672DCA02EE007A8410 /* TWRamenManager.swift */; };
@@ -25,7 +27,6 @@
 		CEB906872D37794C0057ECDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906862D37794C0057ECDB /* ContentView.swift */; };
 		CEB906892D37794E0057ECDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906882D37794E0057ECDB /* Assets.xcassets */; };
 		CEB9068C2D37794E0057ECDB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */; };
-		CEB906932D377A1A0057ECDB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */; };
 		CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906952D377B4A0057ECDB /* FirebaseAnalytics */; };
 		CEB906982D377B4A0057ECDB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906972D377B4A0057ECDB /* FirebaseAuth */; };
 		CEB906AC2D377F570057ECDB /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A22D377F570057ECDB /* AuthenticationManager.swift */; };
@@ -110,6 +111,7 @@
 
 /* Begin PBXFileReference section */
 		CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JacquesFrancoisShadow-Regular.ttf"; sourceTree = "<group>"; };
+		CE588BB82DCFA93200F9674E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEADEDE62DCC72FA00DFAADB /* Card2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card2View.swift; sourceTree = "<group>"; };
 		CEADEDE82DCC730600DFAADB /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		CEB039672DCA02EE007A8410 /* TWRamenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWRamenManager.swift; sourceTree = "<group>"; };
@@ -128,7 +130,6 @@
 		CEB906862D37794C0057ECDB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CEB906882D37794E0057ECDB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CEB906A22D377F570057ECDB /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		CEB906A52D377F570057ECDB /* SignInEmailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInEmailViewModel.swift; sourceTree = "<group>"; };
 		CEB906A72D377F570057ECDB /* AuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
@@ -214,6 +215,7 @@
 				CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */,
 				CEB906982D377B4A0057ECDB /* FirebaseAuth in Frameworks */,
 				CEB906BD2D3781C60057ECDB /* GoogleSignIn in Frameworks */,
+				CE588BB42DCF903300F9674E /* FirebaseCrashlytics in Frameworks */,
 				CEB906CA2D46102E0057ECDB /* FirebaseFirestore in Frameworks */,
 				CEB906BF2D3781C60057ECDB /* GoogleSignInSwift in Frameworks */,
 				CEB906FE2D5481AA0057ECDB /* FirebaseStorage in Frameworks */,
@@ -258,6 +260,7 @@
 		CEB906782D37794C0057ECDB = {
 			isa = PBXGroup;
 			children = (
+				CE588BB82DCFA93200F9674E /* GoogleService-Info.plist */,
 				CEB906832D37794C0057ECDB /* TOH */,
 				CEB906822D37794C0057ECDB /* Products */,
 				CEB906C82D46102E0057ECDB /* Frameworks */,
@@ -281,7 +284,6 @@
 				CEB906842D37794C0057ECDB /* TOHApp.swift */,
 				CEB906862D37794C0057ECDB /* ContentView.swift */,
 				CEB906882D37794E0057ECDB /* Assets.xcassets */,
-				CEB906922D377A1A0057ECDB /* GoogleService-Info.plist */,
 				CEB9068A2D37794E0057ECDB /* Preview Content */,
 			);
 			path = TOH;
@@ -782,6 +784,7 @@
 				CEB9067D2D37794C0057ECDB /* Sources */,
 				CEB9067E2D37794C0057ECDB /* Frameworks */,
 				CEB9067F2D37794C0057ECDB /* Resources */,
+				CE588BB52DCF926400F9674E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -795,6 +798,7 @@
 				CEB906BE2D3781C60057ECDB /* GoogleSignInSwift */,
 				CEB906C92D46102E0057ECDB /* FirebaseFirestore */,
 				CEB906FD2D5481AA0057ECDB /* FirebaseStorage */,
+				CE588BB32DCF903300F9674E /* FirebaseCrashlytics */,
 			);
 			productName = TOH;
 			productReference = CEB906812D37794C0057ECDB /* TOH.app */;
@@ -843,8 +847,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEB907402D65C2FB0057ECDB /* Picture.xcassets in Resources */,
+				CE588BB92DCFA93200F9674E /* GoogleService-Info.plist in Resources */,
 				CEB906DB2D5465910057ECDB /* ramenData.json in Resources */,
-				CEB906932D377A1A0057ECDB /* GoogleService-Info.plist in Resources */,
 				CEB907632D742A4E0057ECDB /* castleQAData.json in Resources */,
 				CEB906E42D5469470057ECDB /* Stamps.xcassets in Resources */,
 				CEB906F92D546FDD0057ECDB /* Launch Screen.storyboard in Resources */,
@@ -864,6 +868,32 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CE588BB52DCF926400F9674E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n\n#\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols\" \\\n#-gsp \"${PROJECT_DIR}/GoogleService-Info.plist\" \\\n#-p ios \\\n#\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CEB9067D2D37794C0057ECDB /* Sources */ = {
@@ -1078,6 +1108,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"TOH/Preview Content\"";
 				DEVELOPMENT_TEAM = NYQXQ2PYQJ;
 				ENABLE_PREVIEWS = YES;
@@ -1094,6 +1125,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1128,6 +1161,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1181,6 +1216,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CE588BB32DCF903300F9674E /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		CEB906952D377B4A0057ECDB /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CEB906942D377B4A0057ECDB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
