@@ -10,9 +10,13 @@ import GoogleSignIn
 import GoogleSignInSwift
 import FirebaseAnalytics
 
+
+
+
 struct AuthenticationView: View {
     @StateObject private var viewModel = AuthenticationViewModel()
     @Binding var showSignInView: Bool
+    @State private var showNicknameView = false
     
     var body: some View {
         VStack{
@@ -29,17 +33,40 @@ struct AuthenticationView: View {
                 .font(.custom("JacquesFrancoisShadow-Regular", size: 30))
                 .foregroundStyle(.white)
             
+            /* 先關掉email登入方法
             NavigationLink{
                 SignInEmailView(showSignInView: $showSignInView)
             } label: {
                 Text("Sign In with Email")
-                    .font(.headline)
+                    .font(.title2)
                     .foregroundStyle(.black)
                     .frame(height:55)
                     .frame(maxWidth:.infinity)
                     .background(Color.white)
                     .cornerRadius(10)
+            }*/
+            
+            Button {
+                Task {
+                    do {
+                        try await viewModel.signInApple()
+                        if viewModel.lackOfNickname {
+                            showNicknameView = true
+                            print("no nickname")
+                        } else {
+                            showSignInView = false
+                        }
+                        
+                        
+                    } catch {
+                        print(error)
+                    }
+                }
+            } label: {
+                SignInWithAppleButtonViewRepresentable(type: .default, style: .white)
             }
+            .frame(height: 55)
+            
             
             GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .wide, state: .normal)){
                 Task {
@@ -57,10 +84,17 @@ struct AuthenticationView: View {
                 }
             }
             
+            
             Spacer()
         }
         .padding()
         .background(Color.myGreen1)
+        .fullScreenCover(isPresented: $showNicknameView) {
+            NicknameSetupView { nickname in
+                showNicknameView = false
+                showSignInView = false
+            }
+        }
     }
 }
 

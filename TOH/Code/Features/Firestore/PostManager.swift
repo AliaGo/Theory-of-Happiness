@@ -206,36 +206,67 @@ final class PostManager {
                 let castleLocation = CLLocation(latitude: latitude, longitude: longitude)
                 // 如果照片位置與城堡位置相符
                 if post.photoLocation.distance(from: castleLocation) < 700 { // 比對 1000 米內視為一致
-                    let castleId = document.documentID // 儲存匹配的城堡 ID
+                    let castleId = document["id"] // 儲存匹配的城堡 ID
                     let castleName = document["name"] as? String ?? "Unknown Castle" // 儲存城堡名稱
                     
                     // 儲存匹配到的城堡印章資料到 user 的 collectedStamps 集合
-                    try await saveCastleStampToUser(userId: post.userId, castleId: castleId, castleName: castleName)
-                    return (1, castleName)  // 給予城堡數位印章
+                    // 檢查是否已經收集過這個印章
+                    let alreadyCollected = try await hasCollectedStamp(userId: post.userId, castleId: castleId as! Int)
+                    guard !alreadyCollected else {
+                        print("⚠️ 使用者已擁有印章：\(castleId)")
+                        return (0, castleName) // 表示已擁有，不再新增
+                    }
+
+                    // 如果還沒收集過，才新增
+                    try await saveCastleStampToUser(userId: post.userId, castleId: castleId as! Int, castleName: castleName)
+                    print("✅ 成功新增印章：\(castleId)")
+                    return (1, castleName)  // 1 表示成功新增印章
                 }
             }
         }
         return (0, nil) // 未找到匹配的城堡
     }
     
+    // 檢查是否已經收集過此印章
+    private func hasCollectedStamp(userId: String, castleId: Int) async throws -> Bool {
+        let db = Firestore.firestore()
+        let stampDoc = try await db
+            .collection("users")
+            .document(userId)
+            .collection("collected_stamps")
+            .getDocuments(as: UserFavoriteCastle.self)
+
+        var isIncluded: Bool = false
+        for document in stampDoc {
+            if document.castleId == castleId {
+                isIncluded = true
+            }
+        }
+        
+        return isIncluded
+    }
+
+    
     // 儲存城堡印章到 User 的 collectedStamps 集合
-    private func saveCastleStampToUser(userId: String, castleId: String, castleName: String) async throws {
-        let userRef = Firestore.firestore().collection("users").document(userId)
-        
-        // 取得使用者資料並更新 collectedStamps
-        let userSnapshot = try await userRef.getDocument()
-        var collectedStamps = userSnapshot.data()?["collectedStamps"] as? [String: [String: String]] ?? [:]
-        
-        // 新增城堡印章資料
-        collectedStamps[castleId] = [
-            "name": castleName,
-            "castleId": castleId
+    private func saveCastleStampToUser(userId: String, castleId: Int, castleName: String) async throws {
+        let db = Firestore.firestore()
+            
+        let document = db
+            .collection("users")
+            .document(userId)
+            .collection("collected_stamps")
+            .document()
+        let documentId = document.documentID
+
+        let data:[String: Any] = [
+            UserCollectedStamps.CodingKeys.id.rawValue: documentId,
+            UserCollectedStamps.CodingKeys.castleId.rawValue: castleId,
+            UserCollectedStamps.CodingKeys.castleName.rawValue: castleName,
+            UserCollectedStamps.CodingKeys.collectedDate.rawValue: Timestamp()
+            
         ]
         
-        // 更新使用者資料
-        try await userRef.updateData([
-            "collectedStamps": collectedStamps
-        ])
+        try await document.setData(data, merge: false)
     }
     
     // 獲取拉麵點數

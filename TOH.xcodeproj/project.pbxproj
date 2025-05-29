@@ -285,6 +285,7 @@
 		CEB906832D37794C0057ECDB /* TOH */ = {
 			isa = PBXGroup;
 			children = (
+				CEED84C42DD74D6A009D3A1A /* TOH.entitlements */,
 				CEB906D62D5464D40057ECDB /* Resourses */,
 				CEB906C02D3781E80057ECDB /* Info.plist */,
 				CEB906992D377DC90057ECDB /* Code */,
@@ -342,6 +343,7 @@
 		CEB906A32D377F570057ECDB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CEED84C92DE057FD009D3A1A /* SignInWithAppleResult.swift */,
 				CEB906A22D377F570057ECDB /* AuthenticationManager.swift */,
 			);
 			path = Models;
@@ -366,6 +368,7 @@
 		CEB906AA2D377F570057ECDB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CEED84C72DDC692D009D3A1A /* NicknameSetupView.swift */,
 				CEB906A72D377F570057ECDB /* AuthenticationView.swift */,
 				CEB906A82D377F570057ECDB /* RootView.swift */,
 				CEB906A92D377F570057ECDB /* SignInEmailView.swift */,
@@ -383,6 +386,7 @@
 				CEB906A62D377F570057ECDB /* ViewModels */,
 				CEB906AA2D377F570057ECDB /* Views */,
 				CEB906C62D37972F0057ECDB /* SignInGoogleHelper.swift */,
+				CEED84C52DD84373009D3A1A /* SignInAppleHelper.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -920,6 +924,7 @@
 				CEB907322D65957E0057ECDB /* RamenInfoView.swift in Sources */,
 				CEB907042D54864B0057ECDB /* CastleSheetView.swift in Sources */,
 				CEB039802DCBA675007A8410 /* CastleAnnotaionView.swift in Sources */,
+				CEED84C82DDC6939009D3A1A /* NicknameSetupView.swift in Sources */,
 				CEB9073A2D65AAA40057ECDB /* FeatureCard.swift in Sources */,
 				CEB906D52D4A0DF30057ECDB /* UserManager.swift in Sources */,
 				CED118262DC76AE100415A40 /* PointShopViewModel.swift in Sources */,
@@ -933,6 +938,7 @@
 				CEB9070A2D54994E0057ECDB /* HomepageView.swift in Sources */,
 				CEB039682DCA02EE007A8410 /* TWRamenManager.swift in Sources */,
 				CEB9072B2D6593CD0057ECDB /* PageControl.swift in Sources */,
+				CEED84C62DD84375009D3A1A /* SignInAppleHelper.swift in Sources */,
 				CEADEDE92DCC730600DFAADB /* CardView.swift in Sources */,
 				CEB906AF2D377F570057ECDB /* RootView.swift in Sources */,
 				CEB907562D6F01420057ECDB /* LocationManager.swift in Sources */,
@@ -946,6 +952,7 @@
 				CEB039712DCA3525007A8410 /* TWRamenListView.swift in Sources */,
 				CED1181B2DC659E800415A40 /* TypeSelectionView.swift in Sources */,
 				CEB9074A2D662F2E0057ECDB /* FavoritesView.swift in Sources */,
+				CEED84CA2DE05806009D3A1A /* SignInWithAppleResult.swift in Sources */,
 				CEB039752DCA3DD4007A8410 /* TWRamenInfoView.swift in Sources */,
 				CEB907532D6F003E0057ECDB /* ExploreView.swift in Sources */,
 				CEB907292D6593C10057ECDB /* PageViewController.swift in Sources */,
@@ -1112,12 +1119,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = TOH/TOH.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"TOH/Preview Content\"";
-				DEVELOPMENT_TEAM = NYQXQ2PYQJ;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = NYQXQ2PYQJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TOH/Info.plist;
@@ -1136,6 +1145,8 @@
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TOH_Profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1147,6 +1158,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TOH/TOH.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1173,7 +1185,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TOHProfile;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TOH_Profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
