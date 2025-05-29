@@ -27,7 +27,7 @@
 		CEB906872D37794C0057ECDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906862D37794C0057ECDB /* ContentView.swift */; };
 		CEB906892D37794E0057ECDB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB906882D37794E0057ECDB /* Assets.xcassets */; };
 		CEB9068C2D37794E0057ECDB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB9068B2D37794E0057ECDB /* Preview Assets.xcassets */; };
-		CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906952D377B4A0057ECDB /* FirebaseAnalytics */; };
+		CEB906962D377B4A0057ECDB /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906952D377B4A0057ECDB /* FirebaseAnalytics */; settings = {ATTRIBUTES = (Required, ); }; };
 		CEB906982D377B4A0057ECDB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CEB906972D377B4A0057ECDB /* FirebaseAuth */; };
 		CEB906AC2D377F570057ECDB /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A22D377F570057ECDB /* AuthenticationManager.swift */; };
 		CEB906AD2D377F570057ECDB /* SignInEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB906A52D377F570057ECDB /* SignInEmailViewModel.swift */; };
@@ -107,6 +107,9 @@
 		CED1181F2DC7553C00415A40 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED1181E2DC7553C00415A40 /* GuideView.swift */; };
 		CED118242DC76A6200415A40 /* PointShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118232DC76A6200415A40 /* PointShopView.swift */; };
 		CED118262DC76AE100415A40 /* PointShopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED118252DC76AE100415A40 /* PointShopViewModel.swift */; };
+		CEED84C62DD84375009D3A1A /* SignInAppleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED84C52DD84373009D3A1A /* SignInAppleHelper.swift */; };
+		CEED84C82DDC6939009D3A1A /* NicknameSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED84C72DDC692D009D3A1A /* NicknameSetupView.swift */; };
+		CEED84CA2DE05806009D3A1A /* SignInWithAppleResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEED84C92DE057FD009D3A1A /* SignInWithAppleResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,6 +208,10 @@
 		CED1181E2DC7553C00415A40 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		CED118232DC76A6200415A40 /* PointShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointShopView.swift; sourceTree = "<group>"; };
 		CED118252DC76AE100415A40 /* PointShopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointShopViewModel.swift; sourceTree = "<group>"; };
+		CEED84C42DD74D6A009D3A1A /* TOH.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TOH.entitlements; sourceTree = "<group>"; };
+		CEED84C52DD84373009D3A1A /* SignInAppleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInAppleHelper.swift; sourceTree = "<group>"; };
+		CEED84C72DDC692D009D3A1A /* NicknameSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameSetupView.swift; sourceTree = "<group>"; };
+		CEED84C92DE057FD009D3A1A /* SignInWithAppleResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
