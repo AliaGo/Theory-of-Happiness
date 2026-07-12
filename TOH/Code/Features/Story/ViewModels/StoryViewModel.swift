@@ -8,14 +8,19 @@
 import Foundation
 import SwiftUI
 import PhotosUI
+import Photos
 import FirebaseFirestore
 import FirebaseAnalytics
+import CoreLocation
+import ImageIO
+import UniformTypeIdentifiers
 
 
 @MainActor
 final class StoryViewModel: ObservableObject {
     
-    @Published var posts: [Post]?
+    @Published var posts: [Post] = []
+    @Published var isLoading = false
     @Published private(set) var user: DBUser? = nil
     
     // errors
@@ -33,6 +38,10 @@ final class StoryViewModel: ObservableObject {
     @Published var createPost: Bool = false
     @Published var isWriting = false
     
+    // ➤ Loading 狀態，用於 iCloud 照片下載
+    @Published var isImageLoading: Bool = false
+    @Published var downloadProgress: Double = 0.0 // 0.0 ~ 1.0
+    
     // 用來控制是否顯示獲得獎勵對話框
     @Published var showResultDialog: Bool = false
     // 獲得的印章資料（若是 castle 類型）
@@ -43,13 +52,17 @@ final class StoryViewModel: ObservableObject {
     func fetchPosts() {
         Task {
             do {
+                print("fetch start")
+
                 let posts = try await PostManager.shared.getAllposts()
-                DispatchQueue.main.async {
-                    self.posts = posts
-                }
-                
+
+                self.posts = posts
+
+                print("fetch success: \(posts.count)")
+
             } catch {
-                print("Error fetching posts: \(error)")
+                print("fetch failed: \(error)")
+                self.posts = []
             }
         }
     }
@@ -58,10 +71,9 @@ final class StoryViewModel: ObservableObject {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
     }
-    
+    /*
     func deletePost(post: Post) {
-        
-        guard let _ = posts else {return}
+        guard let _ = posts else { return }
         
         let index = posts?.firstIndex(where: { currentPost in
             return currentPost.id == post.id
@@ -69,7 +81,7 @@ final class StoryViewModel: ObservableObject {
         
         //withAnimation{posts?.remove(at: index)}
     }
-    
+    */
     func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long // 设置日期样式，可以选择.short, .medium, .long, .full
@@ -79,6 +91,110 @@ final class StoryViewModel: ObservableObject {
     }
     
     // 圖片先暫存在記憶體還沒有正式上傳到storage
+    func selectImage(item: PhotosPickerItem) {
+        Task {
+            await MainActor.run {
+                self.isImageLoading = true
+                self.downloadProgress = 0
+            }
+
+            do {
+                if let assetID = item.itemIdentifier {
+                    // ✅ 走 iCloud 下載 + 進度
+                    let results = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
+                    if let asset = results.firstObject {
+                        let options = PHImageRequestOptions()
+                        options.isNetworkAccessAllowed = true
+                        options.deliveryMode = .highQualityFormat
+                        options.isSynchronous = false
+                        options.progressHandler = { progress, _, _, _ in
+                            DispatchQueue.main.async {
+                                self.downloadProgress = progress
+                            }
+                        }
+                        
+                        PHImageManager.default().requestImageDataAndOrientation(for: asset, options: options) { data, _, _, _ in
+                            guard let data = data,
+                                  let image = UIImage(data: data) else {
+                                DispatchQueue.main.async { self.isImageLoading = false }
+                                return
+                            }
+                            self.parseImageMetadata(data)
+                            DispatchQueue.main.async {
+                                self.selectedImage = image
+                                self.isImageLoading = false
+                            }
+                        }
+                        return
+                    }
+                }
+                
+                // 🔄 沒有 assetID 時走這裡
+                guard let data = try await item.loadTransferable(type: Data.self),
+                      let image = UIImage(data: data) else {
+                    throw NSError(domain: "選圖失敗", code: -1)
+                }
+                self.parseImageMetadata(data)
+                await MainActor.run {
+                    self.selectedImage = image
+                    self.isImageLoading = false
+                }
+
+            } catch {
+                print("❌ 圖片下載失敗: \(error)")
+                await MainActor.run { self.isImageLoading = false }
+            }
+        }
+    }
+    
+    // MARK: - Metadata 解析
+    func parseImageMetadata(_ data: Data) {
+        if let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
+           let metadata = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as? [CFString: Any] {
+            
+            // 日期
+            if let tiffDict = metadata[kCGImagePropertyTIFFDictionary] as? [CFString: Any],
+               let dateString = tiffDict[kCGImagePropertyTIFFDateTime] as? String {
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy:MM:dd HH:mm:ss"
+                self.photoDate = formatter.date(from: dateString)
+            }
+            
+            // GPS
+            if let gpsDict = metadata[kCGImagePropertyGPSDictionary] as? [CFString: Any],
+               let lat = gpsDict[kCGImagePropertyGPSLatitude] as? Double,
+               let latRef = gpsDict[kCGImagePropertyGPSLatitudeRef] as? String,
+               let lon = gpsDict[kCGImagePropertyGPSLongitude] as? Double,
+               let lonRef = gpsDict[kCGImagePropertyGPSLongitudeRef] as? String {
+                
+                let latitude = (latRef == "S") ? -lat : lat
+                let longitude = (lonRef == "W") ? -lon : lon
+                let location = CLLocation(latitude: latitude, longitude: longitude)
+                self.photoLocation = location
+                
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                    if let placemark = placemarks?.first {
+                        let address = [
+                            placemark.administrativeArea,
+                            placemark.locality,
+                            placemark.subLocality,
+                            placemark.name
+                        ].compactMap { $0 }.joined()
+                        
+                        DispatchQueue.main.async {
+                            self.address = address
+                            print("📍 地址：\(address)")
+                        }
+                    } else {
+                        print("❌ 無法取得地址：\(error?.localizedDescription ?? "未知錯誤")")
+                    }
+                }
+            }
+        }
+    }
+    
+    /*
     func selectImage(item: PhotosPickerItem) {
         Task {
             guard let data = try? await item.loadTransferable(type: Data.self),
@@ -143,6 +259,26 @@ final class StoryViewModel: ObservableObject {
                 print("✅ selectedImage 已設定")
             }
         }
+    }*/
+    
+    @MainActor
+    func observePosts() {
+
+        isLoading = true
+
+        PostManager.shared.observePosts { [weak self] posts in
+
+            DispatchQueue.main.async {
+
+                self?.posts = posts
+                self?.isLoading = false
+
+            }
+        }
+    }
+    //不要一直監聽浪費資源
+    func stopObservingPosts() {
+        PostManager.shared.stopObservingPosts()
     }
 
     // 確保在主程式更新 selectedImage，防止 UI 閃退
@@ -221,15 +357,41 @@ final class StoryViewModel: ObservableObject {
                 longitude: photoLocation?.coordinate.longitude ?? 0)
             print("selectedTags: \(tags)")
             
-            let post = try Post(title: postTitle, location: location, coordinates: coordinates, author: user.userNickname ?? "", userId: user.userId, type: type, date: Date(), visitedDate: self.photoDate, comment: comment, address: self.address, tag: tags, postPhotoPath: path, postPhotoPathUrl: url.absoluteString)
+            let post = Post(
+                title: postTitle,
+                location: location,
+                coordinates: coordinates,
+                author: user.userNickname ?? "",
+                userId: user.userId,
+                type: type,
+                date: Date(),
+                visitedDate: self.photoDate,
+                comment: comment,
+                commentCount: 0,
+                address: self.address,
+                tag: tags,
+                likes: [],
+                likeCount: 0,
+                postPhotoPath: path,
+                postPhotoPathUrl: url.absoluteString
+            )
             
             // result有三種結果：1城堡2拉麵3都沒有
-            let (result, matchedCastleName) = try await PostManager.shared.getDigitalRewards(for: post)
+            var result = 3
+            var matchedCastleName: String? = nil
+            do {
+                (result, matchedCastleName) = try await PostManager.shared.getDigitalRewards(for: post)
+                earnedStamp = matchedCastleName
+                res = result
+            } catch {
+                print("🎯 getDigitalRewards 發生錯誤：\(error)")
+            }
             
-            earnedStamp = matchedCastleName
-            res = result
-            
+            //建立新貼文資料
             try await PostManager.shared.createNewPost(post: post)
+            
+            //將貼文
+            try await PhotoManager.shared.addPhoto(userId: user.userId, post: post)
             
             // 追蹤使用者上傳貼文的種類
             Analytics.logEvent("post_uploaded", parameters: [
@@ -238,11 +400,22 @@ final class StoryViewModel: ObservableObject {
                 "tag_count": tags.count,
                 "earned_stamp": earnedStamp ?? "none"
             ])
+            
+            if self.posts != nil {
+                self.posts.insert(post, at: 0)
+            } else {
+                self.posts = [post]
+            }
+            
         } catch {
             print("Failed to create post: \(error)")
+            alertMsg = "貼文建立失敗，請稍後再試"
+            showAlert = true
         }
         
         self.selectedImage = nil
+        
+        
         
         // loading animation
         withAnimation{

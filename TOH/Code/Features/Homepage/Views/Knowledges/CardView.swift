@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import WebKit
 import FirebaseAnalytics
 
 struct CardView: View {
@@ -48,7 +49,7 @@ struct CardView: View {
                 }
             }
             
-            CardAnswerPopOverView(showPopOver: $isShowingAnswerSheet, contentAnswer: answerSheetContent, contentDetail: answerSheetDetail)
+            CardAnswerPopOverView(showPopOver: $isShowingAnswerSheet, contentAnswer: answerSheetContent, contentDetail: answerSheetDetail, type: type)
                 .padding(.top, 100)
                 .offset(y: isShowingAnswerSheet ? 0 : UIScreen.main.bounds.height)
                 .animation(.easeIn, value: isShowingAnswerSheet)
@@ -71,8 +72,11 @@ struct CardView: View {
 struct CardAnswerPopOverView: View {
     //@Environment(\.presentationMode) var presentationMode
     @Binding var showPopOver: Bool
+    @State private var showFullWebView = false
+    
     var contentAnswer: String
     var contentDetail: String
+    var type: String
     
     var body: some View {
         ZStack (alignment: .topLeading) {
@@ -94,11 +98,34 @@ struct CardAnswerPopOverView: View {
                     .font(.title2)
                     .padding(.top, 60)
                 
-                Text(contentDetail)
-                    .font(.system(size: 18))
+                if type == "castleKnowledge" {
+                    Button(action: {
+                        showFullWebView = true
+                    }) {
+                        Text("看更詳細")
+                            .font(.system(size: 18, weight: .medium))
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 24)
+                            .background(Color.blue.opacity(0.2))
+                            .foregroundColor(.blue)
+                            .cornerRadius(10)
+                    }
                     .padding(.top, 20)
-                    .padding(.leading, 20)
-                    .padding(.trailing, 20)
+                    .fullScreenCover(isPresented: $showFullWebView) {
+                        if let url = URL(string: contentDetail) {
+                            FullScreenWebView(url: url)
+                        } else {
+                            Text("連結無效")
+                        }
+                    }
+                } else if type == "castleQA" {
+                    Text(contentDetail)
+                        .font(.system(size: 18))
+                        .padding(.top, 20)
+                        .padding(.leading, 20)
+                        .padding(.trailing, 20)
+                }
+                
             }
         }
         //.frame(width:UIScreen.main.bounds.width-50, height: 350)

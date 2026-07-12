@@ -6,129 +6,200 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PostCellViewBuilder: View {
-    
-    let postId: String
-    @State private var post: Post? = nil
-    
+
+    let post: Post
+
     var body: some View {
-        ZStack{
-            if let post {
-                PostBlockView(post: post)
-            }
-        }
-        .task {
-            self.post = try? await PostManager.shared.getPost(postId: postId)
-        }
+        PostBlockView(post: post)
     }
 }
 
 struct PostBlockView: View {
-    var post: Post
-    
+
+    let post: Post
+
+    @StateObject private var viewModel = PostViewModel()
+    @State private var showComments = false
+    @State private var showPostInfo = false
+
     var body: some View {
-        NavigationLink {
-            PostInfoView(post: post)
-        } label: {
-            GeometryReader { geometry in
-                AsyncImage(url: URL(string: post.postPhotoPathUrl)) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: geometry.size.width, height: geometry.size.width) // 使用寬度來設置長寬比1:1
-                        .clipped() // 裁剪超出範圍的部分
-                } placeholder: {
-                    ProgressView()
-                        .frame(width: geometry.size.width, height: geometry.size.width)
+
+        VStack(alignment: .leading, spacing: 12) {
+
+            // MARK: Photo Area (改成手動 navigation)
+
+            WebImage(
+                url: URL(string: post.postPhotoPathUrl),
+                options: [.retryFailed, .scaleDownLargeImages]
+            ) { image in
+
+                image
+                    .resizable()
+                    .scaledToFill()
+
+            } placeholder: {
+
+                Color.gray.opacity(0.15)
+                    .overlay {
+                        ProgressView()
+                    }
+            }
+            .frame(height: 250)
+            .frame(maxWidth: .infinity)
+            .clipped()
+
+            // overlays（純顯示，禁止吃點擊）
+            .overlay(alignment: .bottomLeading) {
+                BottomOverlay(post: post)
+                    .allowsHitTesting(false)
+            }
+            .overlay(alignment: .topTrailing) {
+                TopOverlay(post: post)
+                    .allowsHitTesting(false)
+            }
+
+            // 點擊圖片進入 detail
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showPostInfo = true
+            }
+
+            // MARK: Action Area
+
+            HStack(spacing: 16) {
+
+                LikeButtonView(
+                    viewModel: viewModel,
+                    post: post
+                )
+
+                Button {
+                    showComments = true
+                } label: {
+                    CommentCountView(
+                        viewModel: viewModel,
+                        post: post
+                    )
                 }
+
+                Spacer()
             }
-            .overlay {
-                PostTextOverlay(post: post)
-            }
-            //.clipped()
-            .frame(height: 300)
-            
+            .padding(.horizontal)
+            .padding(.bottom, 8)
+        }
+
+        // MARK: Navigation (iOS 16+ 正確方式)
+
+        .navigationDestination(isPresented: $showPostInfo) {
+            PostInfoView(post: post)
+        }
+
+        // MARK: Comments Sheet
+
+        .sheet(isPresented: $showComments) {
+            CommentListView(postId: post.id)
+                .presentationDetents([.medium])
         }
     }
 }
 
-struct PostTextOverlay: View {
-    
-    var post: Post
+// MARK: Bottom Overlay
 
-    var gradient: LinearGradient {
-        .linearGradient(
-            Gradient(colors: [.black.opacity(0.6), .black.opacity(0)]),
-            startPoint: .bottom,
-            endPoint: .center)
-    }
+struct BottomOverlay: View {
 
+    let post: Post
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            ZStack(alignment: .bottomLeading) {
-                gradient
-                VStack(alignment: .leading) {
-                    HStack(alignment: .bottom) {
-                        Text(post.title)
-                            .font(.title)
-                            .bold()
-                        
-                        Spacer()
-                        
-                        Text(post.location)
-                            .font(.title3)
-                            .bold()
-                    }
-                       
 
-                    HStack{
-                        Text(post.author)
-                        
-                        Spacer()
-                        
-                        Image(post.type == "castle" ? "osaka-castle" : "ramen")
-                            .resizable()
-                            .frame(maxWidth:20, maxHeight:20)
-                            .scaledToFit()
-                    }
-                    
+        LinearGradient(
+            colors: [
+                .black.opacity(0.7),
+                .clear
+            ],
+            startPoint: .bottom,
+            endPoint: .top
+        )
+        .frame(height: 140)
+        .overlay(alignment: .bottomLeading) {
+
+            VStack(alignment: .leading, spacing: 8) {
+
+                HStack(alignment: .bottom) {
+
+                    Text(post.title)
+                        .font(.title2.bold())
+
+                    Spacer()
+
+                    Text(post.location)
+                        .font(.headline)
                 }
-                .padding()
-            }
-            
-            VStack(alignment: .trailing) {
-                // 右上角的日期
-                Text(formatDate(post.date ?? Date()))
-                    .font(.caption)
-                    .padding(8)
-                
-                HStack{
-                    if let tags = post.tag {
-                        ForEach(tags, id: \.self) { tag in
-                            Text("#\(tag)")
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .font(.footnote)
-                                .background(Color.myGreen2.opacity(0.6))
-                                .cornerRadius(12)
-                        }
-                        
-                    }
+
+                HStack {
+
+                    Text(post.author)
+                        .font(.subheadline)
+
+                    Spacer()
+
+                    Image(post.type == "castle" ? "osaka-castle" : "ramen")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
                 }
-                
             }
-            
+            .padding()
+            .foregroundStyle(.white)
         }
+    }
+}
+
+// MARK: Top Overlay
+
+struct TopOverlay: View {
+
+    let post: Post
+
+    var body: some View {
+
+        VStack(alignment: .trailing, spacing: 8) {
+
+            Text(formatDate(post.date ?? Date()))
+                .font(.caption)
+                .padding(8)
+                .background(.black.opacity(0.4))
+                .clipShape(Capsule())
+
+            if let tags = post.tag {
+
+                HStack {
+
+                    ForEach(tags, id: \.self) { tag in
+
+                        Text("#\(tag)")
+                            .font(.caption)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.myGreen2.opacity(0.8))
+                            .clipShape(Capsule())
+                    }
+                }
+            }
+        }
+        .padding()
         .foregroundStyle(.white)
     }
 }
 
 func formatDate(_ date: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .long // 设置日期样式，可以选择.short, .medium, .long, .full
-    dateFormatter.timeStyle = .short // 不显示时间，如果需要显示时间可以设置为 .short 或 .medium
 
-    return dateFormatter.string(from: date) // 返回格式化后的日期字符串
+    let formatter = DateFormatter()
+
+    formatter.dateStyle = .long
+    formatter.timeStyle = .short
+
+    return formatter.string(from: date)
 }

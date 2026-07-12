@@ -12,16 +12,29 @@ struct ImagePickerView: View {
     @ObservedObject var viewModel: StoryViewModel
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             PhotosPicker(
                 selection: $viewModel.selectedImagePickerItem,
                 matching: .images,
-                photoLibrary: .shared()) {
-                    HStack {
-                        Image(systemName: "photo.badge.plus.fill")
-                        Text("Select post photo")
-                    }
+                photoLibrary: .shared()
+            ) {
+                HStack {
+                    Image(systemName: "photo.badge.plus.fill")
+                    Text("Select post photo")
                 }
+            }
+
+            if viewModel.isImageLoading {
+                VStack {
+                    ProgressView(value: viewModel.downloadProgress)
+                        .progressViewStyle(.linear)
+                        .padding(.horizontal)
+                    Text("下載中 \(Int(viewModel.downloadProgress * 100))%")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+                .transition(.opacity)
+            }
 
             if let image = viewModel.selectedImage {
                 GeometryReader { geometry in
@@ -34,9 +47,12 @@ struct ImagePickerView: View {
                 }
                 .frame(height: 200)
                 .transition(.opacity)
-            } else {
+            } else if !viewModel.isImageLoading {
                 Text("尚未選擇圖片")
+                    .foregroundColor(.secondary)
             }
         }
+        .padding()
+        .animation(.easeInOut, value: viewModel.isImageLoading)
     }
 }

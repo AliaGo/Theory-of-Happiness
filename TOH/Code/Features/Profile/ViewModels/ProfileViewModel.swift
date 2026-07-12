@@ -29,6 +29,9 @@ final class ProfileViewModel: ObservableObject {
     @Published private(set) var user: DBUser? = nil
     @Published private(set) var userCollectedStamps: [UserCollectedStamps]? = nil
     
+    @Published var castlePostCount: Int = 0
+    @Published var ramenPostCount: Int = 0
+    
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         self.user = try await UserManager.shared.getUser(userId: authDataResult.uid)
@@ -43,19 +46,42 @@ final class ProfileViewModel: ObservableObject {
         }
         
     }
-    
+
     func saveProfileImage(item: PhotosPickerItem) {
         guard let user else { return }
-        
+
         Task {
-            guard let data = try await item.loadTransferable(type: Data.self) else { return }
-            let (path, name) = try await StorageManager.shared.saveImage(data: data, userId: user.userId)
-            print("Success")
-            print(path + "   " + name)
-            let url = try await StorageManager.shared.getUrlForImage(path: path)
-            try await UserManager.shared.updateUserProfileImagePath(userId: user.userId, path: path, url: url.absoluteString)
+            do {
+                guard let asset = try await item.getPHAsset() else {
+                    print("❌ 無法取得 PHAsset")
+                    return
+                }
+
+                let data = try await asset.loadImageData()
+
+                let (path, _) = try await StorageManager.shared.saveImage(
+                    data: data,
+                    userId: user.userId
+                )
+
+                let url = try await StorageManager.shared.getUrlForImage(path: path)
+
+                try await UserManager.shared.updateUserProfileImagePath(
+                    userId: user.userId,
+                    path: path,
+                    url: url.absoluteString
+                )
+
+                print("✅ Profile image uploaded")
+
+            } catch {
+                print("❌ 上傳失敗:", error)
+            }
         }
     }
+
+    
+
     
     func deleteProfileImage() {
         guard let user, let path = user.profileImagePath else { return }
@@ -86,6 +112,26 @@ final class ProfileViewModel: ObservableObject {
             self.userCollectedStamps = try await UserManager.shared.getAllUserCollectedStamps(userId:authDataResult.uid)
         }
         
+    }
+    
+    func loadPostCounts(userId: String) async {
+        do {
+            async let castle = PostManager.shared.getPostCount(
+                userId: userId,
+                type: "castle"
+            )
+            async let ramen = PostManager.shared.getPostCount(
+                userId: userId,
+                type: "ramen"
+            )
+
+            let (castleCount, ramenCount) = try await (castle, ramen)
+
+            self.castlePostCount = castleCount
+            self.ramenPostCount = ramenCount
+        } catch {
+            print("❌ loadPostCounts failed:", error)
+        }
     }
 
 }

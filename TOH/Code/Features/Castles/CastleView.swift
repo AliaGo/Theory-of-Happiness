@@ -11,21 +11,22 @@ import FirebaseAnalytics
 struct CastleView: View {
     
     @StateObject private var viewModel = CastleViewModel()
-    
+    @EnvironmentObject var userSession: UserSession
+    @State private var showSignIn = false
     
     var body: some View {
         List {
-            GroupingCastle(area:"北海道・東北", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"北海道・東北", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
             
-            GroupingCastle(area:"関東・甲信越", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"関東・甲信越", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
             
-            GroupingCastle(area:"北陸・東海", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"北陸・東海", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
 
-            GroupingCastle(area:"近畿", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"近畿", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
             
-            GroupingCastle(area:"中国・四国", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"中国・四国", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
             
-            GroupingCastle(area:"九州・沖縄", filteredCastles: viewModel.castles)
+            GroupingCastle(area:"九州・沖縄", filteredCastles: viewModel.castles, showSignIn: $showSignIn)
         }
         .navigationTitle("Castles")
         .onAppear {
@@ -38,6 +39,12 @@ struct CastleView: View {
         .task{
             try? await viewModel.getAllCastles()
         }
+        .fullScreenCover(isPresented: $showSignIn) {
+            NavigationStack {
+                AuthenticationView(allowGuest: false)
+                    .environmentObject(userSession)
+            }
+        }
     }
 }
 
@@ -46,9 +53,13 @@ struct GroupingCastle: View {
     
     @State private var showingDetail = false  //new
     
+    @EnvironmentObject var userSession: UserSession
+    
     var area: String
     
     var filteredCastles: [Castle]
+    
+    @Binding var showSignIn: Bool
     
     var body: some View {
         Section(header: Text(area)){
@@ -88,7 +99,11 @@ struct GroupingCastle: View {
                 }
                 .contextMenu {
                     Button("Add to Favorites") {
-                        viewModel.addUserFavoriteCastle(castleId: c.id)
+                        if userSession.isSignedIn {
+                            viewModel.addUserFavoriteCastle(castleId: c.id)
+                        } else {
+                            showSignIn = true  // ✅ 觸發登入頁
+                        }
                     }
                 }
             }

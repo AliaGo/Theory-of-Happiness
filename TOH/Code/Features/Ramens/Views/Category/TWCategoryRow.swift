@@ -12,6 +12,8 @@ struct TWCategoryRow: View {
     var categoryName: String
     var items: [TWRamen]
     
+    var onRequireSignIn: (() -> Void)? // 從TWRamenListView傳下來
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(categoryName)
@@ -27,7 +29,7 @@ struct TWCategoryRow: View {
                         NavigationLink {
                             TWRamenInfoView(ramen: ramen)
                         } label: {
-                            TWCategoryItem(ramen: ramen)
+                            TWCategoryItem(ramen: ramen, onRequireSignIn: onRequireSignIn)
                                 
                         }
                         

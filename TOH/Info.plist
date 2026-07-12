@@ -4,6 +4,8 @@
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>我們需要您的位置來提供附近的城堡及拉麵資訊</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我們需要存取您的相簿來讓您上傳照片</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

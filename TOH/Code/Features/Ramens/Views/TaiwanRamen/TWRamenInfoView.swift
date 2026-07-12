@@ -11,6 +11,10 @@ struct TWRamenInfoView: View {
     
     var ramen: TWRamen
     
+    // 圖片縮放
+    @State private var selectedIndex: Int? = nil
+    @State private var showFullScreen = false
+    
     var body: some View {
         ScrollView {
             /*
@@ -126,30 +130,82 @@ struct TWRamenInfoView: View {
                 
                 Divider()
                 
-                let columns = [GridItem(), GridItem(), GridItem()]
                 
-                ScrollView(.vertical, showsIndicators: false){
-                    LazyVGrid(columns: columns) {
+                
+                
+                /*
+                let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVGrid(columns: columns, spacing: 8) {
                         if let urls = ramen.reviewImageUrls {
-                            ForEach(urls, id:\.self){ url in
+                            ForEach(Array(urls.enumerated()), id: \.offset) { index, url in
                                 AsyncImage(url: URL(string: url)) { image in
-                                    image.resizable()
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 100)
+                                        .clipped()
+                                        .onTapGesture {
+                                            selectedIndex = index
+                                            showFullScreen = true
+                                        }
                                 } placeholder: {
-                                    Color.black
+                                    Color.gray
+                                        .frame(width: 120, height: 100)
                                 }
-                                .frame(width: 120, height: 100)
-                                //.clipShape(.rect(cornerRadius: 25))
                             }
                         }
-                        
                     }
-                    
                 }
+                .fullScreenCover(isPresented: $showFullScreen) {
+                    if let urls = ramen.reviewImageUrls, let selectedIndex = selectedIndex {
+                        ZStack {
+                            Color.black.opacity(0.9).ignoresSafeArea()
+
+                            TabView(selection: $selectedIndex) {
+                                ForEach(0..<urls.count, id: \.self) { index in
+                                    AsyncImage(url: URL(string: urls[index])) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit() // 確保比例正確
+                                            .padding()
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                    .tag(index)
+                                }
+                            }
+                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never)) // 隱藏底部分頁點
+
+                            // 關閉按鈕
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Button(action: { showFullScreen = false }) {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(.white.opacity(0.8))
+                                            .padding()
+                                    }
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+                 */
                 
                 
                 
             }.padding()
             
+            if let urls = ramen.reviewImageUrls {
+                ImageGalleryView(urls: urls)
+                    .padding()
+                    .edgesIgnoringSafeArea(.all)
+            }
         }
         .navigationTitle(ramen.name)
         .navigationBarTitleDisplayMode(.inline)

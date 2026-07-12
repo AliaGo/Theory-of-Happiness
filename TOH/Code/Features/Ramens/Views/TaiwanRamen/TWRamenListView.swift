@@ -18,9 +18,12 @@ enum GroupingType: String, CaseIterable, Identifiable {
 struct TWRamenListView: View {
     
     @StateObject private var viewModel = TWRamenViewModel()
+    @EnvironmentObject var userSession: UserSession
+    @State private var showSignIn = false
     let ramens: [TWRamen]
     @State private var searchText = ""
     @State private var grouping: GroupingType = .mrtLine
+    
     
     var filteredRamens: [TWRamen] {
         if searchText.isEmpty {
@@ -67,7 +70,9 @@ struct TWRamenListView: View {
             
             List {
                 ForEach(groupedRamens.keys.sorted(), id: \.self) { key in
-                    TWCategoryRow(categoryName: key, items: groupedRamens[key]!)
+                    TWCategoryRow(categoryName: key, items: groupedRamens[key]!){
+                        showSignIn = true // 按下Fav按鈕需要登入時顯示登入畫面
+                    }
                 }
                 .listRowInsets(EdgeInsets())
             }
@@ -75,6 +80,12 @@ struct TWRamenListView: View {
         }
         .navigationTitle("Taipei Ramen")
         .searchable(text: $searchText, prompt: "請輸入拉麵種類、車站等")
+        .fullScreenCover(isPresented: $showSignIn) {
+            NavigationStack {
+                AuthenticationView(allowGuest: false)
+                    .environmentObject(userSession)
+            }
+        }
         .onAppear {
             // 追蹤畫面瀏覽
             Analytics.logEvent(AnalyticsEventScreenView, parameters: [

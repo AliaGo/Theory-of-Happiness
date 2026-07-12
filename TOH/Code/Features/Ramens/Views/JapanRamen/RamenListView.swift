@@ -15,6 +15,8 @@ struct RamenListView2: View {
     @StateObject private var viewModel = RamenViewModel()
     let ramens: [Ramen]
     @State private var searchText = ""
+    @EnvironmentObject var userSession: UserSession
+    @State private var showSignIn = false
     
     var filteredRamens: [Ramen] {
         if searchText.isEmpty {
@@ -39,14 +41,6 @@ struct RamenListView2: View {
     }
     
     var body: some View {
-        if ramens.isEmpty {
-            Text("No ramen data available.") // 如果没有数据，显示提示
-        } else {
-            Text("有") // 查看传递过来的数据
-        }
-        
-        
-        NavigationSplitView{
             List{
                 if features.count != 0{
                     PageView(pages: features.map { FeatureCard(ramen: $0) })
@@ -54,7 +48,9 @@ struct RamenListView2: View {
                 }
                 
                 ForEach(categories.keys.sorted(), id: \.self) { key in
-                    CategoryRow(categoryName: key, items: categories[key]!)
+                    CategoryRow(categoryName: key, items: categories[key]!){
+                        showSignIn = true // 按下Fav按鈕需要登入時顯示登入畫面
+                    }
                 }
                 .listRowInsets(EdgeInsets())
                 
@@ -62,19 +58,15 @@ struct RamenListView2: View {
             }
             .listStyle(.inset)
             .navigationTitle("Ramen 100")
-            
-        } detail: {
-            Text("Select a Landmark")
-        }
-        .padding(.top, -40)
-        .searchable(text: $searchText, prompt: "Search for a ramen")
-        .onAppear {
-            // 追蹤畫面瀏覽
-            Analytics.logEvent(AnalyticsEventScreenView, parameters: [
-                    AnalyticsParameterScreenName: "RamenListView",
-                    AnalyticsParameterScreenClass: "RamenListView"
-                  ])
-        }
+            .searchable(text: $searchText, prompt: "Search for a ramen")
+            .fullScreenCover(isPresented: $showSignIn) {
+                NavigationStack {
+                    AuthenticationView(allowGuest: false)
+                        .environmentObject(userSession)
+                }
+            }
+        
+        
         /*
          .task{
          try? await viewModel.getAllRamens()

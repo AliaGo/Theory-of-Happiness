@@ -53,6 +53,15 @@ struct RamenInfoView: View {
                         .font(.subheadline)
                 }
                 
+                HStack {
+                    Image(systemName: "tram.circle.fill")
+                    
+                    Text(ramen.station)
+                        .font(.subheadline)
+                        .padding(.trailing, 5)
+                    
+                }
+                
                 VStack(alignment: .leading){
                     Text("獲選百名店經歷：")
                         .font(.subheadline)
@@ -97,6 +106,7 @@ struct RamenInfoView: View {
                 */
                 Divider()
                 
+                /*
                 let columns = [GridItem(), GridItem(), GridItem()]
                 
                 ScrollView(.vertical, showsIndicators: false){
@@ -112,12 +122,15 @@ struct RamenInfoView: View {
                             }
                     }
                     
-                }
+                }*/
                 
                 
                 
             }.padding()
             
+            ImageGalleryView(urls: ramen.imageURL)
+                .padding()
+                .edgesIgnoringSafeArea(.all)
         }
         .navigationTitle(ramen.name)
         .navigationBarTitleDisplayMode(.inline)

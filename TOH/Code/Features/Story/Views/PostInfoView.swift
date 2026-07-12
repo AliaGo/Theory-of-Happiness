@@ -11,7 +11,7 @@ import FirebaseAnalytics
 
 struct PostInfoView: View {
     
-    @StateObject private var viewModel = StoryViewModel()
+    @StateObject private var viewModel = PostViewModel()
     
     //避免重複觸發.onAppear 的追蹤碼
     @State private var hasTracked = false
@@ -83,6 +83,7 @@ struct PostInfoView: View {
             ])
             hasTracked = true
           }
+            
         }
         
     }

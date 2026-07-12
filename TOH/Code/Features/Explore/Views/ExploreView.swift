@@ -14,14 +14,18 @@ extension CLLocationCoordinate2D {
     static let osaka = CLLocationCoordinate2D(latitude: 34.685216, longitude: 135.5231272757)
 }
 
+enum ExploreSelection {
+    case castle(Castle)
+    case ramen(TWRamen)
+}
+
 struct ExploreView: View {
     @StateObject private var castleViewModel = CastleViewModel()
     @StateObject private var ramenViewModel = RamenViewModel()
     @StateObject private var twRamenViewModel = TWRamenViewModel()
     
     @State private var selectedCoordinate: CLLocationCoordinate2D?
-    @State var selectedCastle: Castle? //check!!!
-    @State var selectedRamen: TWRamen?
+    @State var selectedItem: ExploreSelection?
     
     @State var queryString: String = ""
     @State private var searchResults: [MKMapItem] = []
@@ -89,7 +93,7 @@ struct ExploreView: View {
                 ForEach(castleViewModel.castles, id: \.self) { c in
                     Annotation(c.name, coordinate: c.locationCoordinate) {
                         CastleAnnotationView(castle: c) {
-                            selectedCastle = c
+                            selectedItem = .castle(c)
                             isShowingSheet = true
                         }
                     }
@@ -100,7 +104,7 @@ struct ExploreView: View {
                 ForEach(twRamenViewModel.twRamens, id: \.self) { r in
                     Annotation(r.name, coordinate: CLLocationCoordinate2D(latitude: r.latitude, longitude: r.longitude)) {
                         RamenAnnotationView(ramen: r) {
-                            selectedRamen = r
+                            selectedItem = .ramen(r)
                             isShowingSheet = true
                         }
                     }
@@ -168,12 +172,15 @@ struct ExploreView: View {
         .mapStyle(.standard(elevation: .realistic))
         //.mapStyle(.imagery(elevation: .realistic))
         .sheet(isPresented: $isShowingSheet) {
-            //if let selectedCastle
-            if let castle = selectedCastle {
-                CastleInfoView(castle: castle)
-            }
-            if let twRamen = selectedRamen {
-                TWRamenInfoView(ramen: twRamen)
+            if let selectedItem {
+                switch selectedItem {
+
+                case .castle(let castle):
+                    CastleInfoView(castle: castle)
+
+                case .ramen(let ramen):
+                    TWRamenInfoView(ramen: ramen)
+                }
             }
         }
         .onAppear {

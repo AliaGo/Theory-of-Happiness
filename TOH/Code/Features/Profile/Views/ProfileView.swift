@@ -10,13 +10,14 @@ import PhotosUI
 
 
 struct ProfileView: View {
-    
+    @EnvironmentObject var userSession: UserSession
     @StateObject private var viewModel = ProfileViewModel()
-    @Binding var showSignInView: Bool
+    //@Binding var showSignInView: Bool
     
     @State private var profilePhoto: PhotosPickerItem? = nil
     @State private var url: URL? = nil
     
+    @State private var showPhotoSheet = false
     @State private var showRamenSheet = false
     @State private var showCastleSheet = false
     
@@ -95,20 +96,35 @@ struct ProfileView: View {
                     HStack(spacing:5){
                         List{
                             Button {
-                                showRamenSheet = true
+                                showPhotoSheet = true
                             } label: {
                                 VStack {
-                                    Text("我的照片庫")
+                                    Text("攻城日記")
                                     Text("5")
                                         .font(.system(size: 20))
                                 }
                             }
                             .tint(.gray)
                             .buttonStyle(.bordered)
-                            .sheet(isPresented: $showRamenSheet) {
-                                RamenSheet()
-                                    .presentationBackground(.thinMaterial)
-                                    .presentationDetents([.height(600)])
+                            .fullScreenCover(isPresented: $showPhotoSheet) {
+                                PhotoWallCastleView(userId: viewModel.user?.userId ?? "")
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .frame(width: 200, height: 50)
+                            
+                            Button {
+                                showRamenSheet = true
+                            } label: {
+                                VStack {
+                                    Text("拉麵日記")
+                                    Text("5")
+                                        .font(.system(size: 20))
+                                }
+                            }
+                            .tint(.gray)
+                            .buttonStyle(.bordered)
+                            .fullScreenCover(isPresented: $showRamenSheet) {
+                                PhotoWallRamenView(userId: viewModel.user?.userId ?? "")
                             }
                             .buttonStyle(BorderlessButtonStyle())
                             .frame(width: 200, height: 50)
@@ -171,7 +187,7 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        SettingsView(showSignInView: $showSignInView, userNickname: viewModel.user?.userNickname ?? "")
+                        SettingsView(userNickname: viewModel.user?.userNickname ?? "")
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .font(.headline)
@@ -187,6 +203,3 @@ struct ProfileView: View {
     }
 }
 
-#Preview {
-    ProfileView(showSignInView: .constant(false))
-}

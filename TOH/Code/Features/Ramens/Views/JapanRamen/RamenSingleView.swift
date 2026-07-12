@@ -19,6 +19,47 @@ struct RamenSingleView: View {
     var body: some View {
         //@Bindable var modelData = modelData
         
+        VStack(spacing: 0) {
+            // 上方圖片
+            AsyncImage(url: URL(string: ramen.imageURL[0])) { image in
+                image
+                    .resizable()
+                    .scaledToFill() // 保持比例，超出裁切
+                    .frame(height: 80) // 固定圖片高度
+                    .clipped()
+            } placeholder: {
+                Color.black.frame(height: 80)
+            }
+
+            // 下方白底資訊
+            VStack(spacing: 10) {
+                Text(ramen.name)
+                    .font(.system(size: 14, design: .rounded))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black)
+                    .padding(.bottom, -5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                HStack {
+                    Image("starFill")
+                    Text(String(ramen.rating))
+                        .fontWeight(.semibold)
+                        .font(.system(size: 12, design: .rounded))
+                    Image(systemName: "ellipsis.message")
+                    Text(ramen.review)
+                        .fontWeight(.semibold)
+                        .font(.system(size: 12, design: .rounded))
+                }
+            }
+            .padding()
+            .background(Color.white)
+        }
+        .frame(width: 180, height: 150) // 整張卡片大小
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .shadow(color: Color.black.opacity(0.2), radius: 7, x: 0, y: 2)
+
+        /*
         VStack {
             Rectangle()
                 .aspectRatio(6/3, contentMode: .fill)
@@ -41,27 +82,7 @@ struct RamenSingleView: View {
                     .padding(.bottom, -5)
                     .frame(alignment: .leading)
                 
-                /*
-                HStack {
-                    ForEach(ramen.tag, id:\.self){ tag in
-                        Rectangle()
-                            .overlay(
-                                Text(tag)
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 10, design: .rounded))
-                                    .fontWeight(.heavy)
-                                    
-                            )
-                            .foregroundStyle(.myGreen2)
-                            .frame(maxWidth:50, maxHeight: 20,alignment: .leading)
-                            .cornerRadius(45)
-                        
-                        
-                    }
-                    
-                }
-                .padding(.bottom, -10)
-                */
+                
                 HStack{
                     Image("starFill")
                     Text(String(ramen.rating))
@@ -82,7 +103,7 @@ struct RamenSingleView: View {
         .background(.white)
         .clipShape(RoundedRectangle(cornerRadius: 15))
         .shadow(color: Color.black.opacity(0.2), radius: 7, x: 0, y: 2)
-        
+        */
         /*
         .overlay(alignment: .topTrailing) {
             FavoriteButton(isSet: $modelData.ramens[ramenIndex].isFavorite)

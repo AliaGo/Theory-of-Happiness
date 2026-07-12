@@ -14,8 +14,12 @@ import FirebaseAnalytics
 
 
 struct AuthenticationView: View {
+    var allowGuest: Bool = true // 預設允許跳過
+    
     @StateObject private var viewModel = AuthenticationViewModel()
-    @Binding var showSignInView: Bool
+    //@Binding var showSignInView: Bool
+    @EnvironmentObject var userSession: UserSession
+    @Environment(\.dismiss) private var dismiss     // 讓自己能關閉
     @State private var showNicknameView = false
     
     var body: some View {
@@ -54,7 +58,8 @@ struct AuthenticationView: View {
                             showNicknameView = true
                             print("no nickname")
                         } else {
-                            showSignInView = false
+                            userSession.status = .authenticated // 標記已登入
+                            dismiss() // 關閉登入畫面
                         }
                         
                         
@@ -64,15 +69,16 @@ struct AuthenticationView: View {
                 }
             } label: {
                 SignInWithAppleButtonViewRepresentable(type: .default, style: .white)
+                    .frame(maxWidth: .infinity, maxHeight: 45) // 統一寬高
             }
-            .frame(height: 55)
             
             
             GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .wide, state: .normal)){
                 Task {
                     do {
                         try await viewModel.signInGoogle()
-                        showSignInView = false
+                        userSession.status = .authenticated
+                        dismiss()
                         
                         // 追蹤google登入
                         Analytics.logEvent("sign_up", parameters: [
@@ -83,6 +89,29 @@ struct AuthenticationView: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: 45) // 統一寬高
+            
+            if allowGuest {
+                Text("Wanna Browse Without Sign In First?")
+                    .font(.caption)
+                    .underline()
+                    .foregroundColor(.white)
+                    .padding(.top, 8)
+                
+                Button{
+                    userSession.status = .guest
+                    dismiss()
+                } label: {
+                    Text("Browse as a Guest")
+                        .fontWeight(.medium)
+                        .frame(maxWidth: .infinity, maxHeight: 45)
+                        .foregroundColor(.gray)    // 黑字
+                        .background(Color.white)    // 白底
+                        .cornerRadius(6)           // 圓角
+                        .padding(.horizontal)       // 左右邊距
+                }
+                
+            }
             
             
             Spacer()
@@ -92,14 +121,11 @@ struct AuthenticationView: View {
         .fullScreenCover(isPresented: $showNicknameView) {
             NicknameSetupView { nickname in
                 showNicknameView = false
-                showSignInView = false
+                userSession.status = .authenticated
+                dismiss()
             }
         }
     }
 }
 
-#Preview("Authentication") {
-    NavigationStack{
-        AuthenticationView(showSignInView: .constant(false))
-    }
-}
+

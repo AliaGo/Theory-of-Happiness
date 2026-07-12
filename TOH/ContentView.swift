@@ -17,6 +17,9 @@ enum HomeNavigation: Hashable {
 }
 
 struct ContentView: View {
+    @State private var showSignIn = false
+    
+    @EnvironmentObject var userSession: UserSession
     
     @State private var selectedTab: Tab = .home
     
@@ -27,7 +30,7 @@ struct ContentView: View {
     //@State private var exploreNavigationStack: [ExploreNavigation] = []
     //@State private var accountNavigationStack: [AccountNavigation] = []
     
-    @Binding var showSignInView: Bool
+    //@Binding var showSignInView: Bool
     
     var body: some View {
         //NavigationStack(path: $homeNavigationStack){
@@ -58,14 +61,21 @@ struct ContentView: View {
                     }
                 .tag(Tab.explore)
                 
-                ProfileView(showSignInView: $showSignInView).tabItem {
+                ProfileView_v2().tabItem {
                     Image(systemName: "person.circle")
                     Text("Account")
                     }
                 .tag(Tab.account)
+                
             }
             .accentColor(.myGreen2)
             .background(Color.myBackground)
+            .fullScreenCover(isPresented: $showSignIn) {
+                NavigationStack {
+                    AuthenticationView(allowGuest: false)
+                        .environmentObject(userSession)
+                }
+            }
         }
         
         
@@ -86,12 +96,15 @@ extension ContentView {
                 }
             }
             //Set the tab to the tabbed tab
-            self.selectedTab = tappedTab
+            if tappedTab == .account && !userSession.isSignedIn {
+                // 想切到 Account，但還沒登入，強制跳出登入頁，並不切換 tab
+                showSignIn = true
+                // 不改變 selectedTab，保持在原本 tab
+            } else {
+                // 正常切換 tab
+                self.selectedTab = tappedTab
+            }
         }
     }
 }
 
-#Preview {
-    ContentView(showSignInView: .constant(false))
-        
-}

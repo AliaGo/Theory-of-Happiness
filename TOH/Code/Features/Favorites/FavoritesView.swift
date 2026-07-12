@@ -64,6 +64,7 @@ struct FavoritesView: View {
     @State private var currentSegment = "CASTLE"
     @State private var selectedTab = 0
     
+    
     var body: some View {
         NavigationStack{
                 CustomSegmentedControl(selected: $selectedTab, options: [

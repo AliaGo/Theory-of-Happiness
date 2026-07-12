@@ -16,6 +16,15 @@ struct Coordinates: Codable, Hashable {
     var longitude: Double
 }
 
+struct Comment: Identifiable, Codable, Hashable {
+    var id: String  // 對應 Firestore documentID
+    var userId: String
+    var userNickname: String? // 有暱稱就顯示暱稱
+    var text: String
+    var timestamp: Timestamp
+}
+
+
 struct Post: Hashable, Identifiable, Codable {
     var id: String
     var title: String
@@ -27,9 +36,12 @@ struct Post: Hashable, Identifiable, Codable {
     //var postContent: [PostContent]
     var date: Date? // 上傳時間
     var visitedDate: Date? // 拜訪時間
-    var comment: String?
+    var comment: String? //貼文者自己的評論
+    var commentCount: Int = 0
     var address: String?
     var tag: [String]?
+    var likes: [String]? // 存userId
+    var likeCount: Int = 0
     var postPhotoPath: String
     var postPhotoPathUrl: String
     
@@ -50,8 +62,11 @@ struct Post: Hashable, Identifiable, Codable {
         case date = "date"
         case visitedDate = "visitedDate"
         case comment = "comment"
+        case commentCount = "commentCount"
         case address = "address"
         case tag = "tag"
+        case likes = "likes"
+        case likeCount = "likeCount"
         case postPhotoPath = "postPhotoPath"
         case postPhotoPathUrl = "postPhotoPathUrl"
     }
@@ -67,8 +82,11 @@ struct Post: Hashable, Identifiable, Codable {
         date: Date? = nil,
         visitedDate: Date? = nil,
         comment: String? = nil,
+        commentCount: Int = 0,
         address: String? = nil,
         tag: [String]? = nil,
+        likes: [String]? = nil,
+        likeCount: Int = 0,
         postPhotoPath: String,
         postPhotoPathUrl: String
         
@@ -83,8 +101,11 @@ struct Post: Hashable, Identifiable, Codable {
         self.date = date
         self.visitedDate = visitedDate
         self.comment = comment
+        self.commentCount = commentCount
         self.address = address
         self.tag = tag
+        self.likes = likes
+        self.likeCount = likeCount
         self.postPhotoPath = postPhotoPath
         self.postPhotoPathUrl = postPhotoPathUrl
     }
@@ -102,8 +123,11 @@ struct Post: Hashable, Identifiable, Codable {
         self.date = try container.decodeIfPresent(Date.self, forKey: .date)
         self.visitedDate = try container.decodeIfPresent(Date.self, forKey: .visitedDate)
         self.comment = try container.decodeIfPresent(String.self, forKey: .comment)
+        self.commentCount = try container.decode(Int.self, forKey: .commentCount)
         self.address = try container.decodeIfPresent(String.self, forKey: .address)
         self.tag = try container.decodeIfPresent([String].self, forKey: .tag)
+        self.likes = try container.decode([String].self, forKey: .likes)
+        self.likeCount = try container.decode(Int.self, forKey: .likeCount)
         self.postPhotoPath = try container.decode(String.self, forKey: .postPhotoPath)
         self.postPhotoPathUrl = try container.decode(String.self, forKey: .postPhotoPathUrl)
     }
@@ -120,8 +144,11 @@ struct Post: Hashable, Identifiable, Codable {
         try container.encode(self.date, forKey: .date)
         try container.encode(self.visitedDate, forKey: .visitedDate)
         try container.encode(self.comment, forKey: .comment)
+        try container.encode(self.commentCount, forKey: .commentCount)
         try container.encode(self.address, forKey: .address)
         try container.encode(self.tag, forKey: .tag)
+        try container.encode(self.likes, forKey: .likes)
+        try container.encode(self.likeCount, forKey: .likeCount)
         try container.encode(self.postPhotoPath, forKey: .postPhotoPath)
         try container.encode(self.postPhotoPathUrl, forKey: .postPhotoPathUrl)
     }
@@ -151,6 +178,9 @@ final class PostManager {
     
     static let shared = PostManager()
     private init() {}
+    
+    private var listener: ListenerRegistration?
+    
     // 要比對貼文位置給予印章或點數
     private let castlesCollection = Firestore.firestore().collection("castles")
     private let ramensCollection = Firestore.firestore().collection("ramens")
@@ -164,11 +194,76 @@ final class PostManager {
     func getPost(postId: String) async throws -> Post {
         try await postDocument(postId: postId).getDocument(as: Post.self)
     }
-    
+    // 排序最新到最舊貼文
     func getAllposts() async throws -> [Post] {
-        let posts = try await postCollection.getDocuments(as: Post.self)
-        print("Posts fetched: \(posts)")
+
+        let snapshot = try await postCollection
+            .order(by: Post.CodingKeys.date.rawValue,
+                   descending: true)
+            .getDocuments()
+
+        var posts: [Post] = []
+
+        for document in snapshot.documents {
+            do {
+                let post = try document.data(as: Post.self)
+                posts.append(post)
+
+            } catch {
+                print("❌ Decode failed for document: \(document.documentID)")
+                print(error)
+                print(document.data())
+            }
+        }
+
+        print("✅ Posts fetched count: \(posts.count)")
+
         return posts
+    }
+    
+    // 即時同步貼文內容與用戶互動
+    
+    func observePosts(completion: @escaping ([Post]) -> Void) {
+
+        listener?.remove()
+
+        listener = postCollection
+            .order(by: "date", descending: true)
+            .addSnapshotListener { snapshot, error in
+
+                if let error = error {
+                    print("❌ Firestore error:", error)
+                    return
+                }
+
+                guard let documents = snapshot?.documents else {
+                    print("⚠️ snapshot is nil")
+                    completion([])
+                    return
+                }
+
+                print("🔥 docs:", documents.count)
+
+                var posts: [Post] = []
+
+                for doc in documents {
+                    do {
+                        let post = try doc.data(as: Post.self)
+                        posts.append(post)
+                    } catch {
+                        print("❌ decode failed:", doc.documentID)
+                        print(error)
+                        print(doc.data())
+                    }
+                }
+
+                completion(posts)
+            }
+    }
+    
+    func stopObservingPosts() {
+        listener?.remove()
+        listener = nil
     }
     
     // 把寫進資料庫的符合欄位大小寫
@@ -205,7 +300,7 @@ final class PostManager {
                let longitude = castleCoordinates["longitude"] {
                 let castleLocation = CLLocation(latitude: latitude, longitude: longitude)
                 // 如果照片位置與城堡位置相符
-                if post.photoLocation.distance(from: castleLocation) < 700 { // 比對 1000 米內視為一致
+                if post.photoLocation.distance(from: castleLocation) < 1000 { // 比對 1000 米內視為一致
                     let castleId = document["id"] // 儲存匹配的城堡 ID
                     let castleName = document["name"] as? String ?? "Unknown Castle" // 儲存城堡名稱
                     
@@ -291,6 +386,10 @@ final class PostManager {
             Post.CodingKeys.date.rawValue: post.date,
             Post.CodingKeys.visitedDate.rawValue: post.visitedDate,
             Post.CodingKeys.comment.rawValue: post.comment,
+            Post.CodingKeys.likes.rawValue: post.likes,
+            Post.CodingKeys.likeCount.rawValue: post.likeCount,
+            Post.CodingKeys.tag.rawValue: post.tag,
+            Post.CodingKeys.commentCount.rawValue: post.commentCount,
             Post.CodingKeys.postPhotoPath.rawValue: post.postPhotoPath,
             Post.CodingKeys.postPhotoPathUrl.rawValue: post.postPhotoPathUrl
         ]
@@ -298,6 +397,11 @@ final class PostManager {
         
         try await document.setData(postData, merge: false)
         // 方便建立貼文之後跳轉到貼文頁面檢視或是其他用途
+        
+        //建立貼文的時候增加photo資訊
+        var postWithId = post
+            postWithId.id = documentId
+            try await PhotoManager.shared.addPhoto(userId: post.userId, post: postWithId)
     }
     
     func savePostImagePath(postId: String, path: String?, url: String?) async throws {
@@ -307,5 +411,99 @@ final class PostManager {
         ]
         
         try await postDocument(postId: postId).updateData(data)
+    }
+    
+    func getPostCount(userId: String, type: String) async throws -> Int {
+        let snapshot = try await Firestore.firestore()
+            .collection("posts")
+            .whereField("userId", isEqualTo: userId)
+            .whereField("type", isEqualTo: type)
+            .getDocuments()
+
+        return snapshot.documents.count
+    }
+    
+    // 按讚功能
+    func toggleLike(postId: String, userId: String, completion: ((Error?) -> Void)? = nil) {
+
+        let postRef = postDocument(postId: postId)
+
+        Firestore.firestore().runTransaction({ transaction, errorPointer in
+
+            let postDoc: DocumentSnapshot
+
+            do {
+                postDoc = try transaction.getDocument(postRef)
+            } catch {
+                print("❌ Error fetching post:", error)
+                return nil
+            }
+
+            var likes = postDoc.data()?["likes"] as? [String] ?? []
+            var likeCount = postDoc.data()?["likeCount"] as? Int ?? 0
+
+            let isLiked = likes.contains(userId)
+
+            if isLiked {
+                likes.removeAll { $0 == userId }
+                likeCount = max(likeCount - 1, 0)
+            } else {
+                likes.append(userId)
+                likeCount += 1
+            }
+
+            transaction.updateData([
+                "likes": likes,
+                "likeCount": likeCount
+            ], forDocument: postRef)
+
+            return nil
+
+        }, completion: { _, error in
+            completion?(error)
+        })
+    }
+    
+    // 留言功能
+    func addComment(postId: String, userId: String, userNickname: String?, text: String) {
+        let commentRef = postDocument(postId: postId).collection("comments").document()
+        
+        let commentData: [String: Any] = [
+            "id": commentRef.documentID,   // 自動生成的 documentID
+            "userId": userId,
+            "userNickname": userNickname ?? "匿名",
+            "text": text,
+            "timestamp": Timestamp()
+        ]
+        let postDoc = postDocument(postId: postId)
+        
+        commentRef.setData(commentData) { error in
+            if let error = error {
+                print(error)
+            } else {
+
+                postDoc.updateData([
+                    "commentCount": FieldValue.increment(Int64(1))
+                ])
+
+            }
+        }
+    }
+    
+    func fetchComments(postId: String, completion: @escaping ([Comment]) -> Void) {
+        postDocument(postId: postId)
+            .collection("comments")
+            .order(by: "timestamp", descending: true)
+            .addSnapshotListener { snapshot, error in
+                guard let documents = snapshot?.documents else { return }
+                let comments = documents.compactMap { doc -> Comment? in
+                    let data = doc.data()
+                    guard let userId = data["userId"] as? String,
+                          let nickname = data["userNickname"] as? String,
+                          let text = data["text"] as? String else { return nil }
+                    return Comment(id: doc.documentID, userId: userId, userNickname: nickname, text: text, timestamp: Timestamp())
+                }
+                completion(comments)
+            }
     }
 }

@@ -142,6 +142,18 @@ struct HomepageView: View {
             $0.mrtLine.contains("airport")
         }
     }
+
+    // MARK: - 共用的 navigationDestination 內容
+    // 4 個地方都呼叫這個方法，之後要新增/修改畫面只要改這裡一處即可，
+    // 不用擔心改了 A 忘記改 B、C、D。
+    @ViewBuilder
+    private func homeDestination(for screen: HomeNavigation) -> some View {
+        switch screen {
+            case .child: CastleView()
+            case .secondChild: RamenListView(ramens: viewModel.ramens)
+            case .thirdChild: TWRamenListView(ramens: viewModel.twRamens)
+        }
+    }
     
     var body: some View {
         
@@ -220,13 +232,14 @@ struct HomepageView: View {
                                 .cornerRadius(5)
                                 .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2))
                             
+                            
                             VStack{
-                                Text("Ranking")
+                                Text("No.")
                                     .fontWeight(.semibold)
                                     .font(.system(size: 14))
                                     .foregroundStyle(.myGreen2)
                                 
-                                Text(String(viewModel.user?.ranking ?? 0))
+                                Text(String(viewModel.user?.ranking ?? 1))
                                     .fontWeight(.semibold)
                                     .font(.system(size: 16))
                                     .foregroundStyle(.myGreen1)
@@ -265,18 +278,6 @@ struct HomepageView: View {
                                             .padding(.trailing, 30)
                                     }
                                 }
-                                /*
-                                NavigationLink(value: HomeNavigation.child) {
-                                    Text("SEE ALL")
-                                        .font(.system(size: 15))
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(.myGreen2)
-                                    
-                                    Image("seeMore")
-                                        .frame(alignment: .trailing)
-                                        .padding(.trailing, 30)
-                                }
-                                */
                                 
                                 //.navigationTitle("Home")
                                 
@@ -347,6 +348,7 @@ struct HomepageView: View {
                                     
                                 }.padding(.leading, 30)
                             }
+                            .scrollIndicators(.hidden)
                             
                             ScrollView(.horizontal) {
                                 if isHokkaido {
@@ -370,17 +372,12 @@ struct HomepageView: View {
                                 
                             }
                             .fixedSize(horizontal: false, vertical: true)
-                            
+                            .scrollIndicators(.hidden)
                             
                             
                         }
                         .navigationDestination(for: HomeNavigation.self) { screen in
-                            switch screen {
-                                case .child: CastleView()
-                                case .secondChild: RamenListView(ramens: viewModel.ramens)
-                                case .thirdChild:
-                                    TWRamenListView(ramens: viewModel.twRamens)
-                            }
+                            homeDestination(for: screen)
                         }
                         .padding(.vertical, 10)
                         
@@ -392,23 +389,6 @@ struct HomepageView: View {
                                     .font(.system(size: 25))
                                     .foregroundStyle(.black)
                                     .frame(maxWidth: .infinity ,alignment: .leading)
-                                
-                                /*
-                                Button(action: {
-                                    path.append(.secondChild)  //push 到 RamenListView
-                                }) {
-                                    HStack {
-                                        Text("SEE ALL")
-                                            .font(.system(size: 15))
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.myGreen2)
-
-                                        Image("seeMore")
-                                            .frame(alignment: .trailing)
-                                            .padding(.trailing, 30)
-                                    }
-                                }
-                                */
                                 
                                 NavigationLink(value: HomeNavigation.secondChild) {
                                     Text("SEE ALL")
@@ -466,7 +446,7 @@ struct HomepageView: View {
                                         
                                 }
                                 
-                            }.padding(.leading, 30)
+                            }.padding(.leading, 10)
                             
                             
                             ScrollView(.horizontal) {
@@ -476,17 +456,12 @@ struct HomepageView: View {
                                 ListRamenOnHome(isWhere: isWest, list: WestRamen)
                             }
                             .fixedSize(horizontal: false, vertical: true)
-                            
+                            .scrollIndicators(.hidden)
                              
                              
                         }
                         .navigationDestination(for: HomeNavigation.self) { screen in
-                            switch screen {
-                                case .child: CastleView()
-                                case .secondChild: RamenListView(ramens: viewModel.ramens)
-                                case .thirdChild:
-                                    TWRamenListView(ramens: viewModel.twRamens)
-                            }
+                            homeDestination(for: screen)
                         }
                         .padding(.vertical, 10)
                         
@@ -597,6 +572,7 @@ struct HomepageView: View {
                                     
                                 }
                             }.padding(.leading, 30)
+                            .scrollIndicators(.hidden)
                             
                             
                             ScrollView(.horizontal) {
@@ -609,19 +585,15 @@ struct HomepageView: View {
                                 ListTWRamenOnHome(isWhere: isAirport, list: AirportRamen)
                             }
                             .fixedSize(horizontal: false, vertical: true)
-                            
+                            .scrollIndicators(.hidden)
                              
                              
                         }
                         .navigationDestination(for: HomeNavigation.self) { screen in
-                            switch screen {
-                                case .child: CastleView()
-                                case .secondChild: RamenListView(ramens: viewModel.ramens)
-                                case .thirdChild:
-                                    TWRamenListView(ramens: viewModel.twRamens)
-                            }
+                            homeDestination(for: screen)
                         }
                         .padding(.vertical, 10)
+                        
                         
                         VStack {
                             Text("Castle Stamps")
@@ -673,8 +645,9 @@ struct HomepageView: View {
                                     
                                 }.padding(.leading, 30)
                                 
-                            }.fixedSize(horizontal: false, vertical: true)
-                            
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .scrollIndicators(.hidden)
                             
                         }
                         
@@ -704,18 +677,24 @@ struct HomepageView: View {
                                     }
                                     
                                     NavigationLink {
-                                        CardView(type: "ramenKnowledge")
+                                        RamenIntroView()
                                     } label: {
-                                        BlockView(blockName: "拉麵豆知識", blockImg: "拉麵知識", backgroundColor: .white, frontColor: .black)
+                                        BlockView(blockName: "拉麵大全", blockImg: "拉麵知識", backgroundColor: .white, frontColor: .black)
                                     }
                                     
                                 }.padding(.leading, 30)
                                 
-                            }.fixedSize(horizontal: false, vertical: true)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .scrollIndicators(.hidden)
                             
                             
                         }
+                        .navigationDestination(for: HomeNavigation.self) { screen in
+                            homeDestination(for: screen)
+                        }
                     }
+                    .scrollIndicators(.hidden)
                     
                 }
                 
@@ -728,12 +707,7 @@ struct HomepageView: View {
             
         }
         .navigationDestination(for: HomeNavigation.self) { screen in
-            switch screen {
-                case .child: CastleView()
-                case .secondChild: RamenListView(ramens: viewModel.ramens)
-                case .thirdChild:
-                    TWRamenListView(ramens: viewModel.twRamens)
-            }
+            homeDestination(for: screen)
         }
         .task{
             do {
@@ -834,6 +808,8 @@ struct RamenListView: View {
     @StateObject private var viewModel = RamenViewModel()
     let ramens: [Ramen]
     @State private var searchText = ""
+    @EnvironmentObject var userSession: UserSession
+    @State private var showSignIn = false
     
     var filteredRamens: [Ramen] {
         if searchText.isEmpty {
@@ -865,7 +841,9 @@ struct RamenListView: View {
                 }
                 
                 ForEach(categories.keys.sorted(), id: \.self) { key in
-                    CategoryRow(categoryName: key, items: categories[key]!)
+                    CategoryRow(categoryName: key, items: categories[key]!){
+                        showSignIn = true // 按下Fav按鈕需要登入時顯示登入畫面
+                    }
                 }
                 .listRowInsets(EdgeInsets())
                 
@@ -874,6 +852,13 @@ struct RamenListView: View {
             .listStyle(.inset)
             .navigationTitle("Ramen 100")
             .searchable(text: $searchText, prompt: "Search for a ramen")
+            .fullScreenCover(isPresented: $showSignIn) {
+                NavigationStack {
+                    AuthenticationView(allowGuest: false)
+                        .environmentObject(userSession)
+                }
+            }
+        
         
         /*
          .task{

@@ -27,11 +27,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct TOHApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var userSession = UserSession()
     
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environment(ModelData())
+                .environmentObject(userSession)
         }
     }
 }

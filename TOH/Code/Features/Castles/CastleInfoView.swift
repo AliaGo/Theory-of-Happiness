@@ -12,6 +12,9 @@ struct CastleInfoView: View {
     //@EnvironmentObject var isFavorite: Binding<Bool>
     @StateObject private var viewModel = CastleViewModel()
     
+    // 控制全螢幕顯示
+    @State private var showFullScreen = false
+    @State private var selectedIndex = 0
     
     var castle: Castle
     //var isFavorite: Bool
@@ -93,19 +96,32 @@ struct CastleInfoView: View {
                         .font(.footnote)
                 
                 HStack {
-                    ForEach(castle.imageURL, id:\.self){ url in
-                        AsyncImage(url: URL(string: url)) { image in
-                            image.resizable()
+                    ForEach(Array(castle.imageURL.enumerated()), id: \.offset){ idx, urlString in
+                        AsyncImage(url: URL(string: urlString)) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
                         } placeholder: {
-                            Color.black
+                            Color.gray.opacity(0.3)
                         }
-                        .frame(width: 70, height: 70)
+                        .frame(width: (UIScreen.main.bounds.width-48)/5,
+                               height: (UIScreen.main.bounds.width-48)/5)
+                        .clipped()
+                        .cornerRadius(8)
+                        .onTapGesture {
+                            selectedIndex = idx
+                            showFullScreen = true
+                        }
                         //.clipShape(.rect(cornerRadius: 25))
                     }
                 }
                 
+                
             }.padding()
-            
+            .ignoresSafeArea()
+            .fullScreenCover(isPresented: $showFullScreen) {
+                FullscreenImageViewer(urls: castle.imageURL, selectedIndex: selectedIndex)
+            }
         }
         .navigationTitle(castle.name)
         .navigationBarTitleDisplayMode(.inline)

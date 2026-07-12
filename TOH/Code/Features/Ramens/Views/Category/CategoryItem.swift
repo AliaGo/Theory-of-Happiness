@@ -10,8 +10,10 @@ import SwiftUI
 
 struct CategoryItem: View {
     @StateObject private var viewModel = RamenViewModel()
+    @EnvironmentObject var userSession: UserSession
     
     var ramen: Ramen
+    var onRequireSignIn: (() -> Void)?     // 新增 callback
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -26,7 +28,11 @@ struct CategoryItem: View {
                 .cornerRadius(5)
                 .overlay(alignment: .topTrailing) {
                     Button {
-                        viewModel.addUserFavoriteRamen(ramenId: ramen.id)
+                        if userSession.isSignedIn {
+                            viewModel.addUserFavoriteRamen(ramenId: ramen.id)
+                        } else {
+                            onRequireSignIn?()    // 呼叫父層觸發登入
+                        }
                     } label: {
                         Capsule()
                             .fill(.white)

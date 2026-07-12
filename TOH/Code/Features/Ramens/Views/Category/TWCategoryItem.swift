@@ -9,8 +9,10 @@ import SwiftUI
 
 struct TWCategoryItem: View {
     @StateObject private var viewModel = TWRamenViewModel()
+    @EnvironmentObject var userSession: UserSession
     
     var ramen: TWRamen
+    var onRequireSignIn: (() -> Void)?     // 新增 callback
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,7 +27,12 @@ struct TWCategoryItem: View {
                 .cornerRadius(5)
                 .overlay(alignment: .topTrailing) {
                     Button {
-                        viewModel.addUserFavoriteTWRamen(ramenId: ramen.id)
+                        if userSession.isSignedIn {
+                            viewModel.addUserFavoriteTWRamen(ramenId: ramen.id)
+                        } else {
+                            onRequireSignIn?()    // 呼叫父層觸發登入
+                        }
+                        
                     } label: {
                         Capsule()
                             .fill(.white)

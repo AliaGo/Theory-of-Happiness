@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseAuth
 import SwiftUI
 
 struct DBUser: Codable {
@@ -18,6 +19,7 @@ struct DBUser: Codable {
     let isPremium: Bool?
     let profileImagePath: String?
     let profileImagePathUrl: String?
+    let photos: [Photo]?
     let points: Int?
     let stamps: Int?
     let ranking: Int?
@@ -31,6 +33,7 @@ struct DBUser: Codable {
         self.isPremium = false
         self.profileImagePath = nil
         self.profileImagePathUrl = nil
+        self.photos = nil
         self.points = nil
         self.stamps = nil
         self.ranking = nil
@@ -45,6 +48,7 @@ struct DBUser: Codable {
         isPremium: Bool? = nil,
         profileImagePath: String? = nil,
         profileImagePathUrl: String? = nil,
+        photos: [Photo]? = nil,
         points: Int? = nil,
         stamps: Int? = nil,
         ranking: Int? = nil
@@ -57,6 +61,7 @@ struct DBUser: Codable {
         self.isPremium = isPremium
         self.profileImagePath = profileImagePath
         self.profileImagePathUrl = profileImagePathUrl
+        self.photos = photos
         self.points = points
         self.stamps = stamps
         self.ranking = ranking
@@ -90,6 +95,7 @@ struct DBUser: Codable {
         case isPremium = "user_isPremium"
         case profileImagePath = "profile_image_path"
         case profileImagePathUrl = "profile_image_path_url"
+        case photos = "photos"
         case points = "points"
         case stamps = "stamps"
         case ranking = "ranking"
@@ -105,6 +111,7 @@ struct DBUser: Codable {
         self.isPremium = try container.decodeIfPresent(Bool.self, forKey: .isPremium)
         self.profileImagePath = try container.decodeIfPresent(String.self, forKey: .profileImagePath)
         self.profileImagePathUrl = try container.decodeIfPresent(String.self, forKey: .profileImagePathUrl)
+        self.photos = try container.decodeIfPresent([Photo].self, forKey: .photos)
         self.points = try container.decodeIfPresent(Int.self, forKey: .points)
         self.stamps = try container.decodeIfPresent(Int.self, forKey: .stamps)
         self.ranking = try container.decodeIfPresent(Int.self, forKey: .ranking)
@@ -120,6 +127,7 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.isPremium, forKey: .isPremium)
         try container.encodeIfPresent(self.profileImagePath, forKey: .profileImagePath)
         try container.encodeIfPresent(self.profileImagePathUrl, forKey: .profileImagePathUrl)
+        try container.encodeIfPresent(self.photos, forKey: .photos)
         try container.encodeIfPresent(self.points, forKey: .points)
         try container.encodeIfPresent(self.stamps, forKey: .stamps)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
@@ -267,6 +275,20 @@ final class UserManager {
         ]
         
         try await userDocument(userId: userId).updateData(data)
+    }
+    
+    func deleteAccount() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.userAuthenticationRequired)
+        }
+
+        let userId = user.uid
+
+        // 刪除 Firestore 使用者資料
+        try await userDocument(userId: userId).delete()
+
+        // 刪除 Firebase Authentication 使用者帳號
+        try await AuthenticationManager.shared.deleteFirebaseAuthUser()
     }
     
     // 上傳照片獲得城堡印章後給予點數3點

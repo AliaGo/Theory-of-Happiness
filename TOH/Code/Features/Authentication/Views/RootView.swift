@@ -8,26 +8,32 @@
 import SwiftUI
 
 struct RootView: View {
-    
-    @State private var showSignInView:Bool = false
+    @StateObject private var userSession = UserSession()
     
     var body: some View {
-        ZStack{
-            if !showSignInView {
-                ContentView(showSignInView: $showSignInView).environment(ModelData())
+        ZStack {
+            if userSession.status == .authenticated || userSession.status == .guest {
+                ContentView()
+                    .environmentObject(userSession)
+                    .environment(ModelData())
             }
-            
+        }
+        .fullScreenCover(isPresented: Binding(
+                    get: {
+                // 只有當 status 是 unknown 或 unauthenticated 時才顯示登入畫面
+                userSession.status == .unknown || userSession.status == .unauthenticated
+            },
+            set: { _ in }
+        )) {
+            NavigationStack {
+                AuthenticationView(allowGuest: true)
+                    .environmentObject(userSession)
+            }
         }
         .onAppear {
-            let authUser = try? AuthenticationManager.shared.getAuthenticatedUser()
-            self.showSignInView = authUser == nil // ? true : false
-            
+            userSession.updateAuthStatus()
         }
-        .fullScreenCover(isPresented: $showSignInView) {
-            NavigationStack {
-                AuthenticationView(showSignInView: $showSignInView)
-            }
-        }
+        
     }
 }
 

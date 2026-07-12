@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct SettingsView: View {
     
     @StateObject private var viewModel = SettingsViewModel()
-    @Binding var showSignInView: Bool
+    //@Binding var showSignInView: Bool
+    @EnvironmentObject var userSession: UserSession
+    
+    @State private var showConfirmationDialog = false
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
     
     @State var userNickname: String
     @AppStorage("isDarkMode") private var isDarkMode: Bool = false
@@ -29,14 +35,22 @@ struct SettingsView: View {
             Button("Log Out") {
                 Task{
                     do {
-                        try viewModel.signOut()
-                        showSignInView = true
+                        //try viewModel.signOut()
+                        //showSignInView = true
+                        
+                        userSession.signOut()
                     } catch {
                         print(error)
                     }
                 }
             }
             .foregroundColor(.red)
+            
+            Button(role: .destructive) {
+                showConfirmationDialog = true
+            } label: {
+                Text("刪除帳號")
+            }
             
             if viewModel.authProviders.contains(.email) {
                 emailSection
@@ -50,6 +64,26 @@ struct SettingsView: View {
             try? await viewModel.loadCurrentUser()
         }
         .navigationBarTitle("Settings")
+        .confirmationDialog("確定要刪除帳號嗎？此操作無法復原。", isPresented: $showConfirmationDialog) {
+            Button("永久刪除", role: .destructive) {
+                Task {
+                    do {
+                        try await viewModel.deleteAccount()
+                        // 登出或跳回登入頁面
+                        userSession.signOut() // 這行新增
+                    } catch {
+                        errorMessage = error.localizedDescription
+                        showErrorAlert = true
+                    }
+                }
+            }
+            Button("取消", role: .cancel) {}
+        }
+        .alert("刪除失敗", isPresented: $showErrorAlert) {
+            Button("確定", role: .cancel) {}
+        } message: {
+            Text(errorMessage)
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
@@ -113,56 +147,74 @@ extension SettingsView {
     
     private var infoSection: some View {
         Section {
-            HStack{
+            HStack {
+                // 顯示大頭貼
+                if let imageUrl = viewModel.user?.profileImagePathUrl, let url = URL(string: imageUrl) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image.resizable()
+                                 .scaledToFill()
+                                 .frame(width: 80, height: 80)
+                                 .clipShape(Circle())
+                        default:
+                            Image(systemName: "person.crop.circle.fill")
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                } else {
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.gray)
+                }
+
+                // PhotosPicker 選大頭貼
+                PhotosPicker(
+                    selection: $viewModel.selectedItem,
+                    matching: .images,
+                    photoLibrary: .shared()
+                ) {
+                    Text("更換大頭貼")
+                }
+                .onChange(of: viewModel.selectedItem) { newItem in
+                    if let item = newItem {
+                        viewModel.saveProfileImage(item: item)
+                    }
+                }
+
+                // 刪除大頭貼按鈕
+                if viewModel.user?.profileImagePath != nil {
+                    Button {
+                        viewModel.deleteProfileImage()
+                    } label: {
+                        Image(systemName: "trash")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+
+            // 暱稱輸入
+            HStack {
                 Image(systemName: "person")
-                TextField("enter your nickname" , text: $userNickname)
+                TextField("enter your nickname", text: $userNickname)
             }
-            /*
-            HStack{
-                Image(systemName: "globe")
-                Picker(selection: $languageIndex, label: Text("Language")) {
-                    ForEach(0 ..< languageOptions.count) {
-                        Text(self.languageOptions[$0])
-                    }
-                }
-                /*
-                .onChange(of: languageIndex) { newValue in
-                    // 根據選擇的語言更新 App 語言
-                    setAppLanguage(language: newValue)
-                }
-                */
-            }
-            HStack{
-                Image(systemName: "moon.circle.fill")
-                Toggle(isOn: $isDarkMode) {
-                    Text("Dark Mode")
-                }.onChange(of: isDarkMode) { value in
-                    // 這會讓 dark mode 生效
-                    UIApplication.shared.windows.first?.rootViewController?.view.overrideUserInterfaceStyle = value ? .dark : .light
-                }
-            }
-            
-            HStack{
-                Image(systemName: "textformat")
-                Picker(selection: $fontIndex, label: Text("Font Size")) {
-                    ForEach(0 ..< fontOptions.count) {
-                        Text(self.fontOptions[$0])
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-            }
-             */
-            HStack{
+
+            // 通知開關
+            HStack {
                 Image(systemName: "bell")
                 Toggle(isOn: $isNotificationEnabled) {
                     Text("Notification")
                 }
             }
-             
+
         } header: {
             Text("Personal info")
         }
     }
+
     
     // 更新語言
     func setAppLanguage(language: String) {

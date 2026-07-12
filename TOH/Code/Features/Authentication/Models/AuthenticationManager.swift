@@ -123,3 +123,13 @@ extension AuthenticationManager {
         return AuthDataResultModel(user: authDataResult.user)
     }
 }
+
+// delete acccount
+extension AuthenticationManager {
+    func deleteFirebaseAuthUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.userAuthenticationRequired)
+        }
+        try await user.delete()
+    }
+}

@@ -14,6 +14,8 @@ struct CategoryRow: View {
     var categoryName: String
     var items: [Ramen]
     
+    var onRequireSignIn: (() -> Void)? // 從RamenListView傳下來
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text(categoryName)
@@ -29,7 +31,7 @@ struct CategoryRow: View {
                         NavigationLink {
                             RamenInfoView(ramen: ramen)
                         } label: {
-                            CategoryItem(ramen: ramen)
+                            CategoryItem(ramen: ramen, onRequireSignIn: onRequireSignIn)
                                 
                         }
                         
