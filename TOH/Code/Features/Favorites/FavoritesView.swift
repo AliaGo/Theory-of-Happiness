@@ -30,7 +30,6 @@ final class FavoritesViewModel: ObservableObject {
         Task {
             let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
             try? await UserManager.shared.removeFavoriteCastle(userId: authDataResult.uid,favoriteCastleId: favoriteCastleId)
-            
             getFavorites()
         }
         
@@ -61,78 +60,18 @@ final class FavoritesViewModel: ObservableObject {
 struct FavoritesView: View {
     
     @StateObject private var viewModel = FavoritesViewModel()
-    @State private var currentSegment = "CASTLE"
     @State private var selectedTab = 0
     
     
     var body: some View {
-        NavigationStack{
-                CustomSegmentedControl(selected: $selectedTab, options: [
-                    ("Castle", AnyView(
-                        List {
-                        ForEach(viewModel.userFavoriteCastles, id:\.id.self) { item in
-                            
-                            CastleCellViewBuilder(castleId: String(item.castleId))
-                                .contextMenu {
-                                    Button("Remove from Favorites") {
-                                        viewModel.removeCastleFromFavorites(favoriteCastleId: String(item.id))
-                                    }
-                                }
-
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        viewModel.removeCastleFromFavorites(favoriteCastleId: String(item.id))
-                                    } label: {
-                                        Image(systemName: "trash")
-                                    }
-                                }
-                            
-                        }
-                    }
-                    )),
-                        ("Ramen", AnyView(List {
-                            ForEach(viewModel.userFavoriteRamens, id:\.id.self) { item in
-                                
-                                RamenCellViewBuilder(ramenId: String(item.ramenId))
-                                    .contextMenu {
-                                        Button("Remove from Favorites") {
-                                            viewModel.removeRamenFromFavorites(favoriteRamenId: String(item.id))
-                                        }
-                                    }
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        Button(role: .destructive) {
-                                            viewModel.removeRamenFromFavorites(favoriteRamenId: String(item.id))
-                                        } label: {
-                                            Image(systemName: "trash")
-                                        }
-                                    }
-                                
-                            }
-                        })),
-                        ("TW Ramen", AnyView(List {
-                            ForEach(viewModel.userFavoriteTWRamens, id:\.id.self) { item in
-                                
-                                TWRamenCellViewBuilder(ramenId: String(item.ramenId))
-                                    .contextMenu {
-                                        Button("Remove from Favorites") {
-                                            viewModel.removeTWRamenFromFavorites(favoriteTWRamenId: String(item.id))
-                                        }
-                                    }
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        Button(role: .destructive) {
-                                            viewModel.removeTWRamenFromFavorites(favoriteTWRamenId: String(item.id))
-                                        } label: {
-                                            Image(systemName: "trash")
-                                        }
-                                    }
-                                
-                            }
-                        }))
-                    ])
-                    .frame(maxWidth: .infinity)
-                
-            
-            
+        NavigationStack {
+            CustomSegmentedControl(selected: $selectedTab, options: [
+                ("城堡", AnyView(castleFavorites)),
+                ("拉麵", AnyView(ramenFavorites))
+            ])
+            .frame(maxWidth: .infinity)
+            .navigationTitle("我的最愛")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear{
             viewModel.getFavorites()
@@ -142,7 +81,72 @@ struct FavoritesView: View {
                     AnalyticsParameterScreenClass: "FavoritesView"
                   ])
         }
-            
+
+    }
+
+    private var castleFavorites: some View {
+        List {
+            if viewModel.userFavoriteCastles.isEmpty {
+                favoriteEmptyState("還沒有想攻下的城堡", symbol: "building.columns")
+            } else {
+                Section("想攻下的城堡") {
+                    ForEach(viewModel.userFavoriteCastles, id: \.id) { item in
+                        CastleCellViewBuilder(castleId: String(item.castleId))
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    viewModel.removeCastleFromFavorites(favoriteCastleId: item.id)
+                                } label: {
+                                    Label("取消收藏", systemImage: "heart.slash")
+                                }
+                            }
+                    }
+                }
+            }
+        }
+    }
+
+    private var ramenFavorites: some View {
+        List {
+            if viewModel.userFavoriteRamens.isEmpty && viewModel.userFavoriteTWRamens.isEmpty {
+                favoriteEmptyState("還沒有收藏的拉麵", symbol: "fork.knife")
+            } else {
+                if !viewModel.userFavoriteRamens.isEmpty {
+                    Section("日本拉麵") {
+                        ForEach(viewModel.userFavoriteRamens, id: \.id) { item in
+                            RamenCellViewBuilder(ramenId: String(item.ramenId))
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        viewModel.removeRamenFromFavorites(favoriteRamenId: item.id)
+                                    } label: {
+                                        Label("取消收藏", systemImage: "heart.slash")
+                                    }
+                                }
+                        }
+                    }
+                }
+
+                if !viewModel.userFavoriteTWRamens.isEmpty {
+                    Section("台灣拉麵") {
+                        ForEach(viewModel.userFavoriteTWRamens, id: \.id) { item in
+                            TWRamenCellViewBuilder(ramenId: item.ramenId)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        viewModel.removeTWRamenFromFavorites(favoriteTWRamenId: item.id)
+                                    } label: {
+                                        Label("取消收藏", systemImage: "heart.slash")
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func favoriteEmptyState(_ title: String, symbol: String) -> some View {
+        ContentUnavailableView(title, systemImage: symbol, description: Text("從探索頁開始收藏吧"))
+            .listRowSeparator(.hidden)
     }
 }
 
@@ -265,4 +269,3 @@ struct FavoriteTWRamenBlockView: View {
         }
     }
 }
-

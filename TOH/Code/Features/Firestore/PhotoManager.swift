@@ -64,7 +64,9 @@ final class PhotoManager {
             "createdAt": Timestamp(date: Date())
         ]
         
-        try await userPhotosRef(userId: userId, type: type).addDocument(data: data)
+        try await userPhotosRef(userId: userId, type: type)
+            .document(post.id)
+            .setData(data, merge: false)
     }
 
 
@@ -74,11 +76,47 @@ final class PhotoManager {
             .order(by: "visitedDate", descending: true)
             .getDocuments()
 
-        return snapshot.documents.compactMap { try? $0.data(as: Photo.self) }
+        let photos = snapshot.documents.compactMap { try? $0.data(as: Photo.self) }
+        return try await removingLegacyDuplicates(from: photos)
+    }
+
+    // 舊版曾將同一張照片索引寫入兩次；保留能連回有效貼文的紀錄。
+    private func removingLegacyDuplicates(from photos: [Photo]) async throws -> [Photo] {
+        let groupedPhotos = Dictionary(grouping: photos, by: \.imagePath)
+        var visiblePhotos: [Photo] = []
+
+        for photo in photos {
+            guard let matches = groupedPhotos[photo.imagePath], matches.count > 1 else {
+                visiblePhotos.append(photo)
+                continue
+            }
+
+            guard photo.id == matches.first?.id else { continue }
+
+            let validPhoto = try await matches.asyncFirst { photo in
+                try await self.db.collection("posts").document(photo.postId).getDocument().exists
+            }
+            visiblePhotos.append(validPhoto ?? photo)
+        }
+
+        return visiblePhotos
     }
 
     // 刪除照片紀錄（不含 Storage 圖片刪除）
     func deletePhoto(userId: String, type: PhotoType, photoId: String) async throws {
         try await userPhotosRef(userId: userId, type: type).document(photoId).delete()
+    }
+}
+
+private extension Array {
+    func asyncFirst(
+        where predicate: (Element) async throws -> Bool
+    ) async rethrows -> Element? {
+        for element in self {
+            if try await predicate(element) {
+                return element
+            }
+        }
+        return nil
     }
 }

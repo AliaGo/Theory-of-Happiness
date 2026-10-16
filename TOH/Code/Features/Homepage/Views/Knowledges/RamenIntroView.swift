@@ -195,13 +195,16 @@ extension RamenCategory {
                 RamenShop(name: "烈志笑魚油 麺香房 三く", prefecture: "大阪", highlight: "推薦：恋煮干し魚三，吃到一半跟店家要偽裝成中藥包的特製七味粉，又是直上天堂的滋味", link: "https://tabelog.com/tw/osaka/A2701/A270108/27058993/")
             ]
         case .threeGreat:
-            return []
+            return [
+                RamenShop(name: "すみれ 中の島本店", prefecture: "札幌", highlight: "經典之作，甚至有出聯名泡麵", link: "https://tabelog.com/tw/hokkaido/A0101/A010303/1000134/"),
+                RamenShop(name: "坂內食堂", prefecture: "福島", highlight: "昭和33年創立的喜多方拉麵名店，早晨就可以享用", link: "https://tabelog.com/tw/fukushima/A0706/A070601/7000007/"),
+                RamenShop(name: "ふくちゃんラーメン 田隈本店", prefecture: "福岡", highlight: "遵循傳統美味的濃郁豚骨拉麵", link: "https://tabelog.com/tw/fukuoka/A4001/A400203/40000102/")
+            ]
         case .regional:
             return [
                 RamenShop(name: "青島食堂", prefecture: "新潟", highlight: "長岡生薑醬油發揮到極致", link: "https://tabelog.com/tw/niigata/A1502/A150201/15000040/"),
                 RamenShop(name: "杭州飯店", prefecture: "新潟", highlight: "燕三條煮干背脂拉麵創始店，極粗麵搭配濃厚煮干令人上癮", link: "https://tabelog.com/tw/niigata/A1502/A150201/15000040/"),
-                RamenShop(name: "家系總本山 吉村家", prefecture: "橫濱", highlight: "家系拉麵創始店，拉麵迷一生當中必朝聖之拉麵殿堂", link: "https://tabelog.com/tw/kanagawa/A1401/A140102/14090328/"),
-                RamenShop(name: "坂內食堂", prefecture: "福島", highlight: "昭和33年創立的喜多方拉麵名店，早晨就可以享用", link: "https://tabelog.com/tw/fukushima/A0706/A070601/7000007/")
+                RamenShop(name: "家系總本山 吉村家", prefecture: "橫濱", highlight: "家系拉麵創始店，拉麵迷一生當中必朝聖之拉麵殿堂", link: "https://tabelog.com/tw/kanagawa/A1401/A140102/14090328/")
             ]
         }
     }

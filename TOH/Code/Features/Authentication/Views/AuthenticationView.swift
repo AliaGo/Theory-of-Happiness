@@ -36,6 +36,12 @@ struct AuthenticationView: View {
                 .fontWeight(.medium)
                 .font(.custom("JacquesFrancoisShadow-Regular", size: 30))
                 .foregroundStyle(.white)
+
+            Text("舊會員直接登入；初次入城者將接受武士授封。")
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.82))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 18)
             
             /* 先關掉email登入方法
             NavigationLink{
@@ -54,9 +60,8 @@ struct AuthenticationView: View {
                 Task {
                     do {
                         try await viewModel.signInApple()
-                        if viewModel.lackOfNickname {
+                        if viewModel.needsWarriorOnboarding {
                             showNicknameView = true
-                            print("no nickname")
                         } else {
                             userSession.status = .authenticated // 標記已登入
                             dismiss() // 關閉登入畫面
@@ -77,13 +82,14 @@ struct AuthenticationView: View {
                 Task {
                     do {
                         try await viewModel.signInGoogle()
-                        userSession.status = .authenticated
-                        dismiss()
-                        
-                        // 追蹤google登入
-                        Analytics.logEvent("sign_up", parameters: [
-                                        "method": "google"
-                                    ])
+                        if viewModel.needsWarriorOnboarding {
+                            showNicknameView = true
+                            Analytics.logEvent("sign_up", parameters: ["method": "google"])
+                        } else {
+                            userSession.status = .authenticated
+                            dismiss()
+                            Analytics.logEvent("login", parameters: ["method": "google"])
+                        }
                     } catch {
                         print(error)
                     }
@@ -127,5 +133,3 @@ struct AuthenticationView: View {
         }
     }
 }
-
-

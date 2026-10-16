@@ -12,6 +12,7 @@ import SwiftUI
 struct HomepageView: View {
     
     @StateObject private var viewModel = HomepageViewModel()
+    @State private var showClanPicker = false
     
     //@Environment(ModelData.self) var modelData //地端資料
     
@@ -159,7 +160,7 @@ struct HomepageView: View {
         
         NavigationStack(path: $path.animation(.easeOut)){
             VStack(spacing: 25) {
-                VStack{
+                VStack(spacing: 14) {
                     HStack(alignment: .bottom, spacing: 10) {
                         Spacer()
                         
@@ -181,80 +182,74 @@ struct HomepageView: View {
                                 .scaledToFit()
                                 .foregroundColor(.myGreen2)
                                 .frame(width: 25, height: 25, alignment: .leading)
-                        }.padding(.trailing, 15)
+                        }.padding(.trailing, 4)
 
                     }
+                    .padding(.horizontal, 20)
                     
-                    HStack(spacing: 30){
+                    HStack(spacing: 12) {
+                        if let kamonName = viewModel.user?.kamonName,
+                           !kamonName.isEmpty {
+                            Image(kamonName)
+                                .resizable()
+                                .renderingMode(.template)
+                                .scaledToFit()
+                                .foregroundStyle(Color("MyGreen1"))
+                                .frame(width: 36, height: 36)
+                                .padding(8)
+                                .background(Color("MyGreen1").opacity(0.1), in: Circle())
+                        }
+
                         VStack(alignment: .leading) {
-                            Text(viewModel.user?.userNickname ?? "未設定")
-                                .fontWeight(.semibold)
-                                .font(.system(size: 20))
-                                .padding(.bottom, 5)
-                            
-                            Text("Ramen Lover")
-                                .fontWeight(.semibold)
-                                .font(.system(size: 12))
-                                .foregroundStyle(.blue)
-                        }
-                        
-                        HStack(spacing: 30) {
-                            VStack{
-                                Text("Stamps")
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.myGreen2)
-                                
-                                Text(String(viewModel.user?.stamps ?? 0))
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(.myGreen1)
+                            Text("武將大人，今日也要再下一城嗎？")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+
+                            HStack(spacing: 6) {
+                                Text(viewModel.user?.userNickname ?? "未設定")
+                                if let clan = viewModel.user?.samuraiClan, !clan.isEmpty {
+                                    Text(clan)
+                                        .font(.caption.bold())
+                                        .foregroundStyle(Color("MyGreen1"))
+                                        .padding(.horizontal, 7)
+                                        .padding(.vertical, 3)
+                                        .background(Color("MyGreen1").opacity(0.12), in: Capsule())
+                                }
                             }
-                            .background(Rectangle()
-                                .foregroundColor(.white)
-                                .frame(width: 70, height: 35)
-                                .cornerRadius(5)
-                                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2))
+                                .font(.system(size: 24, weight: .bold))
+                                .padding(.top, 1)
                             
-                            VStack{
-                                Text("Points")
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.myGreen2)
-                                
-                                Text(String(viewModel.user?.points ?? 0))
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(.myGreen1)
-                            }.background(Rectangle()
-                                .foregroundColor(.white)
-                                .frame(width: 70, height: 35)
-                                .cornerRadius(5)
-                                .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2))
-                            
-                            
-                            VStack{
-                                Text("No.")
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 14))
-                                    .foregroundStyle(.myGreen2)
-                                
-                                Text(String(viewModel.user?.ranking ?? 1))
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 16))
-                                    .foregroundStyle(.myGreen1)
-                            }.background(
-                                Rectangle()
-                                    .foregroundColor(.white)
-                                    .frame(width: 70, height: 35)
-                                    .cornerRadius(5)
-                                    .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2))
+                            Label("天下統一之路，仍在延續。", systemImage: "flag.checkered")
+                                .font(.caption.weight(.medium))
+                                .foregroundStyle(Color("MyGreen1"))
                         }
-                        
-                    }.padding(.bottom, 10)
-                    
-                    
-                    
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+
+                    HStack(spacing: 8) {
+                        HomeProgressStatCard(
+                            icon: "seal.fill",
+                            title: "印章",
+                            value: "\(viewModel.user?.stamps ?? 0)",
+                            tint: Color("MyGreen1")
+                        )
+                        HomeProgressStatCard(
+                            icon: "p.circle.fill",
+                            title: "點數",
+                            value: "\(viewModel.user?.points ?? 0)",
+                            tint: .orange
+                        )
+                        HomeProgressStatCard(
+                            icon: "crown.fill",
+                            title: "攻城排名",
+                            value: viewModel.castleRank.map { "#\($0)" } ?? "無排名",
+                            tint: .yellow
+                        )
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 2)
+
                     ScrollView(.vertical){
                         VStack{
                             HStack(alignment: .center, spacing: 15) {
@@ -677,6 +672,20 @@ struct HomepageView: View {
                                     }
                                     
                                     NavigationLink {
+                                        SamuraiIntroView()
+                                    } label: {
+                                        ZStack {
+                                            BlockView(blockName: "戰國十大名將", blockImg: "samurai_intro", backgroundColor: Color("MyGreen1").opacity(0.12), frontColor: .black)
+                                            if UIImage(named: "samurai_intro") == nil {
+                                                Image(systemName: "flag.2.crossed.fill")
+                                                    .font(.system(size: 38))
+                                                    .foregroundStyle(Color("MyGreen1").opacity(0.25))
+                                                    .offset(y: -34)
+                                            }
+                                        }
+                                    }
+
+                                    NavigationLink {
                                         RamenIntroView()
                                     } label: {
                                         BlockView(blockName: "拉麵大全", blockImg: "拉麵知識", backgroundColor: .white, frontColor: .black)
@@ -713,10 +722,113 @@ struct HomepageView: View {
             do {
                 try await viewModel.fetchData()
                 try await viewModel.loadCurrentUser()
+                showClanPicker = viewModel.needsClanSelection
+                await viewModel.loadCastleRank()
             } catch {
                 print("Error fetching data: \(error)")
             }
         }
+        .sheet(isPresented: $showClanPicker) {
+            ClanSelectionSheet { clan in
+                try await viewModel.chooseSamuraiClan(clan)
+                showClanPicker = false
+            }
+            .interactiveDismissDisabled()
+        }
+    }
+}
+
+private struct ClanSelectionSheet: View {
+    @State private var selectedClan = SamuraiClan.all[0]
+    @State private var isSaving = false
+    @State private var errorMessage: String?
+
+    let onConfirm: (SamuraiClan) async throws -> Void
+
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 14) {
+                Image(systemName: "seal.fill")
+                    .font(.system(size: 42))
+                    .foregroundStyle(.black)
+                    .padding(.top, 18)
+
+                Text("武士大人，請選擇您的主君")
+                    .font(.title3.bold())
+                Text("歸屬武將後，即可領取專屬家紋，名列攻城榜。")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 28)
+
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(SamuraiClan.all) { clan in
+                        Button {
+                            selectedClan = clan
+                        } label: {
+                            HStack(spacing: 9) {
+                                Image(clan.kamonName)
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .scaledToFit()
+                                    .foregroundStyle(.black)
+                                    .frame(width: 30, height: 30)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(clan.name).font(.subheadline.bold())
+                                    Text(clan.motto).font(.caption2).foregroundStyle(.secondary).lineLimit(1)
+                                }
+                                Spacer(minLength: 0)
+                            }
+                            .padding(10)
+                            .background(Color.black.opacity(selectedClan == clan ? 0.08 : 0.025), in: RoundedRectangle(cornerRadius: 13))
+                            .overlay(RoundedRectangle(cornerRadius: 13).stroke(selectedClan == clan ? Color.black : .clear, lineWidth: 2))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, 20)
+
+                Button {
+                    guard !isSaving else { return }
+                    isSaving = true
+                    Task {
+                        do {
+                            try await onConfirm(selectedClan)
+                        } catch {
+                            errorMessage = "儲存失敗，請確認網路後再試一次。"
+                        }
+                        isSaving = false
+                    }
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(selectedClan.kamonName)
+                            .resizable()
+                            .renderingMode(.template)
+                            .scaledToFit()
+                            .foregroundStyle(.black)
+                            .frame(width: 25, height: 25)
+                        Text("加入 \(selectedClan.name)，領取家紋")
+                            .font(.headline)
+                        if isSaving { ProgressView().tint(.white) }
+                    }
+                    .foregroundStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(Color.white, in: RoundedRectangle(cornerRadius: 15))
+                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.black, lineWidth: 1.5))
+                }
+                .disabled(isSaving)
+                .padding(.horizontal, 20)
+                .padding(.top, 4)
+
+                if let errorMessage {
+                    Text(errorMessage).font(.caption).foregroundStyle(.red)
+                }
+            }
+            .padding(.bottom, 28)
+        }
+        .presentationDetents([.large])
+        .presentationCornerRadius(28)
     }
 }
 
@@ -748,6 +860,40 @@ struct TabbarItem: View {
                 .background(Capsule().foregroundColor(.white))
         }
 
+    }
+}
+
+private struct HomeProgressStatCard: View {
+    let icon: String
+    let title: String
+    let value: String
+    let tint: Color
+
+    var body: some View {
+        VStack(spacing: 3) {
+            Image(systemName: icon)
+                .font(.caption.bold())
+                .foregroundStyle(tint)
+
+            Text(title)
+                .font(.caption2.weight(.medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+
+            Text(value)
+                .font(.subheadline.bold())
+                .foregroundStyle(.primary)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 66)
+        .background(Color.white, in: RoundedRectangle(cornerRadius: 14))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(tint.opacity(0.16), lineWidth: 1)
+        }
+        .shadow(color: .black.opacity(0.06), radius: 5, y: 2)
     }
 }
 

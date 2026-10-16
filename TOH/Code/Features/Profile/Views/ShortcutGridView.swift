@@ -30,7 +30,7 @@ struct ShortcutGridView: View {
                 PhotoWallRamenView(userId: user?.userId ?? "")
             }
             
-            ShortcutButton(title: "城堡印章", icon: "castle") {
+            ShortcutButton(title: "我的攻城簿", icon: "castle") {
                 showCastleSheet = true
             }
             .fullScreenCover(isPresented: $showCastleSheet) {
@@ -72,5 +72,4 @@ struct ShortcutButton: View {
         .buttonStyle(.plain)
     }
 }
-
 

@@ -6,6 +6,11 @@ struct CommentListView: View {
     let postId: String
     @State private var comments: [Comment] = []
     @State private var newComment = ""
+    @State private var commentToReport: Comment?
+    @State private var showReportConfirmation = false
+    @State private var showReportSuccess = false
+    @State private var reportErrorMessage = ""
+    @State private var showReportError = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -16,7 +21,11 @@ struct CommentListView: View {
                         CommentRow(
                             username: comment.userNickname ?? "匿名",
                             text: comment.text,
-                            timestamp: comment.timestamp
+                            timestamp: comment.timestamp,
+                            reportAction: {
+                                commentToReport = comment
+                                showReportConfirmation = true
+                            }
                         )
                     }
                 }
@@ -45,6 +54,33 @@ struct CommentListView: View {
         .onAppear {
             viewModel.observeComments(postId: postId)
         }
+        .confirmationDialog("檢舉這則留言？", isPresented: $showReportConfirmation, titleVisibility: .visible) {
+            Button("送出檢舉", role: .destructive) {
+                guard let commentToReport else { return }
+                Task {
+                    do {
+                        try await viewModel.reportComment(postId: postId, comment: commentToReport)
+                        showReportSuccess = true
+                    } catch {
+                        reportErrorMessage = error.localizedDescription
+                        showReportError = true
+                    }
+                }
+            }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("這會將留言內容與必要資訊送交管理員檢視。")
+        }
+        .alert("已收到檢舉", isPresented: $showReportSuccess) {
+            Button("確定", role: .cancel) {}
+        } message: {
+            Text("謝謝你的回報，我們會儘快檢視這則留言。")
+        }
+        .alert("無法送出檢舉", isPresented: $showReportError) {
+            Button("確定", role: .cancel) {}
+        } message: {
+            Text(reportErrorMessage)
+        }
     }
 }
 
@@ -52,6 +88,7 @@ struct CommentRow: View {
     let username: String
     let text: String
     let timestamp: Timestamp
+    let reportAction: () -> Void
 
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
@@ -74,11 +111,23 @@ struct CommentRow: View {
             }
 
             Spacer()
-            
-            Text(formatDate(timestamp.dateValue()))
-                .font(.caption)
-                .foregroundColor(.gray)
+
+            VStack(alignment: .trailing, spacing: 6) {
+                Menu {
+                    Button("檢舉此內容", role: .destructive, action: reportAction)
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.tertiary)
+                        .frame(width: 22, height: 18)
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("留言選單")
+
+                Text(formatDate(timestamp.dateValue()))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
         }
     }
 }
-

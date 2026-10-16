@@ -6,6 +6,7 @@
 //
 // 日記式跟九宮格式
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PhotoDiaryCell: View {
     let photo: Photo
@@ -13,7 +14,10 @@ struct PhotoDiaryCell: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: photo.imagePath)) { image in
+            WebImage(
+                url: URL(string: photo.imagePath),
+                options: [.retryFailed, .scaleDownLargeImages]
+            ) { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -25,7 +29,9 @@ struct PhotoDiaryCell: View {
                     .fill(Color.gray.opacity(0.2))
                     .frame(width: UIScreen.main.bounds.width - 40, height: 300)
                     .cornerRadius(16)
+                    .overlay { ProgressView() }
             }
+            .transition(.fade)
             .onTapGesture(perform: onTap)
 
             Text(photo.location ?? "未知地點").font(.headline)
@@ -46,7 +52,10 @@ struct PhotoGridCell: View {
     let onTap: () -> Void
 
     var body: some View {
-        AsyncImage(url: URL(string: photo.imagePath)) { image in
+        WebImage(
+            url: URL(string: photo.imagePath),
+            options: [.retryFailed, .scaleDownLargeImages]
+        ) { image in
             image
                 .resizable()
                 .scaledToFill()
@@ -58,7 +67,9 @@ struct PhotoGridCell: View {
                 .fill(Color.gray.opacity(0.2))
                 .frame(width: (UIScreen.main.bounds.width - 40) / 3, height: (UIScreen.main.bounds.width - 40) / 3)
                 .cornerRadius(8)
+                .overlay { ProgressView() }
         }
+        .transition(.fade)
         .onTapGesture(perform: onTap)
     }
 }

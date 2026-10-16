@@ -47,6 +47,14 @@ final class PostViewModel: ObservableObject {
     func addComment(postId: String, text: String) {
         PostManager.shared.addComment(postId: postId, userId: currentUserId, userNickname: currentUserNickname, text: text)
     }
+
+    func reportComment(postId: String, comment: Comment) async throws {
+        try await PostManager.shared.reportComment(
+            postId: postId,
+            comment: comment,
+            reporterId: currentUserId
+        )
+    }
     
     //為什麼要 [weak self]?
     //避免循環引用（memory leak），因為 addSnapshotListener 是長期監聽。

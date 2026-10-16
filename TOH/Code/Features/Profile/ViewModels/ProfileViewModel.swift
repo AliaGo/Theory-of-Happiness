@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import PhotosUI
 import Firebase
+import FirebaseFirestore
 
 struct Profile {
     var username: String
@@ -28,6 +29,8 @@ final class ProfileViewModel: ObservableObject {
     
     @Published private(set) var user: DBUser? = nil
     @Published private(set) var userCollectedStamps: [UserCollectedStamps]? = nil
+    @Published private(set) var castleVisits: [UserCastleVisit] = []
+    @Published private(set) var castleRank: Int? = nil
     
     @Published var castlePostCount: Int = 0
     @Published var ramenPostCount: Int = 0
@@ -113,6 +116,43 @@ final class ProfileViewModel: ObservableObject {
         }
         
     }
+
+    func loadCastleVisits() async {
+        do {
+            let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+            castleVisits = try await UserManager.shared.getAllUserCastleVisits(userId: authDataResult.uid)
+        } catch {
+            print("❌ loadCastleVisits failed: \(error)")
+        }
+    }
+
+    /// 與攻城排行榜採用相同規則：已攻下的不同城堡數越多，排名越前面。
+    func loadCastleRank() async {
+        guard !castleVisits.isEmpty else {
+            castleRank = nil
+            return
+        }
+
+        do {
+            let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+            let visitors = try await Firestore.firestore().collectionGroup("visitors").getDocuments()
+            let counts = visitors.documents.reduce(into: [String: Int]()) { result, document in
+                let userId = document.data()["userId"] as? String ?? document.documentID
+                guard !userId.isEmpty else { return }
+                result[userId, default: 0] += 1
+            }
+
+            guard let myCastleCount = counts[authDataResult.uid], myCastleCount > 0 else {
+                castleRank = nil
+                return
+            }
+
+            castleRank = 1 + counts.values.filter { $0 > myCastleCount }.count
+        } catch {
+            castleRank = nil
+            print("❌ loadCastleRank failed: \(error)")
+        }
+    }
     
     func loadPostCounts(userId: String) async {
         do {
@@ -135,5 +175,3 @@ final class ProfileViewModel: ObservableObject {
     }
 
 }
-
-

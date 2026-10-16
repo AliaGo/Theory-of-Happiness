@@ -58,16 +58,16 @@ struct CustomSegmentedControl: View {
     let options: [(option: String, contentView: AnyView)]
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             SegmentedControlOptionsView
-                .frame(height: 80)
+                .frame(height: 44)
             
             SegmentedContentView
         }
     }
     
     private var SegmentedControlOptionsView: some View {
-        LazyHStack(spacing: 20) {
+        LazyHStack(spacing: 28) {
             ForEach(Array(zip(options.indices, options)), id: \.0) { index, option in
                 Button {
                     withAnimation(.default) {
@@ -75,8 +75,9 @@ struct CustomSegmentedControl: View {
                         proxy?.scrollTo(index)
                     }
                 } label: {
-                    VStack(spacing: 5) {
+                    VStack(spacing: 3) {
                         Text(option.option)
+                            .font(.subheadline.weight(.medium))
                             .foregroundStyle(Color.black)
                         ZStack {
                             Capsule()
@@ -156,4 +157,3 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     
 }
 */
-

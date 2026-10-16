@@ -79,6 +79,15 @@ struct GuideView: View {
                         Text("你的地理位置僅用於確認是否造訪，照片與資料亦不會外洩。")
                     }
 
+                    Group {
+                        Text("📮 聯絡我們")
+                            .font(.title2)
+                            .bold()
+                        Text("使用上有任何問題，或需要回報內容時，歡迎透過以下信箱聯絡我們。")
+                        Link("aliaShigeno@gmail.com", destination: URL(string: "mailto:aliaShigeno@gmail.com")!)
+                            .font(.body.weight(.semibold))
+                    }
+
                     Spacer(minLength: 20)
                 }
                 .padding()

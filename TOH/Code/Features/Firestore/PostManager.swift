@@ -325,20 +325,15 @@ final class PostManager {
     // 檢查是否已經收集過此印章
     private func hasCollectedStamp(userId: String, castleId: Int) async throws -> Bool {
         let db = Firestore.firestore()
-        let stampDoc = try await db
+        let snapshot = try await db
             .collection("users")
             .document(userId)
             .collection("collected_stamps")
-            .getDocuments(as: UserFavoriteCastle.self)
+            .whereField(UserCollectedStamps.CodingKeys.castleId.rawValue, isEqualTo: castleId)
+            .limit(to: 1)
+            .getDocuments()
 
-        var isIncluded: Bool = false
-        for document in stampDoc {
-            if document.castleId == castleId {
-                isIncluded = true
-            }
-        }
-        
-        return isIncluded
+        return !snapshot.documents.isEmpty
     }
 
     
@@ -488,6 +483,24 @@ final class PostManager {
 
             }
         }
+    }
+
+    func reportComment(postId: String, comment: Comment, reporterId: String) async throws {
+        guard !reporterId.isEmpty else {
+            throw URLError(.userAuthenticationRequired)
+        }
+
+        let reportRef = Firestore.firestore().collection("reports").document()
+        try await reportRef.setData([
+            "type": "comment",
+            "postId": postId,
+            "commentId": comment.id,
+            "reportedUserId": comment.userId,
+            "reporterId": reporterId,
+            "commentText": comment.text,
+            "createdAt": Timestamp(),
+            "status": "pending"
+        ])
     }
     
     func fetchComments(postId: String, completion: @escaping ([Comment]) -> Void) {

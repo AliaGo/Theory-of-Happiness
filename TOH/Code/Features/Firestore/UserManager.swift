@@ -23,6 +23,9 @@ struct DBUser: Codable {
     let points: Int?
     let stamps: Int?
     let ranking: Int?
+    let samuraiClan: String?
+    let kamonName: String?
+    let onboardingComplete: Bool?
     
     init(auth: AuthDataResultModel) {
         self.userId = auth.uid
@@ -37,6 +40,9 @@ struct DBUser: Codable {
         self.points = nil
         self.stamps = nil
         self.ranking = nil
+        self.samuraiClan = nil
+        self.kamonName = nil
+        self.onboardingComplete = nil
     }
     
     init(
@@ -51,7 +57,10 @@ struct DBUser: Codable {
         photos: [Photo]? = nil,
         points: Int? = nil,
         stamps: Int? = nil,
-        ranking: Int? = nil
+        ranking: Int? = nil,
+        samuraiClan: String? = nil,
+        kamonName: String? = nil,
+        onboardingComplete: Bool? = nil
     ) {
         self.userId = userId
         self.userNickname = userNickname
@@ -65,6 +74,9 @@ struct DBUser: Codable {
         self.points = points
         self.stamps = stamps
         self.ranking = ranking
+        self.samuraiClan = samuraiClan
+        self.kamonName = kamonName
+        self.onboardingComplete = onboardingComplete
     }
     /*
     func togglePremiumStatus() -> DBUser {
@@ -99,6 +111,9 @@ struct DBUser: Codable {
         case points = "points"
         case stamps = "stamps"
         case ranking = "ranking"
+        case samuraiClan = "samurai_clan"
+        case kamonName = "kamon_name"
+        case onboardingComplete = "onboarding_complete"
     }
     
     init(from decoder: any Decoder) throws {
@@ -115,6 +130,9 @@ struct DBUser: Codable {
         self.points = try container.decodeIfPresent(Int.self, forKey: .points)
         self.stamps = try container.decodeIfPresent(Int.self, forKey: .stamps)
         self.ranking = try container.decodeIfPresent(Int.self, forKey: .ranking)
+        self.samuraiClan = try container.decodeIfPresent(String.self, forKey: .samuraiClan)
+        self.kamonName = try container.decodeIfPresent(String.self, forKey: .kamonName)
+        self.onboardingComplete = try container.decodeIfPresent(Bool.self, forKey: .onboardingComplete)
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -131,6 +149,9 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.points, forKey: .points)
         try container.encodeIfPresent(self.stamps, forKey: .stamps)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
+        try container.encodeIfPresent(self.samuraiClan, forKey: .samuraiClan)
+        try container.encodeIfPresent(self.kamonName, forKey: .kamonName)
+        try container.encodeIfPresent(self.onboardingComplete, forKey: .onboardingComplete)
     }
     
 }
@@ -146,6 +167,10 @@ final class UserManager {
     private func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
     }
+
+    private func leaderboardProfileDocument(userId: String) -> DocumentReference {
+        Firestore.firestore().collection("leaderboard_profiles").document(userId)
+    }
     
     // Collected Castle Stamps
     private func userCollectedStampsCollection(userId: String) -> CollectionReference {
@@ -154,6 +179,23 @@ final class UserManager {
     
     private func userCollectedStampsDocument(userId: String, castleId: String) -> DocumentReference {
         userCollectedStampsCollection(userId: userId).document(castleId)
+    }
+
+    // Castle visits are separate from stamps: users can record an attack without posting.
+    private func userCastleVisitsCollection(userId: String) -> CollectionReference {
+        userDocument(userId: userId).collection("castle_visits")
+    }
+
+    private func userCastleVisitDocument(userId: String, castleId: String) -> DocumentReference {
+        userCastleVisitsCollection(userId: userId).document(castleId)
+    }
+
+    private func castleVisitorDocument(castleId: Int, userId: String) -> DocumentReference {
+        Firestore.firestore().collection("castles").document(String(castleId)).collection("visitors").document(userId)
+    }
+
+    private func castleRatingDocument(castleId: Int, userId: String) -> DocumentReference {
+        Firestore.firestore().collection("castles").document(String(castleId)).collection("ratings").document(userId)
     }
     
     // Fav Castles
@@ -202,19 +244,32 @@ final class UserManager {
         try userDocument(userId: user.userId).setData(from: user, merge: false) // 不確定要不要await
     }
  
-    // 確認資料庫是否已存在使用者名字
-    func checkIfUserExist(user: AuthDataResultModel) async throws {
-        let docRef = userCollection.document(user.uid)
-        let snapshot = try await docRef.getDocument()
-        
-        if !snapshot.exists {
-            let newUser = DBUser(auth: user)
-            
-            try docRef.setData(from: newUser)
-            print("🆕 使用者資料已建立")
-        } else {
-            print("✅ 使用者已存在 Firestore")
-        }
+    /// Firebase Auth 登入成功後，以 Firestore 的 users 文件判斷是否是第一次入城。
+    func userProfileExists(userId: String) async throws -> Bool {
+        try await userDocument(userId: userId).getDocument().exists
+    }
+
+    /// 只有完成新手入門的使用者才會建立 users 文件，避免半途離開留下未完成帳號資料。
+    func createWarriorProfile(
+        auth: AuthDataResultModel,
+        nickname: String,
+        clan: SamuraiClan
+    ) async throws {
+        let warrior = DBUser(
+            userId: auth.uid,
+            userNickname: nickname,
+            email: auth.email,
+            photoUrl: auth.photoUrl,
+            dateCreated: Date(),
+            isPremium: false,
+            points: 0,
+            stamps: 0,
+            samuraiClan: clan.name,
+            kamonName: clan.kamonName,
+            onboardingComplete: true
+        )
+        try await userDocument(userId: auth.uid).setData(from: warrior, merge: false)
+        await syncLeaderboardProfile(user: warrior)
     }
     
     /* same as the func above
@@ -276,6 +331,31 @@ final class UserManager {
         
         try await userDocument(userId: userId).updateData(data)
     }
+
+    func chooseSamuraiClan(userId: String, clan: SamuraiClan) async throws {
+        try await userDocument(userId: userId).updateData([
+            DBUser.CodingKeys.samuraiClan.rawValue: clan.name,
+            DBUser.CodingKeys.kamonName.rawValue: clan.kamonName,
+            DBUser.CodingKeys.onboardingComplete.rawValue: true
+        ])
+        let updatedUser = try await getUser(userId: userId)
+        await syncLeaderboardProfile(user: updatedUser)
+    }
+
+    /// 排行榜只讀取公開展示所需的資料，不公開 users 文件。
+    func syncLeaderboardProfile(user: DBUser) async {
+        do {
+            try await leaderboardProfileDocument(userId: user.userId).setData([
+                "nickname": user.userNickname ?? "攻城者",
+                "photoUrl": user.profileImagePathUrl ?? "",
+                "kamonName": user.kamonName ?? "",
+                "samuraiClan": user.samuraiClan ?? "",
+                "updatedAt": Timestamp()
+            ], merge: true)
+        } catch {
+            print("⚠️ leaderboard profile sync failed: \(error)")
+        }
+    }
     
     func deleteAccount() async throws {
         guard let user = Auth.auth().currentUser else {
@@ -324,6 +404,66 @@ final class UserManager {
     // 取得所有已收集城堡印章的城堡名，回傳陣列
     func getAllUserCollectedStamps(userId: String) async throws -> [UserCollectedStamps] {
         try await userCollectedStampsCollection(userId: userId).getDocuments(as: UserCollectedStamps.self)
+    }
+
+    // MARK: - Castle visits
+
+    func getAllUserCastleVisits(userId: String) async throws -> [UserCastleVisit] {
+        try await userCastleVisitsCollection(userId: userId)
+            .order(by: UserCastleVisit.CodingKeys.visitedDate.rawValue, descending: true)
+            .getDocuments(as: UserCastleVisit.self)
+    }
+
+    func hasVisitedCastle(userId: String, castleId: Int) async throws -> Bool {
+        try await userCastleVisitDocument(userId: userId, castleId: String(castleId)).getDocument().exists
+    }
+
+    func getUserCastleVisit(userId: String, castleId: Int) async throws -> UserCastleVisit? {
+        let snapshot = try await userCastleVisitDocument(userId: userId, castleId: String(castleId)).getDocument()
+        guard snapshot.exists else { return nil }
+        return try snapshot.data(as: UserCastleVisit.self)
+    }
+
+    func recordCastleVisit(
+        userId: String,
+        castleId: Int,
+        castleName: String,
+        visitedDate: Date,
+        visitType: CastleVisitType,
+        recommendationRating: Int,
+        difficultyRating: Int,
+        note: String
+    ) async throws {
+        let document = userCastleVisitDocument(userId: userId, castleId: String(castleId))
+        let data: [String: Any] = [
+            UserCastleVisit.CodingKeys.id.rawValue: document.documentID,
+            UserCastleVisit.CodingKeys.castleId.rawValue: castleId,
+            UserCastleVisit.CodingKeys.castleName.rawValue: castleName,
+            UserCastleVisit.CodingKeys.visitedDate.rawValue: Timestamp(date: visitedDate),
+            UserCastleVisit.CodingKeys.visitType.rawValue: visitType.rawValue,
+            UserCastleVisit.CodingKeys.recommendationRating.rawValue: recommendationRating,
+            UserCastleVisit.CodingKeys.difficultyRating.rawValue: difficultyRating,
+            UserCastleVisit.CodingKeys.note.rawValue: note
+        ]
+        try await document.setData(data, merge: true)
+
+        try await castleVisitorDocument(castleId: castleId, userId: userId).setData([
+            "userId": userId,
+            "createdAt": Timestamp()
+        ], merge: true)
+
+        try await castleRatingDocument(castleId: castleId, userId: userId).setData([
+            "userId": userId,
+            "recommendationRating": recommendationRating,
+            "difficultyRating": difficultyRating,
+            "updatedAt": Timestamp()
+        ], merge: true)
+    }
+
+    func removeCastleVisit(userId: String, castleId: Int) async throws {
+        try await userCastleVisitDocument(userId: userId, castleId: String(castleId)).delete()
+        try await castleVisitorDocument(castleId: castleId, userId: userId).delete()
+        try await castleRatingDocument(castleId: castleId, userId: userId).delete()
     }
     
     //Fav Castles func
@@ -475,6 +615,47 @@ struct UserCollectedStamps: Codable {
         try container.encode(self.castleId, forKey: .castleId)
         try container.encode(self.castleName, forKey: .castleName)
         try container.encode(self.collectedDate, forKey: .collectedDate)
+    }
+}
+
+enum CastleVisitType: String, Codable {
+    case stampOnly
+    case paidEntry
+    case fullConquest
+    // 保留舊資料的值，讓既有攻城紀錄仍可正常讀取。
+    case entered
+    case outsideOnly
+
+    var displayName: String {
+        switch self {
+        case .stampOnly: "僅蓋章"
+        case .paidEntry: "付費參觀"
+        case .fullConquest: "全攻略"
+        case .entered: "全攻略"
+        case .outsideOnly: "僅蓋章"
+        }
+    }
+}
+
+struct UserCastleVisit: Codable, Identifiable {
+    let id: String
+    let castleId: Int
+    let castleName: String
+    let visitedDate: Date
+    let visitType: CastleVisitType
+    let recommendationRating: Int?
+    let difficultyRating: Int?
+    let note: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case castleId
+        case castleName
+        case visitedDate
+        case visitType
+        case recommendationRating
+        case difficultyRating
+        case note
     }
 }
 

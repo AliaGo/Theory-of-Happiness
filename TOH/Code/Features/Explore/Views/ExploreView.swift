@@ -19,6 +19,14 @@ enum ExploreSelection {
     case ramen(TWRamen)
 }
 
+private enum CastleExploreFilter: String, CaseIterable, Identifiable {
+    case all = "全部"
+    case favorites = "已收藏"
+    case visited = "已攻下"
+
+    var id: Self { self }
+}
+
 struct ExploreView: View {
     @StateObject private var castleViewModel = CastleViewModel()
     @StateObject private var ramenViewModel = RamenViewModel()
@@ -43,6 +51,18 @@ struct ExploreView: View {
     @State private var isShowingSheet = false
     @State private var isShowingCastle = false
     @State private var isShowingRamen = false
+    @State private var castleFilter: CastleExploreFilter = .all
+
+    private var displayedCastles: [Castle] {
+        switch castleFilter {
+        case .all:
+            castleViewModel.castles
+        case .favorites:
+            castleViewModel.castles.filter { castleViewModel.favoriteCastleIds.contains($0.id) }
+        case .visited:
+            castleViewModel.castles.filter { castleViewModel.visitedCastleIds.contains($0.id) }
+        }
+    }
 
     func search(for query: String) {
         queryString = query
@@ -90,7 +110,7 @@ struct ExploreView: View {
             UserAnnotation()
             
             if isShowingCastle {
-                ForEach(castleViewModel.castles, id: \.self) { c in
+                ForEach(displayedCastles, id: \.self) { c in
                     Annotation(c.name, coordinate: c.locationCoordinate) {
                         CastleAnnotationView(castle: c) {
                             selectedItem = .castle(c)
@@ -132,29 +152,29 @@ struct ExploreView: View {
         }
         .mapScope(mapScope)
         .safeAreaInset(edge: .bottom) {
-            
-            HStack {
-                Toggle("🏯", isOn: $isShowingCastle)
-                    .toggleStyle(.button)
-                    .tint(.black)
-                
-                // 之後還要再多增加日本拉麵（目前是台北）
-                Toggle("🍜", isOn: $isShowingRamen)
-                    .toggleStyle(.button)
-                    .tint(.black)
-                
-                /*
-                Button {
-                    //search(for: "ラーメン")
-                    
-                } label: {
-                    Text(" 🍜  ")
+            VStack(spacing: 10) {
+                if isShowingCastle {
+                    Picker("城堡篩選", selection: $castleFilter) {
+                        ForEach(CastleExploreFilter.allCases) { filter in
+                            Text(filter.rawValue).tag(filter)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(maxWidth: 280)
                 }
-                .buttonStyle(.borderedProminent)
-                
-                 */
+
+                HStack {
+                    Toggle("🏯", isOn: $isShowingCastle)
+                        .toggleStyle(.button)
+                        .tint(.black)
+
+                    // 之後還要再多增加日本拉麵（目前是台北）
+                    Toggle("🍜", isOn: $isShowingRamen)
+                        .toggleStyle(.button)
+                        .tint(.black)
+                }
+                .labelStyle(.iconOnly)
             }
-            .labelStyle(.iconOnly)
         }
          
         .onTapGesture {
@@ -189,6 +209,9 @@ struct ExploreView: View {
                     AnalyticsParameterScreenName: "ExploreView",
                     AnalyticsParameterScreenClass: "ExploreView"
                   ])
+            Task {
+                await castleViewModel.loadCastleCollectionFilters()
+            }
         }
         .task{
             LocationManager().checkIfLocationServicesIsEnabled()
@@ -201,4 +224,3 @@ struct ExploreView: View {
 #Preview {
     ExploreView()
 }
-

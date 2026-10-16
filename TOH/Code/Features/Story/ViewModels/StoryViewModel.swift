@@ -48,6 +48,8 @@ final class StoryViewModel: ObservableObject {
     @Published var earnedStamp: String? = nil
     // 拉麵類型貼文則顯示點數和文字訊息
     @Published var earnedPointMessage: String? = nil
+    // 發文完成後顯示的非獎勵提示，例如照片沒有可驗證的 GPS。
+    @Published var resultMessage: String? = nil
     
     func fetchPosts() {
         Task {
@@ -92,6 +94,13 @@ final class StoryViewModel: ObservableObject {
     
     // 圖片先暫存在記憶體還沒有正式上傳到storage
     func selectImage(item: PhotosPickerItem) {
+        // 每次換照片時都必須清掉上一張的 EXIF 資訊；否則換成沒有 GPS
+        // 的照片時，可能誤用前一張照片的座標而發出城堡印章。
+        photoDate = nil
+        photoLocation = nil
+        address = nil
+        resetResultState()
+
         Task {
             await MainActor.run {
                 self.isImageLoading = true
@@ -289,6 +298,7 @@ final class StoryViewModel: ObservableObject {
     func resetResultState() {
         earnedStamp = nil
         earnedPointMessage = nil
+        resultMessage = nil
         showResultDialog = false
     }
     
@@ -328,6 +338,9 @@ final class StoryViewModel: ObservableObject {
         guard let user else {
             print("no user")
             return 3}
+
+        // 避免上一則貼文的印章或提示沿用到這一次發文。
+        resetResultState()
 
         var res = 3
         
@@ -376,22 +389,23 @@ final class StoryViewModel: ObservableObject {
                 postPhotoPathUrl: url.absoluteString
             )
             
-            // result有三種結果：1城堡2拉麵3都沒有
+            // 城堡印章必須以照片原始 GPS 驗證；沒有定位仍可發文，但不發放印章。
             var result = 3
             var matchedCastleName: String? = nil
-            do {
-                (result, matchedCastleName) = try await PostManager.shared.getDigitalRewards(for: post)
-                earnedStamp = matchedCastleName
-                res = result
-            } catch {
-                print("🎯 getDigitalRewards 發生錯誤：\(error)")
+            if type == "castle" && photoLocation == nil {
+                resultMessage = "照片沒有可用的定位資訊，因此這篇城堡貼文不會獲得印章。"
+            } else {
+                do {
+                    (result, matchedCastleName) = try await PostManager.shared.getDigitalRewards(for: post)
+                    earnedStamp = matchedCastleName
+                    res = result
+                } catch {
+                    print("🎯 getDigitalRewards 發生錯誤：\(error)")
+                }
             }
             
             //建立新貼文資料
             try await PostManager.shared.createNewPost(post: post)
-            
-            //將貼文
-            try await PhotoManager.shared.addPhoto(userId: user.userId, post: post)
             
             // 追蹤使用者上傳貼文的種類
             Analytics.logEvent("post_uploaded", parameters: [
@@ -400,13 +414,13 @@ final class StoryViewModel: ObservableObject {
                 "tag_count": tags.count,
                 "earned_stamp": earnedStamp ?? "none"
             ])
-            
-            if self.posts != nil {
-                self.posts.insert(post, at: 0)
-            } else {
-                self.posts = [post]
+
+            if resultMessage != nil {
+                showResultDialog = true
             }
-            
+
+            // Story 畫面由 Firestore 即時監聽更新，避免在此再次插入相同貼文。
+
         } catch {
             print("Failed to create post: \(error)")
             alertMsg = "貼文建立失敗，請稍後再試"

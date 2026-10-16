@@ -20,6 +20,10 @@ struct Castle: Hashable, Identifiable, Codable {
     var address: String
     var access: String
     var description: String
+    var castleType: String?
+    var constructionPeriod: String?
+    var builder: String?
+    var mainLords: String?
     var isFavorite: Bool
     var isFeatured: Bool
     var url: String
@@ -59,6 +63,10 @@ struct Castle: Hashable, Identifiable, Codable {
         case imageName = "imageName"
         case imageURL = "imageURL"
         case description = "description"
+        case castleType = "castleType"
+        case constructionPeriod = "constructionPeriod"
+        case builder = "builder"
+        case mainLords = "mainLords"
         case url = "url"
     }
     

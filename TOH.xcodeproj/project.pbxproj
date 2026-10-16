@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A2C9F0022F0A000100A1B2C3 /* CastleInfo_v2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9F0012F0A000100A1B2C3 /* CastleInfo_v2.swift */; };
+		A710C9013100000000000002 /* SamuraiIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A710C9013100000000000001 /* SamuraiIntroView.swift */; };
+		CE40A2423070F584005F56FF /* castleQA2Data.json in Resources */ = {isa = PBXBuildFile; fileRef = CE40A2413070F584005F56FF /* castleQA2Data.json */; };
 		CE4D35842E55708A00B74D76 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CE4D35832E55708A00B74D76 /* SDWebImageSwiftUI */; };
 		CE4D35862E55758600B74D76 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D35852E55758200B74D76 /* Test.swift */; };
 		CE588BB22DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */; };
@@ -134,6 +137,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A2C9F0012F0A000100A1B2C3 /* CastleInfo_v2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastleInfo_v2.swift; sourceTree = "<group>"; };
+		A710C9013100000000000001 /* SamuraiIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamuraiIntroView.swift; sourceTree = "<group>"; };
+		CE40A2413070F584005F56FF /* castleQA2Data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = castleQA2Data.json; sourceTree = "<group>"; };
 		CE4D35852E55758200B74D76 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		CE588BB12DCF552800F9674E /* JacquesFrancoisShadow-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JacquesFrancoisShadow-Regular.ttf"; sourceTree = "<group>"; };
 		CE588BB82DCFA93200F9674E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -593,6 +599,7 @@
 			children = (
 				CEB907622D742A4E0057ECDB /* castleQAData.json */,
 				CEB906DA2D5465910057ECDB /* ramenData.json */,
+				CE40A2413070F584005F56FF /* castleQA2Data.json */,
 				CEB906DC2D5465AC0057ECDB /* castleData.json */,
 			);
 			path = Data;
@@ -666,6 +673,7 @@
 			children = (
 				CEB9070F2D54A06E0057ECDB /* CastleView.swift */,
 				CEB9071E2D6308BF0057ECDB /* CastleInfoView.swift */,
+				A2C9F0012F0A000100A1B2C3 /* CastleInfo_v2.swift */,
 				CEB907112D54A0830057ECDB /* CastleViewModel.swift */,
 				CEB9074B2D6654330057ECDB /* CastleCellViewBuilder.swift */,
 				CEB907572D718F0F0057ECDB /* CastleStampsView.swift */,
@@ -729,6 +737,7 @@
 		CEB907412D65C33C0057ECDB /* Knowledges */ = {
 			isa = PBXGroup;
 			children = (
+				A710C9013100000000000001 /* SamuraiIntroView.swift */,
 				CE830D252E472CCF0017057A /* RamenIntroView.swift */,
 				CEB907462D65C3BB0057ECDB /* BlockView.swift */,
 				CEADEDE62DCC72FA00DFAADB /* Card2View.swift */,
@@ -929,6 +938,7 @@
 				CEB906E42D5469470057ECDB /* Stamps.xcassets in Resources */,
 				CEB906F92D546FDD0057ECDB /* Launch Screen.storyboard in Resources */,
 				CEB906E32D5469470057ECDB /* AppIcon.xcassets in Resources */,
+				CE40A2423070F584005F56FF /* castleQA2Data.json in Resources */,
 				CEB9068C2D37794E0057ECDB /* Preview Assets.xcassets in Resources */,
 				CEB9073E2D65C2310057ECDB /* Icons.xcassets in Resources */,
 				CEB906E92D546ADA0057ECDB /* Colors.xcassets in Resources */,
@@ -1024,12 +1034,14 @@
 				CE7EF5CF2F3872740096A6D0 /* ProfileHeaderView.swift in Sources */,
 				CEB906C72D37972F0057ECDB /* SignInGoogleHelper.swift in Sources */,
 				CEB9071F2D6308BF0057ECDB /* CastleInfoView.swift in Sources */,
+				A2C9F0022F0A000100A1B2C3 /* CastleInfo_v2.swift in Sources */,
 				CED118132DA50F2600415A40 /* PostInfoView.swift in Sources */,
 				CE6A63762FC04A7F00CB8E58 /* CommentCountView.swift in Sources */,
 				CED44BEC2FE68E790042F115 /* CommentListView.swift in Sources */,
 				CEB039712DCA3525007A8410 /* TWRamenListView.swift in Sources */,
 				CED1181B2DC659E800415A40 /* TypeSelectionView.swift in Sources */,
 				CEB9074A2D662F2E0057ECDB /* FavoritesView.swift in Sources */,
+				A710C9013100000000000002 /* SamuraiIntroView.swift in Sources */,
 				CE830D262E472CE70017057A /* RamenIntroView.swift in Sources */,
 				CE6E7F342E98F9C30048C9E3 /* ShowWebView.swift in Sources */,
 				CEED84CA2DE05806009D3A1A /* SignInWithAppleResult.swift in Sources */,
@@ -1225,13 +1237,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TOH_Profile;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1264,13 +1279,16 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = "";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aliaShigeno.TOH;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = TOH_Profile;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

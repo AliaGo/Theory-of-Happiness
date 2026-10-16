@@ -127,6 +127,13 @@ struct StoryView: View {
 
                                 Text(message)
                                     .multilineTextAlignment(.center)
+                            } else if let message = viewModel.resultMessage {
+
+                                Text("已發表貼文")
+                                    .font(.title2.bold())
+
+                                Text(message)
+                                    .multilineTextAlignment(.center)
                             }
 
                             Button("確認") {
@@ -142,6 +149,7 @@ struct StoryView: View {
                 }
             }
             .navigationTitle("Stories")
+            .navigationBarTitleDisplayMode(.inline)
         }
 
         // MARK: - Lifecycle

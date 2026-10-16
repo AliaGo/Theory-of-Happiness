@@ -59,7 +59,10 @@ struct FullscreenImageViewer: View {
         ZStack(alignment: .topTrailing) {
             TabView(selection: $selectedIndex) {
                 ForEach(Array(urls.enumerated()), id: \.offset) { idx, urlString in
-                    AsyncImage(url: URL(string: urlString)) { image in
+                    WebImage(
+                        url: URL(string: urlString),
+                        options: [.retryFailed, .scaleDownLargeImages]
+                    ) { image in
                         image
                             .resizable()
                             .scaledToFit()
@@ -72,6 +75,8 @@ struct FullscreenImageViewer: View {
                             .background(Color.black)
                             .tag(idx)
                     }
+                    .indicator(.activity)
+                    .transition(.fade)
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
